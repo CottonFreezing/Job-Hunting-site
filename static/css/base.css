@@ -1,0 +1,83 @@
+/*清除浮动*/
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: "";
+  }
+.clearfix:after {
+    clear: both
+  }
+/* 版心 */
+.w {
+	width: 1200px;
+	margin: auto;
+}
+body {
+	/* background-color: rgba(150, 146, 146, 0.301); */
+	background-color: #f9f9f9;
+}
+/* company.vue、job.vue中下拉地点 */
+.triangle {
+	height: 0;
+	width: 0;
+	overflow: hidden;
+	font-size: 0;
+	line-height: 0;
+	border-width: 6px 5px 0;
+	border-style: solid dashed;
+	border-color: #0f0f0f transparent transparent;
+	-webkit-transition: all 0.4s ease 0s;
+	-moz-transition: all 0.4s ease 0s;
+	-ms-transition: all 0.4s ease 0s;
+	transition: all 0.4s ease 0s;
+	/* position: absolute; 
+	  right: 0;
+	  top: 10px;*/
+  }
+  .searchlist_expectCity {
+	display: none;
+	padding: 5px 0;
+	margin: 35px 0 0 -84px;
+	border: 2px solid #c9cbce;
+	color: #333 !important;
+	width: 596px;
+	font-size: 14px;
+	background: #fff;
+	position: absolute;
+	z-index: 10;
+	float: right;
+	margin: 35px 0 0 144px;
+  }
+  .searchlist_expectCity > span.bot {
+	right: 20px;
+	top: -22px;
+	border-width: 10px;
+	border-style: dashed dashed solid;
+	border-color: transparent transparent #c8c8c8;
+	right: 177px;
+	top: -22px;
+  }
+  .searchlist_expectCity > span {
+	width: 0;
+	height: 0;
+	font-size: 0;
+	overflow: hidden;
+	position: absolute;
+  }
+  .searchlist_expectCity > span.top {
+	right: 20px;
+	top: -19px;
+  }
+  .searchlist_expectCity > span.top {
+	border-width: 10px;
+	border-style: dashed dashed solid;
+	border-color: transparent transparent #ffffff;
+	right: 177px;
+	top: -19px;
+  }
+  /* home job中的page */
+  .page {
+	text-align: center;
+    line-height: 50px;
+	  margin: 5px 10px;
+  }
