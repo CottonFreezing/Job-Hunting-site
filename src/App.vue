@@ -1,9 +1,9 @@
 <template>
     <div id="app">
        
-        <HeaderGuide></HeaderGuide>
+        <HeaderGuide v-if="$route.meta.showHeaderGuide"></HeaderGuide>
         <router-view></router-view>
-        <Footer></Footer>
+        <Footer v-if="$route.meta.showFooter"></Footer>
     </div>   
 </template>
 

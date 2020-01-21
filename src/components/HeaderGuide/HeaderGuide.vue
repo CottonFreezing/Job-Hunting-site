@@ -16,31 +16,31 @@
             <div class="main-menu multi-page-menu text-white">
               <ul>
                 <li>
-                  <a href="javascript:;">首页</a>
+                  <router-link to="/home">首页</router-link>
                 </li>
                 <li>
-                  <a href="javascript:;">职位信息</a>
+                  <router-link to="/job">职位信息</router-link>
                 </li>
                 <li>
-                  <a href="javascript:;">公司信息</a>
+                  <router-link to="/company">公司信息</router-link>
                 </li>
                 <li>
-                  <a href="javascript:;">上传简历</a>
+                  <router-link to="/resumes">上传简历</router-link>
                 </li>
                 <li>
-                  <a href="javascript:;">我的</a>
+                  <router-link to="/personalcenter">个人中心</router-link>
                 </li>
               </ul>
             </div>
             <div class="header-social text-white float-right">
-              <a href="javascript:;" id="denglu">
+              <router-link to="/login" id="denglu">
                 <i class="ion-social-vimeo-outline">登录</i>
-              </a>
+              </router-link>
               <span>|</span>
 
-              <a href="javascript:;">
+              <router-link to="/regist">
                 <i class="ion-social-dribbble-outline">注册</i>
-              </a>
+              </router-link>
             </div>
           </div>
           <!--Mobile Menu-->
