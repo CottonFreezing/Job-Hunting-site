@@ -74,7 +74,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="11">
+            <el-col :span="10">
               <el-form-item label="薪资要求：">
                 <el-input v-model="ruleForm.desiredsalary"></el-input>
               </el-form-item>
@@ -118,7 +118,7 @@
               </el-col>
             </el-form-item>
             <el-form-item label="学 历：" prop="eacademic">
-              <el-select v-model="ruleForm.eacademic" placeholder="请选择期望职位">
+              <el-select v-model="ruleForm.eacademic" placeholder="请选择学历">
                 <el-option label="高中及以下" value="e-middle"></el-option>
                 <el-option label="大 专" value="e-junior"></el-option>
                 <el-option label="本 科" value="e-college"></el-option>

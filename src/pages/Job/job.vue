@@ -266,7 +266,7 @@
         <el-card class="job-card" shadow="always">
           <div v-for="j in jobbox" :key="j.id">
             <div class="j-card">
-              <a href="javascript:;">
+              <router-link to="/joblist">
                 <div class="j-one">
                   <p class="j-f">
                     <span class="j-jobname">{{j.jobname}}</span>
@@ -298,7 +298,7 @@
                     <span class="j-time">发布于：{{j.time}}</span>
                   </p>
                 </div>
-              </a>
+              </router-link>
             </div>
           </div>
         </el-card>
@@ -489,6 +489,9 @@ export default {
 .job-palce {
   position: absolute;
 }
+.job-info span {
+  margin: 0 7px;
+}
 /* 搜索栏 */
 .search {
   height: 60px;
@@ -507,6 +510,7 @@ export default {
   position: relative;
   height: 820px;
   overflow: hidden;
+  padding-bottom:20px; 
   display: inline-block;
   background-color: #fafafa9f;
 }

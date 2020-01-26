@@ -197,6 +197,8 @@
                     <span>{{w.stage}}</span>
                     <span>|</span>
                     <span>{{w.kind}}</span>
+                    <span>|</span>
+                    <span>{{w.scale}}</span>
                   </p>
                 </div>
               </a>
@@ -222,28 +224,32 @@ export default {
           url: require("./images/baidu.jpg"),
           company: "阿里巴巴",
           stage: "已上市",
-          kind: "互联网"
+          kind: "互联网",
+          scale: "1000人以上",
         },
         {
           id: 1,
           url: require("./images/baidu.jpg"),
           company: "阿里巴巴",
           stage: "已上市",
-          kind: "互联网"
+          kind: "互联网",
+          scale: "1000人以上",
         },
         {
           id: 2,
           url: require("./images/baidu.jpg"),
           company: "阿里巴巴",
           stage: "已上市",
-          kind: "互联网"
+          kind: "互联网",
+          scale: "1000人以上",
         },
         {
           id: 3,
           url: require("./images/baidu.jpg"),
           company: "阿里巴巴",
           stage: "已上市",
-          kind: "互联网"
+          kind: "互联网",
+          scale: "1000人以上",
         }
       ]
     };
@@ -262,6 +268,9 @@ export default {
 .company-info ul li {
   margin: 20px 14px;
 }
+.company-info span {
+ margin: 0 7px; 
+}
 .company-palce {
   position: absolute;
 }
@@ -269,11 +278,11 @@ export default {
 /* 公司卡片 */
 .company-card {
     position: relative; 
-  padding: -5px;
+  padding: 1px 1px 20px 1px;
+  margin: 20px 0;
   overflow: hidden;
 }
-.cm-card {
-    
+.cm-card { 
   border: 1px dotted #c9c6c6ef;
   box-sizing: border-box;
   width: 360px;
@@ -284,8 +293,7 @@ export default {
   box-shadow: 2px 2px 2px #d8d5d5;
   overflow: hidden;
 }
-.cm-logo {
-  
+.cm-logo {  
   left: 20px;
   width: 70px;
   height: 70px;
@@ -305,6 +313,7 @@ export default {
     width: 130px;
     font-size: 20px;
     line-height: 50px;
+    text-align: center;
     float: left;
     top: 5px;
     left: 0;
@@ -314,14 +323,14 @@ export default {
 }
 .cm-x-two {
     position: absolute;
-    width: 130px;
+    width: 200px;
     height: 40px;
     bottom: 5px;
     right: 10px;
     display: inline-block;
 }
 .cm-x-two span {
-    margin: 0 5px;
+    margin: 0 2px;
     line-height: 40px;
     float: left;
     font-size: 14px;

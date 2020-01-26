@@ -7,9 +7,9 @@
         <div class="header-border">
           <!--Logo-->
           <div class="float-left">
-            <a href="javascript:;" class="header-logo">
+            <router-link to="/home" class="header-logo">
               <font color="white" face="楷体" size="6">IT精英招聘网</font>
-            </a>
+            </router-link>
           </div>
           <!--Menu-->
           <div class="float-right">
