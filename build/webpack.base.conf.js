@@ -71,7 +71,7 @@ module.exports = {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          limit: 80000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       },
@@ -80,8 +80,6 @@ module.exports = {
         loader: 'style-loader!css-loader',
         exclude: /node_modules/
       },
-      { test: /.(eot|woff|ttf)$/, loader: 'url-loader' },
-      // { test: /\.(eot|svg|ttf|woff|woff2?)$/, loader: 'url-loader'}
     ]
   },
   node: {

@@ -58,12 +58,25 @@
                 <el-input v-model="ruleForm.telephone"></el-input>
               </el-col>
             </el-form-item>
+            <el-form-item prop="experience" label="工作经验" required>
+              <el-col :span="11">
+              <el-select v-model="ruleForm.experience">
+                <el-option label="实习生" selected value="intern"></el-option>
+                <el-option label="应届毕业生" value="student"></el-option>
+                <el-option label="三年及以下" value="e1"></el-option>
+                <el-option label="3-5年" value="e2"></el-option>
+                <el-option label="5-10年" value="e3"></el-option>
+                <el-option label="10年以上" value="e4"></el-option>
+              </el-select>
+              </el-col>
+            </el-form-item>
           </div>
 
           <div class="desired-info">
             <p class="resumes-title">期望职位</p>
-            <el-col :span="11">
-              <el-form-item label="期望职位：" prop="desiredjob">
+            
+              <el-form-item label="期望职位：" prop="desiredjob" required>
+                <el-col :span="11">
                 <el-select v-model="ruleForm.desiredjob" placeholder="请选择期望职位">
                   <el-option label="后 端" value="d-back"></el-option>
                   <el-option label="移 动" value="d-mobile"></el-option>
@@ -72,13 +85,16 @@
                   <el-option label="运维/技术支持" value="d-operation"></el-option>
                   <el-option label="数 据" value="d-database"></el-option>
                 </el-select>
+                </el-col>
               </el-form-item>
-            </el-col>
-            <el-col :span="10">
+            
+            
               <el-form-item label="薪资要求：">
+                <el-col :span="10">
                 <el-input v-model="ruleForm.desiredsalary"></el-input>
+                </el-col>
               </el-form-item>
-            </el-col>
+            
 
             <el-form-item label="城 市：">
               <el-col :span="11">
@@ -103,7 +119,7 @@
               <el-col class="line" :span="2" style="text-align:center">—</el-col>
               <el-col :span="11">
                 <el-form-item prop="date2">
-                  <el-time-picker placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
+                  <el-date-picker placeholder="选择日期" v-model="ruleForm.date2" style="width: 100%;"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
@@ -128,6 +144,39 @@
             </el-form-item>
           </div>
 
+          <div class="project-info">
+            <p class="resumes-title">项目经验</p>
+            <el-form-item label="项目名称：">
+              <el-input v-model="ruleForm.projectname"></el-input>
+            </el-form-item>
+            <el-form-item label="担任职务：">
+              <el-input v-model="ruleForm.duty"></el-input>
+            </el-form-item>
+            <el-form-item label="项目时间">
+              <el-col :span="11">
+                <el-date-picker
+                  type="date"
+                  placeholder="开始日期"
+                  v-model="ruleForm.starttime"
+                  style="width: 100%;"
+                ></el-date-picker>
+              </el-col>
+              <el-col class="line" :span="2" style="text-align:center">—</el-col>
+              <el-col :span="11">
+                <el-time-picker placeholder="结束日期" v-model="ruleForm.endtime" style="width: 100%;"></el-time-picker>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="项目描述：">
+              <el-input type="textarea" v-model="ruleForm.description"></el-input>
+            </el-form-item>
+          </div>
+
+          <div class="self-description">
+            <p class="resumes-title">自我描述</p>
+            <el-form-item>
+              <el-input type="textarea" v-model="ruleForm.assessment"></el-input>
+            </el-form-item>
+          </div>
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -147,7 +196,6 @@
           :on-exceed="handleExceed"
           :file-list="fileList"
         >
-          
           <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           <el-button size="small" type="info">上传简历</el-button>
         </el-upload>
@@ -168,6 +216,7 @@ export default {
         nationality: "",
         email: "",
         telephone: "",
+        experience: "",
         desiredjob: "",
         desiredsalary: "",
         desiredcity: "",
@@ -176,11 +225,24 @@ export default {
         eacademic: "",
         date1: "",
         date2: "",
-         fileList: [
-           {name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, 
-           {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
-           ],
+        projectname: "",
+        duty: "",
+        starttime: "",
+        endtime: "",
+        assessment: "",
 
+        fileList: [
+          {
+            name: "food.jpeg",
+            url:
+              "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
+          },
+          {
+            name: "food2.jpeg",
+            url:
+              "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
+          }
+        ]
       },
       rules: {
         name: [
@@ -214,6 +276,9 @@ export default {
             message: "请输入正确的电话号码",
             trigger: ["blur", "change"]
           }
+        ],
+        experience: [
+           { required: true, message: "请选择工作经验：", trigger: "blur" },
         ],
         desiredjob: [
           { required: true, message: "请选择期望职位", trigger: "change" }
@@ -257,17 +322,21 @@ export default {
     },
 
     handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
-      },
-      handleExceed(files, fileList) {
-        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-      },
-      beforeRemove(file, fileList) {
-        return this.$confirm(`确定移除 ${ file.name }？`);
-      }
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `当前限制选择 3 个文件，本次选择了 ${
+          files.length
+        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+      );
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`);
+    }
   }
 };
 </script>
@@ -289,12 +358,15 @@ export default {
   height: 250px;
 }
 .base-p-info,
-.desired-info {
+.desired-info,
+.education-info,
+.project-info
+ {
   border-bottom: 1px dotted #333;
   padding: 10px 0;
   margin: 10px 0;
 }
-.education-info {
+ .self-description{
   padding: 10px 0;
   margin: 10px 0;
 }

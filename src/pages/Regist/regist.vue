@@ -10,36 +10,13 @@
               <p>找工作</p>
             </div>
           </router-link>
-          <ul>
-            <li>
-              <i class="el-icon-lollipop"></i>
-              <p>任性选</p>
-              <p>各大行业任你选</p>
-            </li>
-          </ul>
-          <ul display="none">
-            <li>
-              <i class="el-icon-notebook-2"></i>
-              <span>招聘效果好</span>
-              <span>与职场牛人在线开聊</span>
-            </li>
-            <li>
-              <i class="el-icon-collection"></i>
-              <span>更多在线牛人</span>
-              <span>入职速度快</span>
-            </li>
-            <li>
-              <i class="el-icon-goblet-square-full"></i>
-              <span>人才匹配度高</span>
-              <span>获取更精准的牛人</span>
-            </li>
-          </ul>
+          <!-- 左侧列单显示 -->
+          <router-view></router-view>
         </div>
-        <div class="regist-right">
-          <!-- :default-active="activeIndex"                   -->
-          <el-menu class="el-menu-demo regist-menu" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="1" >求职者注册</el-menu-item>
-            <el-menu-item index="2" >boss注册</el-menu-item>
+        <div class="regist-right">      
+          <el-menu class="el-menu-demo regist-menu" :default-active="activeIndex" mode="horizontal" @select="handleSelect">
+           <router-link to="registtab1"> <el-menu-item index="1" >求职者注册</el-menu-item></router-link>
+           <router-link to="registtab2"> <el-menu-item index="2" >boss注册</el-menu-item></router-link>
           </el-menu>
 
           <div class="r-r-inner">
@@ -49,6 +26,7 @@
               :rules="rules"
               ref="registForm"
               label-width="100px"
+              
             >
             <div>
               <el-form-item label="账 号：" prop="user" required>
@@ -64,21 +42,6 @@
                 <el-button width="400px" type="info" @click="submitForm('registForm')">登 录</el-button>
               </el-form-item>
             </div>
-
-            <!-- <div :class="{on: !registForm.registWay}">
-              <el-form-item label="账 号：" prop="user" required>
-                <el-input v-model="registForm.user"></el-input>
-              </el-form-item>
-              <el-form-item label="密码" prop="pass">
-                <el-input type="password" v-model="registForm.pass" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="确认密码" prop="checkPass">
-                <el-input type="password" v-model="registForm.checkPass" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button width="400px" type="info" @click="submitForm('registForm')">登 录</el-button>
-              </el-form-item>
-            </div> -->
 
 
             </el-form>
@@ -118,7 +81,7 @@ export default {
       }
     };
     return {
-     
+      activeIndex: "1",
       registForm: {
         user: "",
         pass: "",
@@ -217,7 +180,7 @@ export default {
   font-size: 16px;
   font-weight: 700;
 }
-.regist-leftli > p:last-of-type {
+.regist-left li > p:last-of-type {
   margin-top: 2px;
   line-height: 18px;
   color: #b0b4c1;
@@ -236,9 +199,12 @@ export default {
   width: 500px;
   height: 60px;
   margin: 40px 0 0;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 .regist-menu .el-menu-item {
-  margin: 0 63px;
+  padding: 0 78px;
+  float: left;
   line-height: 60px;
   font-size: 18px;
 }

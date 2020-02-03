@@ -1,9 +1,9 @@
 <template>
-  <div class="home-session clearfix w ">
+  <div class="home-session clearfix w">
     <el-container>
       <!-- 搜索栏 -->
       <el-header height="80px">
-        <div class="search" >
+        <div class="search">
           <form action>
             <el-select
               v-model="value"
@@ -32,7 +32,7 @@
         </div>
       </el-header>
       <el-container>
-        <!-- 侧边栏 -->
+        <!-- 侧边栏 用popover弹出框嵌套信息 -->
         <el-aside class="home-aside" width="380px" height="340px">
           <div>
             <div class="aui-content-menu">
@@ -102,25 +102,29 @@
 
           <!-- 工作列表 -->
           <el-card shadow="hover" class="home-card">
-            <div v-for="o in newworkbox" :key="o.id" >
-              <div class="jobh-card">
-                <p class="c-one">
-                  <span class="workname">{{o.jobname}}</span>
-                  <span class="salary">{{o.salary}}</span>
-                </p>
-                <p class="c-two">
-                  <span>{{o.place}}</span>
-                  <span>|</span>
-                  <span >{{o.experience}}</span>
-                  <span>|</span>
-                  <span >{{o.academic}}</span>
-                </p>
-                <p class="c-three">
-                  <span> <el-avatar :src="o.headimg"></el-avatar></span>
-                  <span class="company">{{o.company}}</span>
-                  <span class="hr">{{o.hr}}</span>
-                </p>
-              </div>
+            <div v-for="o in newworkbox" :key="o.id">
+              <router-link to="/joblist">
+                <div class="jobh-card">
+                  <p class="c-one">
+                    <span class="workname">{{o.jobname}}</span>
+                    <span class="salary">{{o.salary}}</span>
+                  </p>
+                  <p class="c-two">
+                    <span>{{o.place}}</span>
+                    <span>|</span>
+                    <span>{{o.experience}}</span>
+                    <span>|</span>
+                    <span>{{o.academic}}</span>
+                  </p>
+                  <p class="c-three">
+                    <span>
+                      <el-avatar :src="o.headimg"></el-avatar>
+                    </span>
+                    <span class="company">{{o.company}}</span>
+                    <span class="hr">{{o.hr}}</span>
+                  </p>
+                </div>
+              </router-link>
             </div>
           </el-card>
         </el-main>
@@ -161,7 +165,7 @@ export default {
           academic: "本科",
           company: "字节跳动",
           hr: "金先生",
-          headimg:require("./images/3.jpg"),
+          headimg: require("./images/3.jpg")
         },
         {
           id: 1,
@@ -172,7 +176,7 @@ export default {
           academic: "本科",
           company: "字节跳动",
           hr: "金先生",
-          headimg:require("./images/3.jpg"),
+          headimg: require("./images/3.jpg")
         },
         {
           id: 2,
@@ -183,7 +187,7 @@ export default {
           academic: "本科",
           company: "字节跳动",
           hr: "金先生",
-          headimg:require("./images/3.jpg"),
+          headimg: require("./images/3.jpg")
         },
         {
           id: 3,
@@ -194,7 +198,7 @@ export default {
           academic: "本科",
           company: "字节跳动",
           hr: "金先生",
-          headimg:require("./images/3.jpg"),
+          headimg: require("./images/3.jpg")
         },
         {
           id: 4,
@@ -205,7 +209,7 @@ export default {
           academic: "本科",
           company: "字节跳动",
           hr: "金先生",
-          headimg:require("./images/3.jpg"),
+          headimg: require("./images/3.jpg")
         },
         {
           id: 5,
@@ -216,7 +220,7 @@ export default {
           academic: "本科",
           company: "字节跳动",
           hr: "金先生",
-          headimg:require("./images/3.jpg"),
+          headimg: require("./images/3.jpg")
         },
         {
           id: 6,
@@ -227,7 +231,7 @@ export default {
           academic: "本科",
           company: "字节跳动",
           hr: "金先生",
-          headimg:require("./images/3.jpg"),
+          headimg: require("./images/3.jpg")
         },
         {
           id: 7,
@@ -238,7 +242,7 @@ export default {
           academic: "本科",
           company: "字节跳动",
           hr: "金先生",
-          headimg:require("./images/3.jpg"),
+          headimg: require("./images/3.jpg")
         }
       ]
     };
@@ -324,7 +328,7 @@ body > .el-container {
 }
 .c-one {
   height: 42px;
-  color: #61687c
+  color: #61687c;
 }
 .c-one span {
   position: absolute;
@@ -360,11 +364,10 @@ body > .el-container {
   margin: 7px;
   line-height: 50px;
 }
-.c-three span{
+.c-three span {
   float: left;
   color: 61687c;
   margin: 0 5px;
-  
 }
 .company {
   font-size: 20px;
@@ -373,8 +376,6 @@ body > .el-container {
 .hr {
   font-size: 14px;
   color: #8d92a1;
-  margin-left: 10px; 
-  
+  margin-left: 10px;
 }
-
 </style>

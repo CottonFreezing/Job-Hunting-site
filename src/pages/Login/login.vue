@@ -43,8 +43,8 @@
         </div>
         <div class="login-right">
           <!-- :default-active="activeIndex"                   -->
-          <el-menu class="el-menu-demo login-menu" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="1" class="on">求职者登录</el-menu-item>
+          <el-menu class="el-menu-demo login-menu" :default-active="activeIndex" mode="horizontal" @select="handleSelect">
+            <el-menu-item index="1" class="on">求职者登录</el-menu-item><!--点击切换标识符来识别登录方法-->
             <el-menu-item index="2">BOSS登录</el-menu-item>
             <el-menu-item index="3">管理员登录</el-menu-item>
           </el-menu>
@@ -82,8 +82,10 @@
 
 <script>
 export default {
+
   data() {
     return {
+      activeIndex: '1',
       loginForm: {
         user: "",
         pass: ""
@@ -200,9 +202,11 @@ export default {
   width: 500px;
   height: 60px;
   margin: 40px 0 0;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 .login-menu .el-menu-item {
-  margin: 0 18px;
+  margin: 0 15px;
   line-height: 60px;
   font-size: 18px;
 }

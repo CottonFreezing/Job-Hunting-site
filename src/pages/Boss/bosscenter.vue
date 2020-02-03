@@ -1,18 +1,15 @@
 <template>
-  <div class="w pc-session">
+  <div class="w bc-session">
     <el-container>
-      <el-aside class="pc-aside">
+      <el-aside class="bc-aside">
         <el-menu
           :default-active="activeIndex"
-          class="el-menu-vertical-demo p-aside"
+          class="el-menu-vertical-demo b-aside"
            @select="handleSelect"
-          background-color="#545c64"
-          text-color="#fff"
-          active-text-color="#ffd04b"
-          
+          active-text-color="#ffd04b"          
         >
-          <router-link to="mybase">
-            <el-menu-item index="1">个人信息</el-menu-item>
+          <router-link to="bossbase">
+            <el-menu-item index="1">公司信息</el-menu-item>
           </router-link>
           <router-link to="changepass">
             <el-menu-item index="2">修改密码</el-menu-item>
@@ -43,16 +40,16 @@ export default {
 </script>
 
 <style>
-.pc-session {
+.bc-session {
   margin: 10px auto;
   height: 520px;
 }
-.pc-aside {
-  background-color: #545c64;
-  /* color: aliceblue; */
+.bc-aside {
+  padding-top: 50px;
+  background-color: rgb(214, 211, 211);
   height: 520px;
 }
-.p-aside .el-menu-item {
+.b-aside .el-menu-item {
   font-size: 16px;
 }
 </style>
