@@ -1,28 +1,68 @@
 <template>
-  <!-- 个人信息 -->
-  <div class="myinfo">
-    <p class="p-title">个人资料</p>
-    <div class="p-headimg">
-      <el-upload
-        class="avatar-uploader"
-        action="https://jsonplaceholder.typicode.com/posts/"
-        :show-file-list="false"
-        :on-success="handleAvatarSuccess"
-        :before-upload="beforeAvatarUpload"
-      >
-        <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-      </el-upload>
-    </div>
-    <div class="p-base">
-      <p>账户：{{user}}</p>
-      <p>姓名：{{name}}</p>
-    </div>
-    <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="已投公司" name="first">已投公司</el-tab-pane>
-      <el-tab-pane label="面试邀约" name="second">面试邀约</el-tab-pane>
-      <el-tab-pane label="消息中心" name="third">消息中心</el-tab-pane>
-    </el-tabs>
+  <div class="mybase-session w">
+    <!-- 个人信息 -->
+    <el-main>
+      <div class="myinfo clearfix">
+        <p class="p-title">个人资料</p>
+        <el-upload
+          class="avatar-uploader"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
+          style="float:left"
+        >
+          <img v-if="myBase.imageUrl" :src="myBase.imageUrl" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+
+        <div class="p-base clearfix" v-show="!dialog">
+          <p>
+            <span>账 户：</span>
+            <span>{{myBase.user}}</span>
+            <i class="el-icon-edit-outline bb-edit" @click="dialog = true"></i>
+          </p>
+          <p>
+            <span>姓 名：</span>
+            <span>{{myBase.name}}</span>
+          </p>
+          <p>
+            <span>性 别：</span>
+            <span>{{myBase.sex}}</span>
+          </p>
+        </div>
+        <!-- 个人信息修改 -->
+        <div class="p-base" :before-close="handleClose" v-show="dialog">
+          <el-form :model="myBase">
+            <el-form-item label="姓 名：" label-width="90px">
+              <el-input v-model="myBase.name" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="性 别：" label-width="90px">
+              <el-radio-group v-model="myBase.sex">
+                <el-radio label="男"></el-radio>
+                <el-radio label="女"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-form>
+          <div class="demo-drawer__footer">
+            <el-button @click="cancelForm">取 消</el-button>
+            <el-button
+              type="primary"
+              @click="$refs.drawer.closeDrawer()"
+              :loading="loading"
+            >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mybasecard">
+        <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="已投公司" name="first">已投公司</el-tab-pane>
+          <el-tab-pane label="面试邀约" name="second">面试邀约</el-tab-pane>
+          <el-tab-pane label="消息中心" name="third">消息中心</el-tab-pane>
+        </el-tabs>
+      </div>
+    </el-main>
   </div>
 </template>
 
@@ -30,10 +70,15 @@
 export default {
   data() {
     return {
-      user: "1234",
-      name: "张三",
-      imageUrl: '',
-      activeName: "first"
+      dialog: false,
+      activeName: "first",
+      loading: false,
+      myBase: {
+        user: "1234",
+        name: "张三",
+        imageUrl: "",
+        sex: "男"
+      }
     };
   },
   methods: {
@@ -54,51 +99,90 @@ export default {
         this.$message.error("上传头像图片大小不能超过 2MB!");
       }
       return isJPG && isLt2M;
+    },
+    handleClose(done) {
+      if (this.loading) {
+        return;
+      }
+      this.$confirm("确定要提交表单吗？")
+        .then(_ => {
+          this.loading = true;
+          this.timer = setTimeout(() => {
+            done();
+            // 动画关闭需要一定的时间
+            setTimeout(() => {
+              this.loading = false;
+            }, 400);
+          }, 2000);
+        })
+        .catch(_ => {});
+    },
+    cancelForm() {
+      this.loading = false;
+      this.dialog = false;
+      clearTimeout(this.timer);
     }
   }
 };
 </script>
 
 <style scoped>
-.myinfo {
-  width: 800px;
-  margin: 10px auto;
+.mybase-session {
+  width: 840px;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+.mybasecard {
+  margin: 20px;
 }
 .p-title {
   font-size: 24px;
   font-weight: 700;
   color: #3d3d3d;
-  height: 80px;
-  line-height: 80px;
+  height: 60px;
+  line-height: 60px;
   border-bottom: 1px solid #e0e0e0;
 }
 .p-base {
-  display: inline-block;
-  width: 500px;
-  margin: 20px;
+  position: relative;
+  width: 450px;
+  float: left;
+  color: #333;
+  margin: 40px 20px 40px 50px;
 }
 .p-base p {
+  position: relative;
   margin: 10px;
   font-size: 18px;
 }
+.p-base span {
+  margin: 0 7px;
+}
+.p-base i {
+  position: absolute;
+  right: 0;
+  color: rgb(252, 70, 70);
+}
 
 /* 上传头像部分 */
-.p-headimg {
-  display: inline-block;
-  width: 200px;
-  margin: 20px;
+.myinfo .avatar-uploader {
+  background-color: aliceblue;
+  margin: 7px;
+  border: 1px dashed #d9d9d9;
+  cursor: pointer;
 }
-.p-headimg .avatar-uploader .avatar{
-  border: 1px dashed #555454ce;
+.myinfo .avatar-uploader .el-upload{
+  border: 1px dashed #d9d9d9;
   border-radius: 6px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  float: left;
 }
-.p-headimg .avatar-uploader .el-upload:hover {
+.myinfo .avatar-uploader .el-upload:hover {
   border-color: #409eff;
 }
-.p-headimg .avatar-uploader-icon {
+.myinfo .avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
   width: 178px;
@@ -106,9 +190,13 @@ export default {
   line-height: 178px;
   text-align: center;
 }
-.p-headimg .avatar {
+.myinfo .avatar {
   width: 178px;
   height: 178px;
   display: block;
+}
+.myinfo .demo-drawer__footer {
+  text-align: center;
+  padding: 0 20px;
 }
 </style>

@@ -22,7 +22,7 @@
                   <router-link to="/posting">发布职位</router-link>
                 </li>               
                 <li>
-                  <router-link to="/bosscenter">个人中心</router-link>
+                  <router-link to="/bosscenter">BOSS中心</router-link>
                 </li>
               </ul>
             </div>

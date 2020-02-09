@@ -455,8 +455,10 @@ export default {
    font-size: 20px;
    color: #0f0f0f; 
 }
-.c-x-o-j {
+.cand-x-one .c-x-o-j {
     margin-left: 13px;
+    font-size: 16px;
+    font-weight: 600;
 }
 .cand-x-two {
     position: absolute;

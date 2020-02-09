@@ -31,6 +31,12 @@ import OfflineJob from '../components/Posting/OfflineJob.vue'
 
 //BossCenter子路由
 import BossBase from '../components/BossCenter/BossBase.vue'
+import BossChangePass from '../components/BossCenter/BossChangePass.vue'
+import Unprocessed from '../components/BossCenter/Unprocessed.vue' //待定简历
+import NotifyInterview from '../components/BossCenter/NotifyInterview.vue' //已通知面试简历
+import Inappropriate from '../components/BossCenter/InappropriateResume.vue' //不合适简历
+
+
 
 //申明使用插件
 Vue.use(VueRouter)
@@ -158,6 +164,40 @@ export default new VueRouter({
                         showFooter: true,
                     }, 
                 },
+                {
+                    path: 'bosschangepass',
+                    component: BossChangePass,
+                    meta: {
+                        showBossHeader: true,
+                        showFooter: true,
+                    }, 
+                },
+                {
+                    path: 'unprocessed',
+                    component: Unprocessed,
+                    meta: {
+                        showBossHeader: true,
+                        showFooter: true,
+                    }, 
+                },
+                {
+                    path: 'notifyinterview',
+                    component: NotifyInterview,
+                    meta: {
+                        showBossHeader: true,
+                        showFooter: true,
+                    }, 
+                },
+                {
+                    path: 'inappropriate',
+                    component: Inappropriate,
+                    meta: {
+                        showBossHeader: true,
+                        showFooter: true,
+                    }, 
+                },
+                
+                
             ],
         },
         {

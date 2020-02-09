@@ -73,10 +73,10 @@
             </el-col>
           </el-form-item>
           <el-form-item label="职位描述：" prop="jobdescription">
-            <el-input type="textarea" v-model="postingForm.jobdescription"></el-input>
+            <el-input :autosize="{ minRows: 4, maxRows: 7}" type="textarea" v-model="postingForm.jobdescription"></el-input>
           </el-form-item>
           <el-form-item label="职位要求：" prop="jobneed">
-            <el-input type="textarea" v-model="postingForm.jobneed"></el-input>
+            <el-input :autosize="{ minRows: 4, maxRows: 7}" type="textarea" v-model="postingForm.jobneed"></el-input>
           </el-form-item>
           <el-form-item label="接受简历邮箱：" prop="remail">
             <el-col :span="11">

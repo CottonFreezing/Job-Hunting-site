@@ -167,14 +167,14 @@
               </el-col>
             </el-form-item>
             <el-form-item label="项目描述：">
-              <el-input type="textarea" v-model="ruleForm.description"></el-input>
+              <el-input :autosize="{ minRows: 4, maxRows: 7}" type="textarea" v-model="ruleForm.description"></el-input>
             </el-form-item>
           </div>
 
           <div class="self-description">
             <p class="resumes-title">自我描述</p>
             <el-form-item>
-              <el-input type="textarea" v-model="ruleForm.assessment"></el-input>
+              <el-input :autosize="{ minRows: 4, maxRows: 7}" type="textarea" v-model="ruleForm.assessment"></el-input>
             </el-form-item>
           </div>
           <el-form-item>

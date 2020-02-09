@@ -6,8 +6,8 @@
           :default-active="activeIndex"
           class="el-menu-vertical-demo p-aside"
            @select="handleSelect"
-          background-color="#545c64"
-          text-color="#fff"
+          background-color="rgb(236, 236, 236)"
+          text-color="#333"
           active-text-color="#ffd04b"
           
         >
@@ -47,10 +47,15 @@ export default {
   margin: 10px auto;
   height: 520px;
 }
+.pc-session .el-main {
+  background-color: rgb(214, 211, 211);
+}
 .pc-aside {
-  background-color: #545c64;
+  background-color:rgb(214, 211, 211);
   /* color: aliceblue; */
   height: 520px;
+  padding: 40px 0;
+  margin-right: 20px;
 }
 .p-aside .el-menu-item {
   font-size: 16px;
