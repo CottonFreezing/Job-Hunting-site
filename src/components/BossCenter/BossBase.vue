@@ -121,14 +121,14 @@
       
       <el-divider></el-divider>
         <!-- 公司地址 -->
-      <!-- <div class="bossbase-next">
+      <div class="bossbase-next">
         <p>
           <span class="h2-title">公 司 地 址</span>
           <i class="el-icon-edit-outline bb-edit" @click="dialog3 = true"></i>
         </p>
-        <p>&nbsp;{{companyData.place}}</p>
+        <p>&nbsp;{{companyData.address}}</p>
       </div>
-      <el-divider></el-divider> -->
+      <el-divider></el-divider>
         <!-- 正在招聘 -->
       <div class="bossbase-next">
         <p>
@@ -177,55 +177,28 @@ export default {
 
       loading: false,
       timer: null,
-      companyData: {
-        company: "巴里巴巴",
-        place: "上海",
-        kind: "互联网",
-        stage: "已上市",
-        scale: "1000人以上",
-        url: "http://www.baidu.com",
-        comintroduce:
-          "阿里巴巴集团的使命是让天下没有难做的生意。我们旨在赋能企业改变营销、销售和经营的方式。我们为商家、品牌及其他企业提供基本的互联网基础设施以及营销平台，让其可借助互联网的力量与用户和客户互动。我们的业务包括核心电商、云计算、数字媒体和娱乐以及创新项目和其他业务。我们并通过子公司菜鸟网络及所投资的关",
-        place: "杭州余杭区阿里巴巴西溪园区"
-      },
-
-      jobBox: [
-        {
-          id: "0",
-          jobname: "java",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          department: "技术部门",
-          hr: "金先生",
-          time: "2020-1-17"
-        },
-        {
-          id: "1",
-          jobname: "java",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          department: "技术部门",
-          academic: "本科",
-          hr: "金先生",
-          time: "2020-1-17"
-        },
-        {
-          id: "2",
-          jobname: "java",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          department: "技术部门",
-          hr: "金先生",
-          time: "2020-1-17"
-        }
-      ],
+      companyData:{},
+      jobBox:[],
       imageUrl: ""
     };
+  },
+  created(){
+    // let id = this.$router.query.id
+    this.$axios.get('./static/data/company.json')
+    .then( res => {
+      this.companyData = res.data.message[0]
+    })
+    .catch( err => {
+      console.log(err)
+    })
+
+    this.$axios.get('./static/data/job.json')
+    .then( res => {
+      this.jobBox = res.data.message
+    })
+    .catch(err => {
+      console.log(err)
+    })
   },
   methods: {
     handleAvatarSuccess(res, file) {

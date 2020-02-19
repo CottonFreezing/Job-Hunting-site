@@ -310,7 +310,7 @@
           <div v-for="w in jobbox" :key="w.id" >
             <div class="cm-card ">
               <a href="javascript:;">
-                <img :src="w.url" class="cm-logo" />
+                <img :src="w.logourl" class="cm-logo" alt="logo"/>
                 <div class="cm-x">
                   <p class="cm-x-one">{{w.company}}</p>
                   <p class="cm-x-two">
@@ -338,42 +338,19 @@
 export default {
   data() {
     return {
-      jobbox: [
-        {
-          id: 0,
-          url: require("./images/baidu.jpg"),
-          company: "阿里巴巴",
-          stage: "已上市",
-          kind: "互联网",
-          scale: "1000人以上",
-        },
-        {
-          id: 1,
-          url: require("./images/baidu.jpg"),
-          company: "阿里巴巴",
-          stage: "已上市",
-          kind: "互联网",
-          scale: "1000人以上",
-        },
-        {
-          id: 2,
-          url: require("./images/baidu.jpg"),
-          company: "阿里巴巴",
-          stage: "已上市",
-          kind: "互联网",
-          scale: "1000人以上",
-        },
-        {
-          id: 3,
-          url: require("./images/baidu.jpg"),
-          company: "阿里巴巴",
-          stage: "已上市",
-          kind: "互联网",
-          scale: "1000人以上",
-        }
-      ]
+      jobbox: [],
     };
-  }
+  },
+  created() {
+    this.$axios.get('./static/data/company.json')
+    .then(res => {
+      console.log(res.data)
+      this.jobbox = res.data.message
+    })
+    .catch( err => {
+      console.log(err)
+    })
+  },
 };
 </script>
 

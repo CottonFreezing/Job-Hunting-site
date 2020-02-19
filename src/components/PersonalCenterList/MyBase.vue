@@ -57,9 +57,77 @@
 
       <div class="mybasecard">
         <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="已投公司" name="first">已投公司</el-tab-pane>
-          <el-tab-pane label="面试邀约" name="second">面试邀约</el-tab-pane>
-          <el-tab-pane label="消息中心" name="third">消息中心</el-tab-pane>
+          <el-tab-pane label="已投公司" name="first">
+            <el-card>
+              <div v-for="u in resumeBox" :key="u.id">
+                <div class="box-card">
+                  <!-- <el-avatar shape="square" :size="80" :src="u.headimg"></el-avatar> -->
+                  <div class="un-info clearfix">
+                    <h2>
+                      <router-link to="/candidateslist">
+                        <span class="resumename">{{u.jobname}}</span>
+                      </router-link>
+                      <span class="un-time">投递时间：{{u.time}}</span>
+                    </h2>
+                    <p>
+                      <span>{{u.company}}</span>
+                      <span>/</span>                                        
+                      <span>{{u.place}}</span>
+                      <span>/</span>
+                      <span>{{u.stage}}</span>
+                      <span>/</span>
+                      <span>{{u.kind}}</span>
+                    </p>
+                    <p>
+                      <span>{{u.academic}}</span>
+                      <span>/</span>
+                       <span>{{u.experience}}</span>
+                      <span class="un-result">
+                        <i class="el-icon-delete">删除</i>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </el-card>
+          </el-tab-pane>
+          <el-tab-pane label="面试邀约" name="second">
+             <el-card>
+              <div v-for="u in resumeBox" :key="u.id">
+                <div class="box-card">
+                  <!-- <el-avatar shape="square" :size="80" :src="u.headimg"></el-avatar> -->
+                  <div class="un-info clearfix">
+                    <h2>
+                      <router-link to="/candidateslist">
+                        <span class="resumename">{{u.jobname}}</span>
+                      </router-link>
+                      <span class="un-time">投递时间：{{u.time}}</span>
+                    </h2>
+                    <p>
+                      <span>{{u.company}}</span>
+                      <span>/</span>                                        
+                      <span>{{u.place}}</span>
+                      <span>/</span>
+                      <span>{{u.stage}}</span>
+                      <span>/</span>
+                      <span>{{u.kind}}</span>
+                    </p>
+                    <p>
+                      <span>{{u.academic}}</span>
+                      <span>/</span>
+                       <span>{{u.experience}}</span>
+                      <span class="un-result">
+                        <i class="el-icon-delete">删除</i>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </el-card>
+          </el-tab-pane>
+          <el-tab-pane label="消息中心" name="third">
+            消息中心
+          </el-tab-pane>
         </el-tabs>
       </div>
     </el-main>
@@ -77,9 +145,20 @@ export default {
         user: "1234",
         name: "张三",
         imageUrl: "",
-        sex: "男"
-      }
+        sex: "男",
+      },
+      resumeBox: [],
+      
     };
+  },
+   created() {
+    this.$axios.get('./static/data/job.json')
+    .then(res => {
+      this.resumeBox = res.data.message 
+    })
+    .catch( err => {
+      console.log(err)
+    })
   },
   methods: {
     handleClick(tab, event) {
@@ -171,7 +250,7 @@ export default {
   border: 1px dashed #d9d9d9;
   cursor: pointer;
 }
-.myinfo .avatar-uploader .el-upload{
+.myinfo .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
   cursor: pointer;
@@ -198,5 +277,61 @@ export default {
 .myinfo .demo-drawer__footer {
   text-align: center;
   padding: 0 20px;
+}
+
+/* 已投公司 */
+.box-card {
+  position: relative;
+  width: 620px;
+  height: 100px;
+  margin: 7px;
+  border-radius: 5px;
+  padding: 10px;
+  box-sizing: border-box;
+  border-left: 3px solid rgb(252, 70, 70);
+}
+.box-card .el-avatar {
+  float: left;
+}
+.box-card p {
+  /* position: relative; */
+  height: 20px;
+  margin: 4px auto;
+}
+.un-info {
+  float: left;
+  margin-left: 15px;
+}
+.box-card .un-info h2 {
+  height: 30px;
+}
+.box-card .un-info .resumename {
+  font-size: 18px;
+  color: #333;
+}
+.box-card .un-info .un-time {
+  position: absolute;
+  right: 30px;
+  color: #999;
+}
+.un-info span {
+  margin: 0 1px;
+  color: #333;
+}
+.box-card .un-info .un-job {
+  position: absolute;
+  font-size: 14px;
+  color: #999;
+  margin-top: 12px;
+}
+.box-card .un-info .un-result {
+  position: absolute;
+  right: 30px;
+  font-size: 16px;
+  margin-top: 10px;
+}
+.un-result i {
+  margin: 0 7px;
+  color: rgb(252, 70, 70);
 }
 </style>

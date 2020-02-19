@@ -17,7 +17,7 @@
       label="发布时间"
       width="120">
       <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.date }}</span>
+        <span style="margin-left: 10px">{{ scope.row.time }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -27,7 +27,7 @@
         <el-popover trigger="hover" placement="top">
           <p>职 位: {{ scope.row.jobname }}</p>
           <p>月 薪: {{ scope.row.salary }}</p>
-          <p>学 历：{{ scope.row.academicneed }}</p>
+          <p>学 历：{{ scope.row.academic }}</p>
           <p>经 验：{{ scope.row.experience }}</p>
           <div slot="reference" class="name-wrapper">
             <el-tag size="medium">{{ scope.row.jobname }}</el-tag>
@@ -41,7 +41,7 @@
       width="100">
     </el-table-column>
     <el-table-column
-      prop="academicneed"
+      prop="academic"
       label="需求"
       width="100">
     </el-table-column>
@@ -63,34 +63,18 @@
 export default {
     data() {
       return {
-        tableData: [{
-          date: '2016-05-02',
-          jobname: 'Java',
-          salary: '6k',
-          academicneed: '本科',
-          experience: '1-2年',
-        
-        }, {
-          date: '2016-05-04',
-          jobname: 'Java',
-          salary: '6k',
-          academicneed: '本科',
-          experience: '1-2年',
-        }, {
-          date: '2016-05-01',
-         jobname: 'Java',
-          salary: '6k',
-          academicneed: '本科',
-          experience: '1-2年',
-        }, {
-          date: '2016-05-03',
-         jobname: 'Java',
-          salary: '6k',
-          academicneed: '本科',
-          experience: '1-2年',
-        }]
-      }
+        tableData:[],        
+      };
     },
+    created(){
+      this.$axios.get('./static/data/job.json')
+      .then(res=>{
+        this.tableData = res.data.message
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+  },
     methods: {
       handleEdit(index, row) {
         console.log(index, row);

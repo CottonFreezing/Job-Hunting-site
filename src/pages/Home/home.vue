@@ -196,97 +196,17 @@ export default {
         { id: 0, url: require("./images/1.jpg") },
         { id: 1, url: require("./images/2.jpg") }
       ],
-      newworkbox: [
-        {
-          id: 0,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "字节跳动",
-          hr: "金先生",
-          headimg: require("./images/3.jpg")
-        },
-        {
-          id: 1,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "字节跳动",
-          hr: "金先生",
-          headimg: require("./images/3.jpg")
-        },
-        {
-          id: 2,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "字节跳动",
-          hr: "金先生",
-          headimg: require("./images/3.jpg")
-        },
-        {
-          id: 3,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "字节跳动",
-          hr: "金先生",
-          headimg: require("./images/3.jpg")
-        },
-        {
-          id: 4,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "字节跳动",
-          hr: "金先生",
-          headimg: require("./images/3.jpg")
-        },
-        {
-          id: 5,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "字节跳动",
-          hr: "金先生",
-          headimg: require("./images/3.jpg")
-        },
-        {
-          id: 6,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "字节跳动",
-          hr: "金先生",
-          headimg: require("./images/3.jpg")
-        },
-        {
-          id: 7,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "字节跳动",
-          hr: "金先生",
-          headimg: require("./images/3.jpg")
-        }
-      ]
+      newworkbox:[],
     };
+  },
+  created(){
+      this.$axios.get('./static/data/job.json')
+      .then(res => {
+        this.newworkbox = res.data.message
+      })
+      .catch(err=>{
+        console.log(err)
+      })
   },
   mounted() {
     this.list = this.states.map(item => {

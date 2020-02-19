@@ -9,9 +9,14 @@ import 'element-ui/lib/theme-chalk/fonts/element-icons.woff'
 
 import app from './App.vue'
 import router from './router'
+import axios from 'axios'
+
 
 
 Vue.use(ElementUI, { size: 'medium', zIndex: 3000 })
+Vue.prototype.$axios = axios
+
+
 
 new Vue({
     el:'#app',

@@ -11,6 +11,7 @@ import Resumes from '../pages/Resumes/resumes.vue'
 import Login from '../pages/Login/login.vue'
 import Regist from '../pages/Regist/regist.vue'
 import Joblist from '../pages/Job/joblist.vue'
+import Admin from '../pages/Admin/admin.vue'
 
 //PersonalCenter子路由
 import Mybase from '../components/PersonalCenterList/Mybase.vue'
@@ -35,6 +36,8 @@ import BossChangePass from '../components/BossCenter/BossChangePass.vue'
 import Unprocessed from '../components/BossCenter/Unprocessed.vue' //待定简历
 import NotifyInterview from '../components/BossCenter/NotifyInterview.vue' //已通知面试简历
 import Inappropriate from '../components/BossCenter/InappropriateResume.vue' //不合适简历
+
+// admin路由及子路由
 
 
 
@@ -258,6 +261,14 @@ export default new VueRouter({
                 },
             ],
         },
+        {
+            path: '/admin',
+            component: Admin,
+            meta: {
+                showFooter: true,
+            }
+            
+        }
     ]
 }
 )

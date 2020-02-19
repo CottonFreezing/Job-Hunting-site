@@ -415,126 +415,18 @@ export default {
         "Connecticut",
         "Delaware"
       ],
-      jobbox: [
-        {
-          id: 0,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "阿里巴巴",
-          stage: "已上市",
-          kind: "互联网",
-          hr: "金先生",
-          time: "2020-1-17"
-        },
-        {
-          id: 1,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "阿里巴巴",
-          stage: "已上市",
-          kind: "互联网",
-          hr: "金先生",
-          time: "2020-1-17"
-        },
-        {
-          id: 2,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "阿里巴巴",
-          stage: "已上市",
-          kind: "互联网",
-          hr: "金先生",
-          time: "2020-1-17"
-        },
-        {
-          id: 3,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "阿里巴巴",
-          stage: "已上市",
-          kind: "互联网",
-          hr: "金先生",
-          time: "2020-1-17"
-        },
-        {
-          id: 4,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "阿里巴巴",
-          stage: "已上市",
-          kind: "互联网",
-          hr: "金先生",
-          time: "2020-1-17"
-        },
-        {
-          id: 5,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "阿里巴巴",
-          stage: "已上市",
-          kind: "互联网",
-          hr: "金先生",
-          time: "2020-1-17"
-        },
-        {
-          id: 6,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "阿里巴巴",
-          stage: "已上市",
-          kind: "互联网",
-          hr: "金先生",
-          time: "2020-1-17"
-        },
-        {
-          id: 7,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "阿里巴巴",
-          stage: "已上市",
-          kind: "互联网",
-          hr: "金先生",
-          time: "2020-1-17"
-        },
-        {
-          id: 8,
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          experience: "1-3年",
-          academic: "本科",
-          company: "阿里巴巴",
-          stage: "已上市",
-          kind: "互联网",
-          hr: "金先生",
-          time: "2020-1-17"
-        }
-      ]
+      jobbox: [],
+     
     };
+  },
+  created() {
+    this.$axios.get('./static/data/job.json')
+    .then(res => {
+      this.jobbox = res.data.message
+    })
+    .catch(err => {
+      console.log(err)
+    })
   },
 
   mounted() {

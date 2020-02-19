@@ -22,7 +22,7 @@
               <span>{{u.experience}}</span>
             </p>
             <p>
-                <span class="un-job">应聘职位：{{u.jobname}}</span>
+                <span class="un-job">应聘职位：{{u.desiredjob}}</span>
                 <span class="un-result"><i class="el-icon-delete">删除</i></span>                
             </p>
           </div>
@@ -37,33 +37,18 @@
 export default {
   data() {
     return {
-      resumeBox: [
-        {
-          id: 0,
-          resumename: "张三的简历",
-          checked: false,
-          headimg: require("./images/3.jpg"),
-          name: "张三",
-          sex: "男",
-          jobname: "java工程师",
-          academic: "本科",
-          experience: "应届生",
-          time: "2020-1-1"
-        },
-        {
-          id: 1,
-          resumename: "张三的简历",
-          checked: false,
-          headimg: require("./images/3.jpg"),
-          name: "张三",
-          sex: "男",
-          jobname: "java工程师",
-          academic: "本科",
-          experience: "应届生",
-          time: "2020-1-1"
-        }
-      ]
+      resumeBox:[],
+     
     };
+  },
+  created() {
+    this.$axios.get('./static/data/candidates.json')
+    .then(res=>{
+      this.resumeBox = res.data.message
+    })
+    .catch(err=>{
+      console.log(err)
+    })
   },
   methods: {}
 };

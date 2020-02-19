@@ -10,7 +10,7 @@
       <el-table-column type="index" width="50"></el-table-column>
       <el-table-column label="发布时间" width="120">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          <span style="margin-left: 10px">{{ scope.row.time }}</span>
         </template>
       </el-table-column>
       <el-table-column label="职 位" width="100">
@@ -18,7 +18,7 @@
           <el-popover trigger="hover" placement="top">
             <p>职 位: {{ scope.row.jobname }}</p>
             <p>月 薪: {{ scope.row.salary }}</p>
-            <p>学 历：{{ scope.row.academicneed}}</p>
+            <p>学 历：{{ scope.row.academic}}</p>
             <div slot="reference" class="name-wrapper">
               <el-tag size="medium">{{ scope.row.jobname }}</el-tag>
             </div>
@@ -26,7 +26,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="salary" label="月 薪" width="100"></el-table-column>
-      <el-table-column prop="academicneed" label="学历需求" width="100"></el-table-column>
+      <el-table-column prop="academic" label="学历需求" width="100"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -40,36 +40,17 @@
 export default {
   data() {
     return {
-      tableData: [
-        {
-          date: "2016-05-02",
-          jobname: "Java",
-          salary: "6k",
-          academicneed: "本科",
-          city: "蚌埠",
-
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          jobname: "Java",
-          salary: "6k",
-          academicneed: "本科"
-        },
-        {
-          date: "2016-05-01",
-          jobname: "Java",
-          salary: "6k",
-          academicneed: "本科"
-        },
-        {
-          date: "2016-05-03",
-          jobname: "Java",
-          salary: "6k",
-          academicneed: "本科"
-        }
-      ]
+      tableData:[],
     };
+  },
+  created(){
+      this.$axios.get('./static/data/job.json')
+      .then(res=>{
+        this.tableData = res.data.message
+      })
+      .catch(err=>{
+        console.log(err)
+      })
   },
   methods: {
     handleEdit(index, row) {
@@ -91,10 +72,10 @@ export default {
 .p-t-l {
   float: left;
   width: 0;
-  border-top: 25px solid rgba(0, 0, 0, 0.541);
+  border-top: 25px solid rgb(252, 70, 70);
   border-left: 25px solid transparent;
-  border-bottom: 25px solid rgba(0, 0, 0, 0.541);
-  border-right: 25px solid rgba(0, 0, 0, 0.541);
+  border-bottom: 25px solid rgb(252, 70, 70);
+  border-right: 25px solid rgb(252, 70, 70);
 }
 .p-t-r {
   float: left;
@@ -102,10 +83,10 @@ export default {
   height: 0px;
   /* border-bottom-right-radius: 50%;
   border-top-right-radius: 50%; */
-  border-top: 25px solid rgba(0, 0, 0, 0.541);
+  border-top: 25px solid rgb(252, 70, 70);
   border-right: 25px solid transparent;
-  border-bottom: 25px solid rgba(0, 0, 0, 0.541);
-  border-left: 25px solid rgba(0, 0, 0, 0.541);
+  border-bottom: 25px solid rgb(252, 70, 70);
+  border-left: 25px solid rgb(252, 70, 70);
   /* background-color:rgba(0, 0, 0, 0.541);  */
 }
 .p-t-c {
@@ -116,7 +97,7 @@ export default {
   text-align: center;
   font-size: 34px;
   color: white;
-  background-color: rgba(0, 0, 0, 0.541);
+  background-color: rgb(252, 70, 70);
 }
 .el-table {
   background-color: gray
