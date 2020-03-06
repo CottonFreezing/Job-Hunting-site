@@ -207,6 +207,14 @@
 <script>
 export default {
   data() {
+    var telephoneTest = (rule,value,callback) => {
+      var reg = /^1[3456789]\d{9}$/
+      if(value != '' && reg.test(value) ){
+        callback()
+      }else{
+        callback(new Error("请输入正确额的手机号"))
+      }
+    };
     return {
       labelPosition: "right",
       ruleForm: {
@@ -230,7 +238,7 @@ export default {
         starttime: "",
         endtime: "",
         assessment: "",
-
+      },
         fileList: [
           {
             name: "food.jpeg",
@@ -242,8 +250,8 @@ export default {
             url:
               "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
           }
-        ]
-      },
+        ],
+      
       rules: {
         name: [
           { required: true, message: "请输入姓名", trigger: "blur" },
@@ -272,7 +280,7 @@ export default {
         telephone: [
           { required: true, message: "请输入电话号码", trigger: "blur" },
           {
-            type: "number",
+            validator:telephoneTest,
             message: "请输入正确的电话号码",
             trigger: ["blur", "change"]
           }
@@ -310,7 +318,15 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          console.log("submit!");
+
+          this.$axios.post('./static/data/candidates.json',formName)
+          .then(res => {
+            if(res.code == 200){
+              alert("创建成功")
+               that.$router.go(-1)
+            }
+          })
         } else {
           console.log("error submit!!");
           return false;

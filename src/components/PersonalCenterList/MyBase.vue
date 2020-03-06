@@ -32,7 +32,7 @@
           </p>
         </div>
         <!-- 个人信息修改 -->
-        <div class="p-base" :before-close="handleClose" v-show="dialog">
+        <div class="p-base" v-show="dialog">
           <el-form :model="myBase">
             <el-form-item label="姓 名：" label-width="90px">
               <el-input v-model="myBase.name" autocomplete="off"></el-input>
@@ -48,7 +48,7 @@
             <el-button @click="cancelForm">取 消</el-button>
             <el-button
               type="primary"
-              @click="$refs.drawer.closeDrawer()"
+              @click="handleClose"
               :loading="loading"
             >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
           </div>
@@ -59,7 +59,7 @@
         <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="已投公司" name="first">
             <el-card>
-              <div v-for="u in resumeBox" :key="u.id">
+              <div v-for="(u,index) in jobBox" :key="u.id">
                 <div class="box-card">
                   <!-- <el-avatar shape="square" :size="80" :src="u.headimg"></el-avatar> -->
                   <div class="un-info clearfix">
@@ -71,7 +71,7 @@
                     </h2>
                     <p>
                       <span>{{u.company}}</span>
-                      <span>/</span>                                        
+                      <span>/</span>
                       <span>{{u.place}}</span>
                       <span>/</span>
                       <span>{{u.stage}}</span>
@@ -81,8 +81,8 @@
                     <p>
                       <span>{{u.academic}}</span>
                       <span>/</span>
-                       <span>{{u.experience}}</span>
-                      <span class="un-result">
+                      <span>{{u.experience}}</span>
+                      <span class="un-result" @click="del(index)">
                         <i class="el-icon-delete">删除</i>
                       </span>
                     </p>
@@ -92,8 +92,8 @@
             </el-card>
           </el-tab-pane>
           <el-tab-pane label="面试邀约" name="second">
-             <el-card>
-              <div v-for="u in resumeBox" :key="u.id">
+            <el-card>
+              <div v-for="(u, index) in jobBox" :key="u.id">
                 <div class="box-card">
                   <!-- <el-avatar shape="square" :size="80" :src="u.headimg"></el-avatar> -->
                   <div class="un-info clearfix">
@@ -105,7 +105,7 @@
                     </h2>
                     <p>
                       <span>{{u.company}}</span>
-                      <span>/</span>                                        
+                      <span>/</span>
                       <span>{{u.place}}</span>
                       <span>/</span>
                       <span>{{u.stage}}</span>
@@ -115,19 +115,17 @@
                     <p>
                       <span>{{u.academic}}</span>
                       <span>/</span>
-                       <span>{{u.experience}}</span>
-                      <span class="un-result">
-                        <i class="el-icon-delete">删除</i>
-                      </span>
+                      <span>{{u.experience}}</span>                    
+                      <span class="un-result" @click="del(index)">
+                        <i class="el-icon-delete" >删除</i>
+                      </span>                      
                     </p>
                   </div>
                 </div>
               </div>
             </el-card>
           </el-tab-pane>
-          <el-tab-pane label="消息中心" name="third">
-            消息中心
-          </el-tab-pane>
+          <el-tab-pane label="消息中心" name="third">消息中心</el-tab-pane>
         </el-tabs>
       </div>
     </el-main>
@@ -138,6 +136,7 @@
 export default {
   data() {
     return {
+      count: 0,
       dialog: false,
       activeName: "first",
       loading: false,
@@ -145,20 +144,20 @@ export default {
         user: "1234",
         name: "张三",
         imageUrl: "",
-        sex: "男",
+        sex: "男"
       },
-      resumeBox: [],
-      
+      jobBox: [],
     };
   },
-   created() {
-    this.$axios.get('./static/data/job.json')
-    .then(res => {
-      this.resumeBox = res.data.message 
-    })
-    .catch( err => {
-      console.log(err)
-    })
+  created() {
+    this.$axios
+      .get("./static/data/job.json")
+      .then(res => {
+        this.jobBox = res.data.message;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {
     handleClick(tab, event) {
@@ -179,7 +178,7 @@ export default {
       }
       return isJPG && isLt2M;
     },
-    handleClose(done) {
+    handleClose() {
       if (this.loading) {
         return;
       }
@@ -187,7 +186,9 @@ export default {
         .then(_ => {
           this.loading = true;
           this.timer = setTimeout(() => {
-            done();
+            // done();
+            this.loading = false;
+            this.dialog = false;
             // 动画关闭需要一定的时间
             setTimeout(() => {
               this.loading = false;
@@ -200,7 +201,20 @@ export default {
       this.loading = false;
       this.dialog = false;
       clearTimeout(this.timer);
-    }
+    },
+    
+    test(){
+      alert("11")
+    },
+  
+    del(index) {
+      event.stopPropagation()
+      this.jobBox.splice(index, 1)
+              
+     }
+  },
+  watch: {
+    
   }
 };
 </script>
@@ -240,6 +254,7 @@ export default {
 .p-base i {
   position: absolute;
   right: 0;
+  cursor: pointer;
   color: rgb(252, 70, 70);
 }
 
@@ -329,6 +344,7 @@ export default {
   right: 30px;
   font-size: 16px;
   margin-top: 10px;
+  cursor: pointer;
 }
 .un-result i {
   margin: 0 7px;

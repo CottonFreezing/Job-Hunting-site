@@ -111,8 +111,8 @@
         </div>
         <!-- 应聘者列表 -->
         <el-card shadow="hover" class="candidates-card">
-          <div v-for="w in candidatesBox" :key="w.id" >
-            <router-link to="candidateslist">
+          <div v-for="(w,index) in candidatesBox" :key="w.id" >
+            <router-link :to="{name:'/candidateslist',query:{id:index}}">
             <div class="cand-card ">
               <a href="javascript:;">
                 <img :src="w.headimg" class="cand-logo" alt="头像" />

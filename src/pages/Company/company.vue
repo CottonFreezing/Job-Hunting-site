@@ -307,10 +307,10 @@
         </div>
         <!-- 公司信息列表 -->
         <el-card shadow="hover" class="company-card">
-          <div v-for="w in jobbox" :key="w.id" >
+          <div v-for="w in companyBox" :key="w.id" >
             <div class="cm-card ">
               <a href="javascript:;">
-                <img :src="w.logourl" class="cm-logo" alt="logo"/>
+                <img :src="w.logourl" class="cm-logo" alt="logo" />
                 <div class="cm-x">
                   <p class="cm-x-one">{{w.company}}</p>
                   <p class="cm-x-two">
@@ -327,7 +327,18 @@
         </el-card>
         <el-footer class="page">
         <!-- 分页栏 -->
-        <el-pagination background  :page-size="20" layout="prev, pager, next" :total="1000"></el-pagination>
+          <el-pagination
+          :hide-on-single-page="value"
+          @size-change = "handleSizeChange"
+            @current-change ="handleCurrentChange"
+            background
+            :current-page="currentPage"
+            :page-size.sync="pageSize"
+            layout="prev, pager, next"
+            :total="companyBox.length"
+            v-model="companyBox"
+            
+          ></el-pagination>
       </el-footer>
       </el-main>
     </el-container>
@@ -338,19 +349,46 @@
 export default {
   data() {
     return {
-      jobbox: [],
+      value: false,
+      companyBox: [],
+      pageSize: 6, //每页的数据
+      currentPage: 1, //初始页
+      pageNo:1, //当前页数
+
     };
   },
-  created() {
-    this.$axios.get('./static/data/company.json')
+  created(){
+       this.$axios
+      .get("./static/data/company.json")
     .then(res => {
-      console.log(res.data)
-      this.jobbox = res.data.message
+        console.log(res.data);
+        this.companyBox = res.data.message;
     })
-    .catch( err => {
-      console.log(err)
+      .catch(err => {
+        console.log(err);
     })
   },
+  methods: {
+
+    handleSizeChange(size){
+      this.pageSize = size;
+            console.log(size+"****");
+    },
+    handleCurrentChange(currentPage) {
+      //点击页面项 的函数响应
+      this.currentPage = currentPage;
+      console.log(this.currentPage)
+    }
+  },
+ 
+  computed: {
+    userdata: function() {
+      return this.companyBox.slice(
+        (this.currentPage - 1) * this.pageSize,
+        this.currentPage * this.pageSize
+      ); //分页的核心思想，userdata指当前这一页要展示的数据，就可以用v-for来展示了。
+    }
+  }
 };
 </script>
 
@@ -372,7 +410,7 @@ export default {
   position: absolute;
 }
 /* 下拉地区 */ 
-.more p{
+.more p {
   margin: 7px;
 }
 .more p span {
@@ -424,7 +462,6 @@ export default {
     left: 0;
     margin: 2px 5px;
     color: #0f0f0f;
-   
 }
 .cm-x-two {
     position: absolute;

@@ -11,7 +11,7 @@
     style="width: 100%">
     <el-table-column
       type="index"
-      width="50">
+      width="60">
     </el-table-column>
     <el-table-column
       label="发布时间"
@@ -22,7 +22,7 @@
     </el-table-column>
     <el-table-column
       label="职 位"
-      width="100">
+      width="120">
       <template slot-scope="scope">
         <el-popover trigger="hover" placement="top">
           <p>职 位: {{ scope.row.jobname }}</p>
@@ -43,17 +43,14 @@
     <el-table-column
       prop="academic"
       label="需求"
-      width="100">
+      width="120">
     </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
         <el-button
           size="mini"
-          @click="handleEdit(scope.$index, scope.row)">重新上线</el-button>
-        <el-button
-          size="mini"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          @click="handleDelete(scope.$index, tableData)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>  
@@ -76,11 +73,8 @@ export default {
       })
   },
     methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
       handleDelete(index, row) {
-        console.log(index, row);
+        row.splice(index,1)
       }
     }
 }

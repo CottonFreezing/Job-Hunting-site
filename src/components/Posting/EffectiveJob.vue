@@ -29,8 +29,8 @@
       <el-table-column prop="academic" label="学历需求" width="100"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button size="mini" @click.prevent="handleEdit(scope.$index, tableData)">编辑</el-button>
+          <el-button size="mini" type="danger" @click.prevent="handleDelete(scope.$index, tableData)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -57,7 +57,7 @@ export default {
       console.log(index, row);
     },
     handleDelete(index, row) {
-      console.log(index, row);
+      row.splice(index,1)
     }
   }
 };

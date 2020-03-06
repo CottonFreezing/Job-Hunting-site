@@ -18,7 +18,7 @@
                 <el-input type="password" v-model="changeForm.checkNewPass" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="info" @click="submitForm('changeForm')">登 录</el-button>
+                <el-button type="info" @click="submitForm('changeForm')">修 改</el-button>
               </el-form-item>
           </el-form>
           </div>

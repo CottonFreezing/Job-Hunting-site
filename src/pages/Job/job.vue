@@ -349,9 +349,9 @@
         </div>
         <!-- 工作列表 -->
         <el-card class="job-card" shadow="always">
-          <div v-for="j in jobbox" :key="j.id">
+          <div v-for="(j,index) in jobBox" :key="j.id">
             <div class="j-card">
-              <router-link to="/joblist">
+              <router-link :to="{name:'/joblist', query:{id:index}}">
                 <div class="j-one">
                   <p class="j-f">
                     <span class="j-jobname">{{j.jobname}}</span>
@@ -390,7 +390,16 @@
       </el-main>
       <el-footer class="page">
         <!-- 分页栏 -->
-        <el-pagination background :page-size="20" layout="prev, pager, next" :total="1000"></el-pagination>
+        <el-pagination
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-size.sync="pageSize"
+          layout="prev, pager, next"
+          :total="jobBox.length"
+          v-model="jobBox"
+          ></el-pagination>
       </el-footer>
     </el-container>
   </div>
@@ -400,6 +409,13 @@
 export default {
   data() {
     return {
+      value: false,
+      companyBox: [],
+      pageSize: 6, //每页的数据
+      currentPage: 1, //初始页
+      pageNo:1, //当前页数
+
+
       flag: false,
       options: [],
       value: [],
@@ -415,18 +431,18 @@ export default {
         "Connecticut",
         "Delaware"
       ],
-      jobbox: [],
-     
+      jobBox: []
     };
   },
   created() {
-    this.$axios.get('./static/data/job.json')
-    .then(res => {
-      this.jobbox = res.data.message
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    this.$axios
+      .get("./static/data/job.json")
+      .then(res => {
+        this.jobBox = res.data.message;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
 
   mounted() {
@@ -446,7 +462,16 @@ export default {
         }, 200);
       } else {
         this.options = [];
-      }
+      }    
+    },
+     handleSizeChange(size){
+      this.pageSize = size;
+            console.log(size+"****");
+    },
+    handleCurrentChange(currentPage) {
+      //点击页面项 的函数响应
+      this.currentPage = currentPage;
+      console.log(this.currentPage)
     }
   }
 };
@@ -469,8 +494,8 @@ export default {
 .job-info span {
   margin: 0 7px;
 }
-/* 下拉地区 */ 
-.more p{
+/* 下拉地区 */
+.more p {
   margin: 7px;
 }
 .more p span {

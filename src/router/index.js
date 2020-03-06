@@ -11,7 +11,6 @@ import Resumes from '../pages/Resumes/resumes.vue'
 import Login from '../pages/Login/login.vue'
 import Regist from '../pages/Regist/regist.vue'
 import Joblist from '../pages/Job/joblist.vue'
-import Admin from '../pages/Admin/admin.vue'
 
 //PersonalCenter子路由
 import Mybase from '../components/PersonalCenterList/Mybase.vue'
@@ -53,6 +52,7 @@ export default new VueRouter({
         },
         {
             path: '/home',
+            name: '/home',
             component: Home,
             meta: {
                 showHeaderGuide: true,
@@ -61,6 +61,7 @@ export default new VueRouter({
         },
         {
             path: '/job',
+            name: '/job',
             component: Job,
             meta: {
                 showHeaderGuide: true,
@@ -69,6 +70,7 @@ export default new VueRouter({
         },
         {
             path: '/joblist',
+            name: '/joblist',
             component: Joblist,
             meta: {
                 showHeaderGuide: true,
@@ -77,6 +79,7 @@ export default new VueRouter({
         },
         {
             path: '/company',
+            name: '/company',
             component: Company,
             meta: {
                 showHeaderGuide: true,
@@ -85,6 +88,7 @@ export default new VueRouter({
         },
         {
             path: '/personalcenter',
+            name: '/personalcenter',
             component: PersonalCenter,
             meta: {
                 showHeaderGuide: true,
@@ -101,6 +105,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'mybase',
+                    name: 'mybase',
                     component: Mybase,
                     meta: {
                         showHeaderGuide: true,
@@ -109,6 +114,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'changepass',
+                    name: 'changepass',
                     component: Changepassword,
                     meta: {
                         showHeaderGuide: true,
@@ -119,6 +125,7 @@ export default new VueRouter({
         },
         {
             path: '/resumes',
+            name: '/resumes',
             component: Resumes,
             meta: {
                 showHeaderGuide: true,
@@ -127,10 +134,12 @@ export default new VueRouter({
         },
         {
             path: '/login',
+            name: '/login',
             component: Login,
         },
         {
             path: '/regist',
+            name: '/regist',
             component: Regist,
             children: [
                 {
@@ -149,6 +158,7 @@ export default new VueRouter({
         },
         {
             path: '/bosscenter',
+            name: '/bosscenter',
             component: BossCenter,
             meta: {
                 showBossHeader: true,
@@ -161,6 +171,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'bossbase',
+                    name: 'bossbase',
                     component: BossBase,
                     meta: {
                         showBossHeader: true,
@@ -169,6 +180,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'bosschangepass',
+                    name: 'bosschangepass',
                     component: BossChangePass,
                     meta: {
                         showBossHeader: true,
@@ -177,6 +189,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'unprocessed',
+                    name: 'unprocessed',
                     component: Unprocessed,
                     meta: {
                         showBossHeader: true,
@@ -185,6 +198,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'notifyinterview',
+                    name: 'notifyinterview',
                     component: NotifyInterview,
                     meta: {
                         showBossHeader: true,
@@ -193,6 +207,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'inappropriate',
+                    name: 'inappropriate',
                     component: Inappropriate,
                     meta: {
                         showBossHeader: true,
@@ -205,6 +220,7 @@ export default new VueRouter({
         },
         {
             path: '/candidates',
+            name: '/candidates',
             component: Candidates,
             meta: {
                 showBossHeader: true,
@@ -213,6 +229,7 @@ export default new VueRouter({
         },
         {
             path: '/candidateslist',
+            name: '/candidateslist',
             component: CandidatesList,
             meta: {
                 showBossHeader: true,
@@ -221,6 +238,7 @@ export default new VueRouter({
         },
         {
             path: '/posting',
+            name: '/posting',
             component: Posting,
             meta: {
                 showBossHeader:true,
@@ -237,6 +255,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'postjob',
+                    name: 'postjob',
                     component: PostJob,
                     meta: {
                         showBossHeader:true,
@@ -245,6 +264,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'effectivejob',
+                    name: 'effectivejob',
                     component: EffectiveJob,
                     meta: {
                         showBossHeader:true,
@@ -253,6 +273,7 @@ export default new VueRouter({
                 },
                 {
                     path: 'offlinejob',
+                    name: 'offlinejob',
                     component: OfflineJob,
                     meta: {
                         showBossHeader:true,
@@ -261,14 +282,7 @@ export default new VueRouter({
                 },
             ],
         },
-        {
-            path: '/admin',
-            component: Admin,
-            meta: {
-                showFooter: true,
-            }
-            
-        }
+       
     ]
 }
 )

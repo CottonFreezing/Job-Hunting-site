@@ -4,7 +4,7 @@
       <h2 class="un-title">待 处 理 简 历</h2>
       <el-divider></el-divider>
       <el-card>
-        <div v-for="u in resumeBox" :key="u.id">
+        <div v-for="(u,index) in resumeBox" :key="u.id">
             <div class="box-card">
           <el-avatar shape="square" :size="80" :src="u.headimg"></el-avatar>
           <div class="un-info clearfix">
@@ -23,7 +23,7 @@
             </p>
             <p>
                 <span class="un-job">应聘职位：{{u.desiredjob}}</span>
-                <span class="un-result"><a>通知面试</a><a>不合适</a></span>                
+                <span class="un-result"><a @click="notify(index)">通知面试</a><a @click="unprocessed(index)">不合适</a></span>                
             </p>
           </div>
         </div>
@@ -49,7 +49,26 @@ export default {
       console.log(err)
     })
   },
-  methods: {}
+  methods: {
+    notify(index){
+      this.resumeBox.splice(index,1)
+      this.$notify({
+          title: '邀请成功',
+          type: 'success',
+          position: 'top-right',
+          offset: 100
+        });
+    },
+    unprocessed(index){
+       this.resumeBox.splice(index,1)
+      this.$notify({
+          title: '操作成功',
+          type: 'success',
+          position: 'top-right',
+          offset: 100
+        });
+    }
+  }
 };
 </script>
 

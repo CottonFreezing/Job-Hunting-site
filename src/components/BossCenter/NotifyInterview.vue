@@ -4,7 +4,7 @@
       <h2 class="un-title">已 通 知 面 试</h2>
       <el-divider></el-divider>
       <el-card>
-        <div v-for="u in resumeBox" :key="u.id">
+        <div v-for="(u,index) in resumeBox" :key="u.id">
             <div class="box-card">
           <el-avatar shape="square" :size="80" :src="u.headimg"></el-avatar>
           <div class="un-info clearfix">
@@ -23,7 +23,7 @@
             </p>
             <p>
                 <span class="un-job">应聘职位：{{u.desiredjob}}</span>
-                <span class="un-result"><i class="el-icon-delete">删除</i></span>                
+                <span class="un-result"><i class="el-icon-delete" @click.prevent="del(index)">删除</i></span>                
             </p>
           </div>
         </div>
@@ -50,7 +50,11 @@ export default {
       console.log(err)
     })
   },
-  methods: {}
+  methods: {
+    del(index){
+      this.resumeBox.splice(index,1)
+    }
+  }
 };
 </script>
 
@@ -122,5 +126,6 @@ export default {
 .un-result i {
     margin: 0 7px;
     color: rgb(252, 70, 70);
+    cursor: pointer;
 }
 </style>

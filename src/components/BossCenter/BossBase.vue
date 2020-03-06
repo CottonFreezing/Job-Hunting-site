@@ -43,7 +43,7 @@
           </p>
         </div>
         <!-- 修改公司基本信息 -->
-        <div direction="ltr" class="bb-f-l" :before-close="handleClose" v-show="dialog1">
+        <div direction="ltr" class="bb-f-l" v-show="dialog1">
           <div class="demo-drawer__content">
             <el-form :model="companyData">
               <el-form-item label="公司全称" label-width="90px">
@@ -85,7 +85,7 @@
               <el-button @click="cancelForm(dialog1,loading)">取 消</el-button>
               <el-button
                 type="primary"
-                @click="$refs.drawer.closeDrawer()"
+                @click="handleClose"
                 :loading="loading"
               >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
             </div>
@@ -104,32 +104,48 @@
         <div direction="ltr" v-show="dialog2">
           <div class="demo-drawer__content">
             <el-form :model="companyData">
-                <el-input type="textarea" v-model="companyData.comintroduce" autocomplete="off"></el-input>
+              <el-input type="textarea" v-model="companyData.comintroduce" autocomplete="off"></el-input>
             </el-form>
             <div class="demo-drawer__footer">
               <el-button @click="cancelForm(dialog2,loading)">取 消</el-button>
               <el-button
                 type="primary"
-                @click="$refs.drawer.closeDrawer()"
+                @click="handleClose"
                 :loading="loading"
               >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
             </div>
           </div>
         </div>
       </div>
-      
-      
+
       <el-divider></el-divider>
-        <!-- 公司地址 -->
+      <!-- 公司地址 -->
       <div class="bossbase-next">
         <p>
           <span class="h2-title">公 司 地 址</span>
           <i class="el-icon-edit-outline bb-edit" @click="dialog3 = true"></i>
         </p>
-        <p>&nbsp;{{companyData.address}}</p>
+        <p v-if="!dialog3">&nbsp;{{companyData.address}}</p>
+        <!-- 公司地址修改 -->
+        <div direction="ltr" v-else>
+          <div class="demo-drawer__content">
+            <el-form :model="companyData">
+              <el-input type="textarea" v-model="companyData.address" autocomplete="off"></el-input>
+            </el-form>
+            <div class="demo-drawer__footer">
+              <el-button @click="cancelForm(dialog3,loading)">取 消</el-button>
+              <el-button
+                type="primary"
+                @click="handleClose"
+                :loading="loading"
+              >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
+            </div>
+          </div>
+        </div>
       </div>
+
       <el-divider></el-divider>
-        <!-- 正在招聘 -->
+      <!-- 正在招聘 -->
       <div class="bossbase-next">
         <p>
           <span class="h2-title">正 在 招 聘 职 位</span>
@@ -177,28 +193,30 @@ export default {
 
       loading: false,
       timer: null,
-      companyData:{},
-      jobBox:[],
+      companyData: {},
+      jobBox: [],
       imageUrl: ""
     };
   },
-  created(){
+  created() {
     // let id = this.$router.query.id
-    this.$axios.get('./static/data/company.json')
-    .then( res => {
-      this.companyData = res.data.message[0]
-    })
-    .catch( err => {
-      console.log(err)
-    })
+    this.$axios
+      .get("./static/data/company.json")
+      .then(res => {
+        this.companyData = res.data.message[0];
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
-    this.$axios.get('./static/data/job.json')
-    .then( res => {
-      this.jobBox = res.data.message
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    this.$axios
+      .get("./static/data/job.json")
+      .then(res => {
+        this.jobBox = res.data.message;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {
     handleAvatarSuccess(res, file) {
@@ -216,8 +234,7 @@ export default {
       }
       return isJPG && isLt2M;
     },
-
-    handleClose(done) {
+    handleClose(dialog, loading) {
       if (this.loading) {
         return;
       }
@@ -225,7 +242,8 @@ export default {
         .then(_ => {
           this.loading = true;
           this.timer = setTimeout(() => {
-            done();
+            this.loading = false;
+            this.dialog = false;
             // 动画关闭需要一定的时间
             setTimeout(() => {
               this.loading = false;
@@ -233,10 +251,23 @@ export default {
           }, 2000);
         })
         .catch(_ => {});
-    },
-    cancelForm(dialog,loading) {
-      this.loading = false;
-      this.dialog = false;
+    }
+    // cancelForm:function(dialog, loading) {
+    //   alert(dialog);
+    //   alert(this.dialog1);
+    //   loading = false;
+    //   dialog = false;
+    //   alert(this.dialog1);
+    //   clearTimeout(this.timer);
+    // }
+  },
+  computed: {
+    cancelForm: function(dialog, loading) {
+      alert(dialog);
+      alert(this.dialog1);
+      loading = false;
+      dialog = false;
+      alert(this.dialog1);
       clearTimeout(this.timer);
     }
   }
