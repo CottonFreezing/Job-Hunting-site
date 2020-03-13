@@ -50,15 +50,13 @@ export default {
   margin: 10px auto;
 }
 .bc-aside {
-  padding-top: 50px;
-  background-color: rgb(214, 211, 211);
   height: 520px;
 }
 .b-aside .el-menu-item, .b-aside .el-submenu {
   font-size: 16px;
 }
 .bc-main {
-  background-color: rgb(214, 211, 211);
+  background-color: #fff;
   margin-left: 20px;
   margin-bottom: 10px;
 }

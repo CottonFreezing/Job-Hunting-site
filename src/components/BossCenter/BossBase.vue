@@ -13,10 +13,10 @@
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
 
-        <div class="bb-f-l" v-show="!dialog1">
+        <div class="bb-f-l" v-show="!dialog[0].val">
           <p class="bb-f-l-title">
             <span class="b-c-name">{{companyData.company}}</span>
-            <i class="el-icon-edit-outline bb-edit" @click="dialog1 = true"></i>
+            <i class="el-icon-edit-outline bb-edit" @click="dialog[0].val = true"></i>
           </p>
 
           <p>
@@ -43,19 +43,19 @@
           </p>
         </div>
         <!-- 修改公司基本信息 -->
-        <div direction="ltr" class="bb-f-l" v-show="dialog1">
+        <div direction="ltr" class="bb-f-l" v-show="dialog[0].val">
           <div class="demo-drawer__content">
-            <el-form :model="companyData">
-              <el-form-item label="公司全称" label-width="90px">
+            <el-form :model="companyData" :rules="rules" ref="companyData" required>
+              <el-form-item label="公司全称" label-width="90px"  required>
                 <el-input v-model="companyData.company" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="公司地址" label-width="90px">
+              <el-form-item label="所在城市" label-width="90px" prop="place" required>
                 <el-input v-model="companyData.place" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="公司领域" label-width="90px">
+              <el-form-item label="公司领域" label-width="90px" prop="kind" required>
                 <el-input v-model="companyData.kind" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="融 资" label-width="90px">
+              <el-form-item label="融 资" label-width="90px" prop="stage" required>
                 <el-select v-model="companyData.stage" placeholder="请选择融资">
                   <el-option label="未融资" value="未融资"></el-option>
                   <el-option label="天使轮" value="天使轮"></el-option>
@@ -67,7 +67,7 @@
                   <el-option label="不需要融资" value="不需要融资"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="规 模" label-width="90px">
+              <el-form-item label="规 模" label-width="90px" prop="scale" required>
                 <el-select v-model="companyData.scale" placeholder="请选择融资">
                   <el-option label="0-20人" value="0-20人"></el-option>
                   <el-option label="20-99人" value="20-99人"></el-option>
@@ -77,16 +77,16 @@
                   <el-option label="10000人以上" value="1000人以上"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="公司主页" label-width="90px">
+              <el-form-item label="公司主页" label-width="90px" prop="url" required>
                 <el-input v-model="companyData.url" autocomplete="off"></el-input>
               </el-form-item>
             </el-form>
             <div class="demo-drawer__footer">
-              <el-button @click="cancelForm(dialog1,loading)">取 消</el-button>
+              <el-button @click="cancelForm(0,companyData)">取 消</el-button>
               <el-button
                 type="primary"
                 @click="handleClose"
-                :loading="loading"
+                :loading="loading[0].val"
               >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
             </div>
           </div>
@@ -97,21 +97,21 @@
       <div class="bossbase-next">
         <p>
           <span class="h2-title">公 司 简 介</span>
-          <i class="el-icon-edit-outline bb-edit" @click="dialog2 = true"></i>
+          <i class="el-icon-edit-outline bb-edit" @click="dialog[1].val = true"></i>
         </p>
-        <p v-show="!dialog2">&nbsp;&nbsp;&nbsp;{{companyData.comintroduce}}</p>
+        <p v-show="!dialog[1].val">&nbsp;&nbsp;&nbsp;{{companyData.comintroduce}}</p>
         <!-- 公司简介修改 -->
-        <div direction="ltr" v-show="dialog2">
+        <div direction="ltr" v-show="dialog[1].val">
           <div class="demo-drawer__content">
-            <el-form :model="companyData">
-              <el-input type="textarea" v-model="companyData.comintroduce" autocomplete="off"></el-input>
+            <el-form :model="companyData" ref="companyData" :rules="rules">
+              <el-input type="textarea" v-model="companyData.comintroduce" autocomplete="off" prop="comintroduce"></el-input>
             </el-form>
             <div class="demo-drawer__footer">
-              <el-button @click="cancelForm(dialog2,loading)">取 消</el-button>
+              <el-button @click="cancelForm(1,companyData)">取 消</el-button>
               <el-button
                 type="primary"
                 @click="handleClose"
-                :loading="loading"
+                :loading="loading[1].val"
               >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
             </div>
           </div>
@@ -123,21 +123,21 @@
       <div class="bossbase-next">
         <p>
           <span class="h2-title">公 司 地 址</span>
-          <i class="el-icon-edit-outline bb-edit" @click="dialog3 = true"></i>
+          <i class="el-icon-edit-outline bb-edit" @click="dialog[2].val = true"></i>
         </p>
-        <p v-if="!dialog3">&nbsp;{{companyData.address}}</p>
+        <p v-if="!dialog[2].val">&nbsp;{{companyData.address}}</p>
         <!-- 公司地址修改 -->
         <div direction="ltr" v-else>
           <div class="demo-drawer__content">
-            <el-form :model="companyData">
-              <el-input type="textarea" v-model="companyData.address" autocomplete="off"></el-input>
+            <el-form :model="companyData" ref="companyData" :rules="rules">
+              <el-input type="textarea" v-model="companyData.address" autocomplete="off" prop="address"></el-input>
             </el-form>
             <div class="demo-drawer__footer">
-              <el-button @click="cancelForm(dialog3,loading)">取 消</el-button>
+              <el-button @click="cancelForm(2,companyData)">取 消</el-button>
               <el-button
                 type="primary"
                 @click="handleClose"
-                :loading="loading"
+                :loading="loading[2].val"
               >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
             </div>
           </div>
@@ -187,13 +187,30 @@
 export default {
   data() {
     return {
-      dialog1: false,
-      dialog2: false,
-      dialog3: false,
+      dialog:[
+        {val:false},
+        {val:false},
+        {val:false},
+      ],
+      loading:[
+        {val:false},
+        {val:false},
+        {val:false},
+      ],
 
-      loading: false,
+
       timer: null,
       companyData: {},
+      rules: {
+        company: [{ required: true, message: "请输入公司名", trigger: "blur" }],
+        place: [{ required: true, message: "请输入公司所在城市", trigger: "blur" }],
+        kind: [{ required: true, message: "请输入公司领域", trigger: "blur" }],
+        stage: [{ required: true, message: "请选择融资", trigger: "change" }],
+        scale: [{ required: true, message: "请选择规模", trigger: "change" }],
+        url: [{ required: true, message: "请输入公司网址", trigger: "blur" }],
+        comintroduce: [{ required: true, message: "请输入公司描述", trigger: "blur"}],
+        address: [{ required: true, message: "请输入公司具体地址", trigger: "blur" }],
+      },
       jobBox: [],
       imageUrl: ""
     };
@@ -234,43 +251,36 @@ export default {
       }
       return isJPG && isLt2M;
     },
-    handleClose(dialog, loading) {
-      if (this.loading) {
+    handleClose(a) {
+      if (this.loading[a].val) {
         return;
       }
       this.$confirm("确定要提交表单吗？")
         .then(_ => {
-          this.loading = true;
+          this.$set(this.loading[a],'val',true)
+          
           this.timer = setTimeout(() => {
-            this.loading = false;
-            this.dialog = false;
+             this.$set(this.loading[a],'val',false)
+             this.$set(this.dialog[a],'val',false)
             // 动画关闭需要一定的时间
             setTimeout(() => {
-              this.loading = false;
+              this.loading[a] = false;
             }, 400);
           }, 2000);
         })
         .catch(_ => {});
-    }
-    // cancelForm:function(dialog, loading) {
-    //   alert(dialog);
-    //   alert(this.dialog1);
-    //   loading = false;
-    //   dialog = false;
-    //   alert(this.dialog1);
-    //   clearTimeout(this.timer);
-    // }
-  },
-  computed: {
-    cancelForm: function(dialog, loading) {
-      alert(dialog);
-      alert(this.dialog1);
-      loading = false;
-      dialog = false;
-      alert(this.dialog1);
+    },
+    cancelForm:function(a,companyData) {
+
+      this.$nextTick(()=>{
+      this.$refs['companyData'].resetFields();
+      })
+      this.$set(this.loading[a],'val',false)
+      this.$set(this.dialog[a],'val',false)
+      // console.log(this.dialog[a].val);
       clearTimeout(this.timer);
     }
-  }
+  },
 };
 </script>
 

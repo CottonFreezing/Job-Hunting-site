@@ -3,18 +3,18 @@
          <ul>
             <li>
               <i class="el-icon-notebook-2"></i>
-              <span>招聘效果好</span>
-              <span>与职场牛人在线开聊</span>
+              <p>招聘效果好</p>
+              <p>与职场牛人在线开聊</p>
             </li>
             <li>
               <i class="el-icon-collection"></i>
-              <span>更多在线牛人</span>
-              <span>入职速度快</span>
+              <p>更多在线牛人</p>
+              <p>入职速度快</p>
             </li>
             <li>
               <i class="el-icon-goblet-square-full"></i>
-              <span>人才匹配度高</span>
-              <span>获取更精准的牛人</span>
+              <p>人才匹配度高</p>
+              <p>获取更精准的牛人</p>
             </li>
           </ul>
     </div>

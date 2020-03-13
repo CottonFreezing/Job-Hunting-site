@@ -18,7 +18,7 @@
                 <el-input type="password" v-model="changeForm.checkNewPass" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="info" @click="submitForm('changeForm')">登 录</el-button>
+                <el-button type="danger" @click="submitForm('changeForm')">修 改</el-button>
               </el-form-item>
           </el-form>
           </div>
@@ -54,8 +54,8 @@ export default {
       },
       rules: {
         pass: [{ required: true, message: "请输入原来密码", trigger: "blur" }],
-        newPass: [{ validator: validateNewPass, trigger: "blur" }],
-        checkNewPass: [{ validator: validateNewPass2, trigger: "blur" }]
+        newPass: [{required: true, validator: validateNewPass, trigger: "blur" }],
+        checkNewPass: [{required: true, validator: validateNewPass2, trigger: "blur" }]
       }
     };
   },

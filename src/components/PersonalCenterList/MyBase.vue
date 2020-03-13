@@ -33,11 +33,11 @@
         </div>
         <!-- 个人信息修改 -->
         <div class="p-base" v-show="dialog">
-          <el-form :model="myBase">
-            <el-form-item label="姓 名：" label-width="90px">
+          <el-form :model="myBase" :rules="rules" ref="myBase">
+            <el-form-item label="姓 名：" label-width="90px" prop="name">
               <el-input v-model="myBase.name" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="性 别：" label-width="90px">
+            <el-form-item label="性 别：" label-width="90px" prop="sex">
               <el-radio-group v-model="myBase.sex">
                 <el-radio label="男"></el-radio>
                 <el-radio label="女"></el-radio>
@@ -45,7 +45,7 @@
             </el-form-item>
           </el-form>
           <div class="demo-drawer__footer">
-            <el-button @click="cancelForm">取 消</el-button>
+            <el-button @click="cancelForm(myBase)">取 消</el-button>
             <el-button
               type="primary"
               @click="handleClose"
@@ -147,6 +147,13 @@ export default {
         sex: "男"
       },
       jobBox: [],
+      rules: {
+        name: [
+          { required: true, message: "请输入姓名", trigger: "blur" },
+          { min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur" }
+        ],
+        sex: [{ required: true, message: "请选择性别", trigger: "change" }]
+      }
     };
   },
   created() {
@@ -197,7 +204,10 @@ export default {
         })
         .catch(_ => {});
     },
-    cancelForm() {
+    cancelForm(myBase) {
+      this.$nextTick(()=>{
+      this.$refs['myBase'].resetFields();
+      })
       this.loading = false;
       this.dialog = false;
       clearTimeout(this.timer);

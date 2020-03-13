@@ -1,52 +1,24 @@
 <template>
   <div class="login-body">
     <el-container class="w">
-      <div class="login">
-        <!-- <el-menu :default-active="activeIndex" class="login-left" @select="handleSelect">                   
-                    <el-menu-item index="1">
-                         <router-link to="/home" class="l-logo">
-                        <img src="./images/logo.gif" />
-                     <div>
-                         <p>IT行业</p>
-                         <p>找工作</p>
-                     </div>
-                     
-                     </router-link>
-                    </el-menu-item>
-                   <el-menu-item index="2">
-                       <router-link to="" class="l-logo">                    
-                         <li>
-                             <i class="el-icon-lollipop"></i>
-                             <p>任性选</p>
-                             <p>各大行业任你选</p>
-                         </li>
-                       </router-link>
-                       </el-menu-item>  
-                     
-                    
-        </el-menu>-->
+      <div class="login">        
         <div class="login-left">
           <router-link to="/home" class="l-logo">
-            <img src="./images/logo.gif" />
+            <img src="../../../static/data/images/logo.gif" />
             <div>
               <p>IT行业</p>
               <p>找工作</p>
             </div>
           </router-link>
-          <ul>
-            <li>
-              <i class="el-icon-lollipop"></i>
-              <p>任性选</p>
-              <p>各大行业任你选</p>
-            </li>
-          </ul>
+           <!-- 左侧列单显示 -->
+          <router-view></router-view>
         </div>
         <div class="login-right">
-          <!-- :default-active="activeIndex"                   -->
+          <!-- :default-active="activeIndex" --><!--点击切换标识符来识别登录方法-->
           <el-menu class="el-menu-demo login-menu" :default-active="activeIndex" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="1" class="on">求职者登录</el-menu-item><!--点击切换标识符来识别登录方法-->
-            <el-menu-item index="2">BOSS登录</el-menu-item>
-            <el-menu-item index="3">管理员登录</el-menu-item>
+            <router-link to="reglogtab1"><el-menu-item index="1" class="on">求职者登录</el-menu-item></router-link>
+            <router-link to="reglogtab2"><el-menu-item index="2">BOSS登录</el-menu-item></router-link>
+            <!-- <el-menu-item index="3">管理员登录</el-menu-item> -->
           </el-menu>
 
           <div class="l-r-inner">
@@ -64,12 +36,12 @@
                 <el-input type="password" v-model="loginForm.pass" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button width="400px" type="info" @click="submitForm('ruleForm')">登 录</el-button>
+                <el-button width="400px" style="background-color:black;color:white" @click="submitForm('ruleForm')">登 录</el-button>
               </el-form-item>
             </el-form>
             <p class="login-r">
               没有账号
-              <router-link to="/regist">
+              <router-link to="/regist" style="color:red">
               立即注册
               </router-link>
             </p>
@@ -82,10 +54,10 @@
 
 <script>
 export default {
-
   data() {
     return {
       activeIndex: '1',
+      flag:'1',
       loginForm: {
         user: "",
         pass: ""
@@ -98,14 +70,35 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+      this.flag = key
+      console.log(this.flag,key, keyPath);
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          // alert(this.flag);
+          if(this.flag=='1'){
+            this.$axios.post("/login",{username:this.loginForm.user,password:this.loginForm.pass})
+            .then(res => {
+              this.$router.replace('/home')
+            })
+            .catch(err => {
+              alert("登录失败")
+            });
+          
+          }else if(this.flag=='2'){
+            this.$axios.post("/login",{username:this.loginForm.user,password:this.loginForm.pass})
+            .then(res => {
+              this.$router.replace('/candidates')
+            })
+            .catch(err => {
+              alert("登录失败")
+            });
+            
+          }
+
         } else {
-          console.log("error submit!!");
+          console.log("账户与密码不符合，请重新输入");
           return false;
         }
       });
@@ -116,7 +109,10 @@ export default {
 
 <style scoped>
 .login-body {
-  background-color: #000;
+  width: 100%;
+  height: 100%;
+  background: url('../../../static/data/images/loginbg.jpg') no-repeat;
+  background-size: cover;
 }
 .login {
   position: absolute;
@@ -127,6 +123,7 @@ export default {
   transform: translate(-50%, -50%);
   border-radius: 10px;
   border: 1px dotted black;
+  box-shadow: -7px -6px 100px white;
 }
 .login-title {
   align-content: center;
@@ -138,8 +135,8 @@ export default {
   height: 500px;
   color: #000;
   border-radius: 10px 0 0 10px;
-    background-color: #b7bed1;
   box-sizing: border-box;
+  background-color: #fff;
 
 }
 
@@ -194,6 +191,7 @@ export default {
   width: 500px;
   height: 500px;
   color: #000;
+  background-color: #fff;
   border-radius: 0px 10px 10px 0;
   box-sizing: border-box;
 }
@@ -206,9 +204,20 @@ export default {
   box-sizing: border-box;
 }
 .login-menu .el-menu-item {
-  margin: 0 15px;
+  /*加上管理员登录后的样式 
+  margin: 0 15px; 
+  line-height: 60px;
+  font-size: 18px;*/
+  padding: 0 76px;
+  float: left;
+  color: #909399;
   line-height: 60px;
   font-size: 18px;
+  box-sizing: inherit;
+  border-bottom: 2px solid red ;
+}
+.login-menu .el-menu-item.is-active {
+    color: black;
 }
 .l-r-inner {
   position: relative;

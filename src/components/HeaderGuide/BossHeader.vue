@@ -16,13 +16,13 @@
             <div class="main-menu multi-page-menu text-white">
               <ul>            
                 <li>
-                  <router-link to="/candidates">人才信息</router-link>
+                  <router-link to="/candidates" :class="[isCurrent('/candidates') ? 'activeClass':'']">人才信息</router-link>
                 </li>
                 <li>
-                  <router-link to="/posting">发布职位</router-link>
+                  <router-link to="/posting" :class="[isCurrent('/posting') ? 'activeClass':'']">发布职位</router-link>
                 </li>               
                 <li>
-                  <router-link to="/bosscenter">BOSS中心</router-link>
+                  <router-link to="/bosscenter" :class="[isCurrent('/bosscenter') ? 'activeClass':'']">BOSS中心</router-link>
                 </li>
               </ul>
             </div>
@@ -46,10 +46,23 @@
 </template>
 
 <script>
-export default {};
+export default {
+   methods:{
+    isCurrent(path){
+      console.log(this.$route.path === path)
+      return (this.$route.path === path || this.$route.meta.parentPath === path)
+    }
+  }
+};
 </script>
 
 <style>
+.activeClass{
+  color: rgb(255, 4, 4) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  text-shadow: 0px 0px 80px #fff,0px 0px 72px #fff,0px 0px 150px #fff !important;
+}
 .header-section {
   position: relative;
   

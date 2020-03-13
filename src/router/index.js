@@ -15,9 +15,9 @@ import Joblist from '../pages/Job/joblist.vue'
 //PersonalCenter子路由
 import Mybase from '../components/PersonalCenterList/Mybase.vue'
 import Changepassword from '../components/PersonalCenterList/Changepassword.vue'
-//RegistTab子路由
-import RegistTab1 from '../components/RegistTab/RegistTab1.vue'
-import RegistTab2 from '../components/RegistTab/RegistTab2'
+//RegistLoginTab子路由
+import RegLogTab1 from '../components/RegistLoginTab/RegLogTab1.vue'
+import RegLogTab2 from '../components/RegistLoginTab/RegLogTab2'
 //Boss路由
 import BossCenter from '../pages/Boss/bosscenter.vue'
 import Candidates from '../pages/Boss/candidates.vue'
@@ -44,6 +44,7 @@ import Inappropriate from '../components/BossCenter/InappropriateResume.vue' //�
 Vue.use(VueRouter)
 
 export default new VueRouter({
+    mode: 'history',
     //所有路由
     routes: [
         {
@@ -99,8 +100,10 @@ export default new VueRouter({
                     path: '/',
                     redirect: 'mybase'  ,
                     meta: {
+                        keepAlive:true,
                         showHeaderGuide: true,
                         showFooter: true,
+                        parentPath: '/personalcenter',
                     },
                 },
                 {
@@ -108,8 +111,10 @@ export default new VueRouter({
                     name: 'mybase',
                     component: Mybase,
                     meta: {
+                        keepAlive:true,
                         showHeaderGuide: true,
                         showFooter: true,
+                        parentPath: '/personalcenter',
                     },
                 },
                 {
@@ -117,8 +122,10 @@ export default new VueRouter({
                     name: 'changepass',
                     component: Changepassword,
                     meta: {
+                        keepAlive:true,
                         showHeaderGuide: true,
                         showFooter: true,
+                        parentPath: '/personalcenter',
                     },
                 },
             ],
@@ -136,6 +143,21 @@ export default new VueRouter({
             path: '/login',
             name: '/login',
             component: Login,
+            children: [
+                {
+                    path: '/',
+                    redirect: 'reglogtab1'
+                },
+                {
+                    path: 'reglogtab1',
+                    component: RegLogTab1,
+                },
+                {
+                    path: 'reglogtab2',
+                    component: RegLogTab2,
+                },
+            ],
+        
         },
         {
             path: '/regist',
@@ -144,15 +166,15 @@ export default new VueRouter({
             children: [
                 {
                     path: '/',
-                    redirect: 'registtab1'
+                    redirect: 'reglogtab1'
                 },
                 {
-                    path: 'registtab1',
-                    component: RegistTab1,
+                    path: 'reglogtab1',
+                    component: RegLogTab1,
                 },
                 {
-                    path: 'registtab2',
-                    component: RegistTab2,
+                    path: 'reglogtab2',
+                    component: RegLogTab2,
                 },
             ],
         },
@@ -174,8 +196,10 @@ export default new VueRouter({
                     name: 'bossbase',
                     component: BossBase,
                     meta: {
+                        keepAlive:true,
                         showBossHeader: true,
                         showFooter: true,
+                        parentPath: '/bosscenter',
                     }, 
                 },
                 {
@@ -183,8 +207,10 @@ export default new VueRouter({
                     name: 'bosschangepass',
                     component: BossChangePass,
                     meta: {
+                        keepAlive:true,
                         showBossHeader: true,
                         showFooter: true,
+                        parentPath: '/bosscenter',
                     }, 
                 },
                 {
@@ -192,8 +218,10 @@ export default new VueRouter({
                     name: 'unprocessed',
                     component: Unprocessed,
                     meta: {
+                        keepAlive:true,
                         showBossHeader: true,
                         showFooter: true,
+                        parentPath: '/bosscenter',
                     }, 
                 },
                 {
@@ -201,8 +229,10 @@ export default new VueRouter({
                     name: 'notifyinterview',
                     component: NotifyInterview,
                     meta: {
+                        keepAlive:true,
                         showBossHeader: true,
                         showFooter: true,
+                        parentPath: '/bosscenter',
                     }, 
                 },
                 {
@@ -210,8 +240,10 @@ export default new VueRouter({
                     name: 'inappropriate',
                     component: Inappropriate,
                     meta: {
+                        keepAlive:true,
                         showBossHeader: true,
                         showFooter: true,
+                        parentPath: '/bosscenter',
                     }, 
                 },
                 
@@ -249,8 +281,10 @@ export default new VueRouter({
                     path: '/',
                     redirect: 'postjob',
                     meta: {
+                        keepAlive:true,
                         showBossHeader:true,
                         showFooter: true,
+                        parentPath: '/posting',
                     },
                 },
                 {
@@ -258,8 +292,10 @@ export default new VueRouter({
                     name: 'postjob',
                     component: PostJob,
                     meta: {
+                        keepAlive:true,
                         showBossHeader:true,
                         showFooter: true,
+                        parentPath: '/posting',
                     },
                 },
                 {
@@ -267,8 +303,10 @@ export default new VueRouter({
                     name: 'effectivejob',
                     component: EffectiveJob,
                     meta: {
+                        keepAlive:true,
                         showBossHeader:true,
                         showFooter: true,
+                        parentPath: '/posting',
                     },
                 },
                 {
@@ -276,8 +314,10 @@ export default new VueRouter({
                     name: 'offlinejob',
                     component: OfflineJob,
                     meta: {
+                        keepAlive:true,
                         showBossHeader:true,
                         showFooter: true,
+                        parentPath: '/posting',
                     },
                 },
             ],

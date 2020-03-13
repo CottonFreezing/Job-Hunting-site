@@ -200,10 +200,10 @@ export default {
 .p-t-l {
   float: left;
   width: 0;
-  border-top: 25px solid rgba(0, 0, 0, 0.541);
+  border-top: 25px solid rgb(252, 70, 70);
   border-left: 25px solid transparent;
-  border-bottom: 25px solid rgba(0, 0, 0, 0.541);
-  border-right: 25px solid rgba(0, 0, 0, 0.541);
+  border-bottom: 25px solid rgb(252, 70, 70);
+  border-right: 25px solid rgb(252, 70, 70);
 }
 .p-t-r {
   float: left;
@@ -211,10 +211,10 @@ export default {
   height: 0px;
   /* border-bottom-right-radius: 50%;
   border-top-right-radius: 50%; */
-  border-top: 25px solid rgba(0, 0, 0, 0.541);
+  border-top: 25px solid rgb(252, 70, 70);
   border-right: 25px solid transparent;
-  border-bottom: 25px solid rgba(0, 0, 0, 0.541);
-  border-left: 25px solid rgba(0, 0, 0, 0.541);
+  border-bottom: 25px solid rgb(252, 70, 70);
+  border-left: 25px solid rgb(252, 70, 70);
   /* background-color:rgba(0, 0, 0, 0.541);  */
 }
 .p-t-c {
@@ -225,6 +225,6 @@ export default {
   text-align: center;
   font-size: 34px;
   color: white;
-  background-color: rgba(0, 0, 0, 0.541);
+  background-color: rgb(252, 70, 70);
 }
 </style>

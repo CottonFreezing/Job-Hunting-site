@@ -7,7 +7,7 @@
         <div class="header-border">
           <!--Logo-->
           <div class="float-left">
-            <router-link to="/home" class="header-logo">
+            <router-link to="/home" class="header-logo" >
               <font color="white" face="楷体" size="6">IT精英招聘网</font>
             </router-link>
           </div>
@@ -16,19 +16,19 @@
             <div class="main-menu multi-page-menu text-white">
               <ul>
                 <li>
-                  <router-link to="/home">首页</router-link>
+                  <router-link to="/home" :class="[isCurrent('/home') ? 'activeClass':'']">首页</router-link>
                 </li>
                 <li>
-                  <router-link to="/job">职位信息</router-link>
+                  <router-link to="/job" :class="[isCurrent('/job') ? 'activeClass':'']">职位信息</router-link>
                 </li>
                 <li>
-                  <router-link to="/company">公司信息</router-link>
+                  <router-link to="/company" :class="[isCurrent('/company') ? 'activeClass':'']">公司信息</router-link>
                 </li>
                 <li>
-                  <router-link to="/resumes">上传简历</router-link>
+                  <router-link to="/resumes" :class="[isCurrent('/resumes') ? 'activeClass':'']">上传简历</router-link>
                 </li>
                 <li>
-                  <router-link to="/personalcenter">个人中心</router-link>
+                  <router-link to="/personalcenter" :class="[isCurrent('/personalcenter') ? 'activeClass':'']">个人中心</router-link>
                 </li>
               </ul>
             </div>
@@ -52,10 +52,23 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods:{
+    isCurrent(path){
+      console.log(this.$route.meta.parentPath === path)
+      return (this.$route.path === path || this.$route.meta.parentPath === path)
+    }
+  }
+};
 </script>
 
 <style>
+.activeClass{
+  color: rgb(255, 4, 4) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  text-shadow: 0px 0px 80px #fff,0px 0px 72px #fff,0px 0px 150px #fff !important;
+}
 .header-section {
   position: relative;
   
@@ -140,7 +153,7 @@ export default {};
 .main-menu.text-white > ul > li > a {
   color: #ffffff;
 }
-.main-menu > ul > li.active > a,
+.main-menu > ul > li:active > a,
 .main-menu > ul > li:hover > a {
   color: #a2c4eb;
 }

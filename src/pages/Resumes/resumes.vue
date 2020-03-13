@@ -78,11 +78,18 @@
               <el-form-item label="期望职位：" prop="desiredjob" required>
                 <el-col :span="11">
                 <el-select v-model="ruleForm.desiredjob" placeholder="请选择期望职位">
-                  <el-option label="后 端" value="d-back"></el-option>
-                  <el-option label="移 动" value="d-mobile"></el-option>
-                  <el-option label="前 端" value="d-front"></el-option>
+                  <el-option label="后端开发" value="d-back"></el-option>
+                  <el-option label="移动开发" value="d-mobile"></el-option>
+                  <el-option label="前端开发" value="d-front"></el-option>
                   <el-option label="测 试" value="d-test"></el-option>
                   <el-option label="运维/技术支持" value="d-operation"></el-option>
+                  <el-option label="项目" value="d-project"></el-option>
+                  <el-option label="硬件开发" value="d-hardware"></el-option>
+                  <el-option label="通 信" value="d-communication"></el-option>
+                  <el-option label="人工智能" value="d-AI"></el-option>
+                  <el-option label="高端技术职位" value="d-HETPosition"></el-option>
+                  <el-option label="销售技术支持" value="d-tel-support"></el-option>
+                  <el-option label="电子/半导体" value="d-electron"></el-option>
                   <el-option label="数 据" value="d-database"></el-option>
                 </el-select>
                 </el-col>

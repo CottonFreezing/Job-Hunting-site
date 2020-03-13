@@ -13,6 +13,7 @@ import axios from 'axios'
 
 
 
+
 Vue.use(ElementUI, { size: 'medium', zIndex: 3000 })
 Vue.prototype.$axios = axios
 

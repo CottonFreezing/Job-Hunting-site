@@ -4,7 +4,7 @@
       <div class="regist">
         <div class="regist-left">
           <router-link to="/home" class="r-logo">
-            <img src="./images/logo.gif" />
+            <img src="../../../static/data/images/logo.gif" />
             <div>
               <p>IT行业</p>
               <p>找工作</p>
@@ -15,8 +15,8 @@
         </div>
         <div class="regist-right">      
           <el-menu class="el-menu-demo regist-menu" :default-active="activeIndex" mode="horizontal" @select="handleSelect">
-           <router-link to="registtab1"> <el-menu-item index="1" >求职者注册</el-menu-item></router-link>
-           <router-link to="registtab2"> <el-menu-item index="2" >boss注册</el-menu-item></router-link>
+            <router-link to="reglogtab1"><el-menu-item index="1" >求职者注册</el-menu-item></router-link>
+           <router-link to="reglogtab2"> <el-menu-item index="2" >boss注册</el-menu-item></router-link>
           </el-menu>
 
           <div class="r-r-inner">
@@ -32,24 +32,20 @@
               <el-form-item label="账 号：" prop="user" required>
                 <el-input v-model="registForm.user"></el-input>
               </el-form-item>
-              <el-form-item label="密码" prop="pass">
+              <el-form-item label="密码" prop="pass" required>
                 <el-input type="password" v-model="registForm.pass" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="确认密码" prop="checkPass">
+              <el-form-item label="确认密码" prop="checkPass" required>
                 <el-input type="password" v-model="registForm.checkPass" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button width="400px" type="info" @click="submitForm('registForm')">登 录</el-button>
+                <el-button width="400px" style="background-color:black;color:white" @click="submitForm('registForm')">登 录</el-button>
               </el-form-item>
             </div>
-
-
-            </el-form>
-          
-
+            </el-form>        
             <p class="regist-r">
               已有账号
-              <router-link to="/login">立即登录</router-link>
+              <router-link to="/login" style="color:red">立即登录</router-link>
             </p>
           </div>
         </div>
@@ -82,26 +78,32 @@ export default {
     };
     return {
       activeIndex: "1",
+      flag:'1',
       registForm: {
         user: "",
         pass: "",
         checkPass: ""
       },
       rules: {
-        user: [{ required: true, message: "请输入账户", trigger: "blur" }],
-        pass: [{ validator: validatePass, trigger: "blur" }],
-        checkPass: [{ validator: validatePass2, trigger: "blur" }]
+        user: [{ required: true, message: "请输入账户", trigger: "blur" },],
+        pass: [{ required: true, validator: validatePass, trigger: "blur" }],
+        checkPass: [{required: true,validator: validatePass2, trigger: "blur" }]
       }
     };
   },
   methods: {
     handleSelect(key, keyPath) {
+      this.flag = key;
       console.log(key, keyPath);
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          if(this.flag=='1'){
+          this.$router.replace('/home')
+          }else if(this.flag=='2'){
+            this.$router.replace('/candidates')
+          }
         } else {
           console.log("error submit!!");
           return false;
@@ -114,7 +116,10 @@ export default {
 
 <style scoped>
 .regist-body {
-  background-color: #000 ;
+ width: 100%;
+  height: 100%;
+  background: url('../../../static/data/images/loginbg.jpg') no-repeat;
+  background-size: cover;
 }
 .regist {
   position: absolute;
@@ -125,6 +130,7 @@ export default {
   transform: translate(-50%, -50%);
   border-radius: 10px;
   border: 1px dotted black;
+  box-shadow: -7px -6px 100px white;
 }
 .regist-title {
   align-content: center;
@@ -136,7 +142,7 @@ export default {
   height: 500px;
   color: #000;
   border-radius: 10px 0 0 10px;
-  background-color: #b7bed1;
+  background-color: #fff;
   box-sizing: border-box;
 }
 
@@ -192,6 +198,7 @@ export default {
   height: 500px;
   color: #000;
   border-radius: 0px 10px 10px 0;
+  background-color: #fff;
   box-sizing: border-box;
 }
 .regist-menu {
@@ -205,8 +212,14 @@ export default {
 .regist-menu .el-menu-item {
   padding: 0 78px;
   float: left;
+  color: #909399;
   line-height: 60px;
   font-size: 18px;
+  box-sizing: inherit;
+  border-bottom: 2px solid red ;
+}
+.regist-menu .el-menu-item.is-active {
+    color: black;
 }
 .r-r-inner {
   position: relative;

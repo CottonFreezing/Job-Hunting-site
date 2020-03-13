@@ -4,18 +4,18 @@
           <el-form :model="changeForm"
               status-icon
               :rules="rules"
-              ref="registForm"
+              ref="changeForm"
               label-width="100px"
               class="mychangeForm"
               size="medium">
-            <el-form-item label="原密码" prop="pass">
+            <el-form-item label="原密码" prop="pass" required>
+                <el-input type="password" v-model="changeForm.originalPass" autocomplete="off"></el-input>
+              </el-form-item>
+            <el-form-item label="新密码" prop="newPass" required> 
                 <el-input type="password" v-model="changeForm.pass" autocomplete="off"></el-input>
               </el-form-item>
-            <el-form-item label="新密码" prop="newPass">
-                <el-input type="password" v-model="changeForm.newPass" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="确认新密码" prop="checkNewPass">
-                <el-input type="password" v-model="changeForm.checkNewPass" autocomplete="off"></el-input>
+              <el-form-item label="确认新密码" prop="checkNewPass" required>
+                <el-input type="password" v-model="changeForm.checkPass" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item>
                 <el-button type="info" @click="submitForm('changeForm')">修 改</el-button>
@@ -27,35 +27,35 @@
 <script>
 export default {
      data() {
-    var validateNewPass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      } else {
-        if (this.ruleForm.checkNewPass !== "") {
-          this.$refs.changeForm.validateField("checkNewPass");
+    var validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+          if (this.ruleForm.checkPass !== '') {
+            this.$refs.ruleForm.validateField('checkPass');
+          }
+          callback();
         }
-        callback();
-      }
-    };
-    var validateNewPass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.changeForm.newPass) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
+      };
+      var validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.ruleForm.pass) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
     return {
        changeForm: {
-        pass: "",
-        newPass: "",
-        checkPass: ""
+        originalPass:'',
+        pass: '',
+        checkPass: '',
       },
       rules: {
-        pass: [{ required: true, message: "请输入原来密码", trigger: "blur" }],
-        newPass: [{ validator: validateNewPass, trigger: "blur" }],
-        checkNewPass: [{ validator: validateNewPass2, trigger: "blur" }]
+        originalPass: [{ required: true, message: "请输入原来密码", trigger: "blur" }],
+        pass: [{ required: true,validator: validatePass, trigger: "blur" }],
+        checkPass: [{ required: true,validator: validatePass2, trigger: "blur" }]
       }
     };
   },

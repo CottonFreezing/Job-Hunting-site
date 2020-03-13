@@ -35,317 +35,195 @@
         <!-- 导航栏 -->
         <div class="job-info">
           <ul>
-            <!-- 工作地点 -->
-            <li class="job-place">
-              <span>公司地点：</span>
-              <span>
-                <a href="javascript:;">全国</a>
-              </span>
-              <span>
-                <a href="javascript:;">北京</a>
-              </span>
-              <span>
-                <a href="javascript:;">上海</a>
-              </span>
-              <span>
-                <a href="javascript:;">杭州</a>
-              </span>
-              <span>
-                <a href="javascript:;">广州</a>
-              </span>
-              <span>
-                <a href="javascript:;">深圳</a>
-              </span>
-              <span>
-                <a href="javascript:;">南京</a>
-              </span>
-              <span>
-                <a href="javascript:;">天津</a>
-              </span>
-              <span>
-                <a href="javascript:;">重庆</a>
-              </span>
-              <span>
-                <a href="javascript:;">长沙</a>
-              </span>
-              <el-popover placement="bottom" width="550" trigger="hover">
-                <div class="more">
-                  <p>ABCDEF</p>
-                  <p>
-                    <span>
-                      <a href="javascript:;">北京</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">长春</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">成都</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">重庆</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">长沙</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">常州</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">东莞</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">大连</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">佛山</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">福州</a>
-                    </span>
-                  </p>
-
-                  <p>GHIJ</p>
-                  <p>
-                    <span>
-                      <a href="javascript:;">贵阳</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">广州</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">哈尔滨</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">合肥</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">海口</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">杭州</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">惠州</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">金华</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">济南</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">嘉兴</a>
-                    </span>
-                  </p>
-
-                  <p>KLMN</p>
-                  <p>
-                    <span>
-                      <a href="javascript:;">昆明</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">廊坊</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">宁波</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">南昌</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">南京</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">南宁</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">南通</a>
-                    </span>
-                  </p>
-
-                  <p>OPQR</p>
-                  <p>
-                    <span>
-                      <a href="javascript:;">青岛</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">泉州</a>
-                    </span>
-                  </p>
-
-                  <p>STUV</p>
-                  <p>
-                    <span>
-                      <a href="javascript:;">上海</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">石家庄</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">绍兴</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">沈阳</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">深圳</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">苏州</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">天津</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">太原</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">台州</a>
-                    </span>
-                  </p>
-
-                  <p>WXYZ</p>
-                  <p>
-                    <span>
-                      <a href="javascript:;">武汉</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">无锡</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">温州</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">西安</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">厦门</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">烟台</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">珠海</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">中山</a>
-                    </span>
-                    <span>
-                      <a href="javascript:;">郑州</a>
-                    </span>
-                  </p>
-                </div>
-                <span></span>
-                <span slot="reference">
-                  <a href="javascript:;">其他</a>
-                  <a href="javascript:;" class="triangle" @click="flag=ture"></a>
+            <li v-for="a in info" :key="a.id">
+              <div class="info-title">{{a.value}}：</div>
+              <div class="into-select">
+              <div v-for="b in a.box" :key="b.id">
+                <span
+                  @click="stylechange(a.id, b.name_id)"
+                  :class="[active_id[a.id]==b.name_id ? 'addClass':'']"
+                >
+                  <a>{{b.value}}</a>
                 </span>
-              </el-popover>
+                </div>
+                <div v-if="(!a.id)">
+                  <el-popover placement="bottom" width="550" trigger="hover">
+                    <div class="more">
+                      <p>ABCDEF</p>
+                      <p>
+                        <span>
+                          <a href="javascript:;">北京</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">长春</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">成都</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">重庆</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">长沙</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">常州</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">东莞</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">大连</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">佛山</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">福州</a>
+                        </span>
+                      </p>
+
+                      <p>GHIJ</p>
+                      <p>
+                        <span>
+                          <a href="javascript:;">贵阳</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">广州</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">哈尔滨</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">合肥</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">海口</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">杭州</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">惠州</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">金华</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">济南</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">嘉兴</a>
+                        </span>
+                      </p>
+
+                      <p>KLMN</p>
+                      <p>
+                        <span>
+                          <a href="javascript:;">昆明</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">廊坊</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">宁波</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">南昌</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">南京</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">南宁</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">南通</a>
+                        </span>
+                      </p>
+
+                      <p>OPQR</p>
+                      <p>
+                        <span>
+                          <a href="javascript:;">青岛</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">泉州</a>
+                        </span>
+                      </p>
+
+                      <p>STUV</p>
+                      <p>
+                        <span>
+                          <a href="javascript:;">上海</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">石家庄</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">绍兴</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">沈阳</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">深圳</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">苏州</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">天津</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">太原</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">台州</a>
+                        </span>
+                      </p>
+
+                      <p>WXYZ</p>
+                      <p>
+                        <span>
+                          <a href="javascript:;">武汉</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">无锡</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">温州</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">西安</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">厦门</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">烟台</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">珠海</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">中山</a>
+                        </span>
+                        <span>
+                          <a href="javascript:;">郑州</a>
+                        </span>
+                      </p>
+                    </div>
+                    
+                    <div slot="reference"  @click="flag=ture">
+                      <a href="javascript:;">其他<i class="el-icon-caret-bottom"></i></a>
+                    </div>
+                  </el-popover>
+                </div>
+              </div>
+              
             </li>
-            <!-- 工作经验 -->
-            <li>
-              <span>工作经验：</span>
-              <span>
-                <a href="javascript:;">不限</a>
-              </span>
-              <span>
-                <a href="javascript:;">实习生</a>
-              </span>
-              <span>
-                <a href="javascript:;">应届毕业生</a>
-              </span>
-              <span>
-                <a href="javascript:;">三年及以下</a>
-              </span>
-              <span>
-                <a href="javascript:;">3-5年</a>
-              </span>
-              <span>
-                <a href="javascript:;">5-10年</a>
-              </span>
-              <span>
-                <a href="javascript:;">10年以上</a>
-              </span>
-            </li>
-            <!-- 学历要求 -->
-            <li>
-              <span>学历要求：</span>
-              <span>
-                <a href="javascript:;">不限</a>
-              </span>
-              <span>
-                <a href="javascript:;">高中及以下</a>
-              </span>
-              <span>
-                <a href="javascript:;">大专</a>
-              </span>
-              <span>
-                <a href="javascript:;">本科</a>
-              </span>
-              <span>
-                <a href="javascript:;">硕士</a>
-              </span>
-              <span>
-                <a href="javascript:;">博士</a>
-              </span>
-            </li>
-            <!-- 融资阶段 -->
-            <li>
-              <span>融资阶段：</span>
-              <span>
-                <a href="javascript:;">不限</a>
-              </span>
-              <span>
-                <a href="javascript:;">未融资</a>
-              </span>
-              <span>
-                <a href="javascript:;">天使轮</a>
-              </span>
-              <span>
-                <a href="javascript:;">A轮</a>
-              </span>
-              <span>
-                <a href="javascript:;">B轮</a>
-              </span>
-              <span>
-                <a href="javascript:;">C轮</a>
-              </span>
-              <span>
-                <a href="javascript:;">D轮及以上</a>
-              </span>
-              <span>
-                <a href="javascript:;">已上市</a>
-              </span>
-              <span>
-                <a href="javascript:;">不需要融资</a>
-              </span>
-            </li>
-            <!-- 公司规模 -->
-            <li>
-              <span>公司规模：</span>
-              <span>
-                <a href="javascript:;">不限</a>
-              </span>
-              <span>
-                <a href="javascript:;">0-20人</a>
-              </span>
-              <span>
-                <a href="javascript:;">20-99人</a>
-              </span>
-              <span>
-                <a href="javascript:;">100-499人</a>
-              </span>
-              <span>
-                <a href="javascript:;">500-999人</a>
-              </span>
-              <span>
-                <a href="javascript:;">1000-9999人</a>
-              </span>
-              <span>
-                <a href="javascript:;">10000以上</a>
-              </span>
-            </li>
-          </ul>
+            </ul>
         </div>
         <!-- 工作列表 -->
         <el-card class="job-card" shadow="always">
@@ -399,7 +277,7 @@
           layout="prev, pager, next"
           :total="jobBox.length"
           v-model="jobBox"
-          ></el-pagination>
+        ></el-pagination>
       </el-footer>
     </el-container>
   </div>
@@ -413,7 +291,239 @@ export default {
       companyBox: [],
       pageSize: 6, //每页的数据
       currentPage: 1, //初始页
-      pageNo:1, //当前页数
+      pageNo: 1, //当前页数
+
+      info: [
+        {
+          id: 0,
+          value: "公司地点",
+          box: [
+            {
+              id: 0,
+              name_id: "placeAll",
+              value: "全国"
+            },
+            {
+              id: 1,
+              name_id: "beijing",
+              value: "北京"
+            },
+            {
+              id: 2,
+              name_id: "shanghai",
+              value: "上海"
+            },
+            {
+              id: 3,
+              name_id: "hangzhou",
+              value: "杭州"
+            },
+            {
+              id: 4,
+              name_id: "guangdong",
+              value: "广东"
+            },
+            {
+              id: 5,
+              name_id: "shenzheng",
+              value: "深圳"
+            },
+            {
+              id: 6,
+              name_id: "nanjing",
+              value: "南京"
+            },
+            {
+              id: 7,
+              name_id: "tianjing",
+              value: "天津"
+            },
+            {
+              id: 8,
+              name_id: "chongqing",
+              value: "重庆"
+            },
+            {
+              id: 9,
+              name_id: "changsha",
+              value: "长沙"
+            }
+          ]
+        },
+        {
+          id: 1,
+          value: "工作经验",
+          box: [
+            {
+              id: 0,
+              name_id: "workNone",
+              value: "不限"
+            },
+            {
+              id: 1,
+              name_id: "workIntern",
+              value: "实习生"
+            },
+            {
+              id: 2,
+              name_id: "workFG",
+              value: "应届毕业生"
+            },
+            {
+              id: 3,
+              name_id: "workOne",
+              value: "3年以下"
+            },
+            {
+              id: 4,
+              name_id: "workThree",
+              value: "3-5年"
+            },
+            {
+              id: 5,
+              name_id: "workFive",
+              value: "5-10年"
+            },
+            {
+              id: 6,
+              name_id: "workTen",
+              value: "10年以上"
+            }
+          ]
+        },
+        {
+          id: 2,
+          value: "学历要求",
+          box: [
+            {
+              id: 0,
+              value: "不限",
+              name_id: "acaNone"
+            },
+            {
+              id: 1,
+              value: "高中及以下",
+              name_id: "acaHeigh"
+            },
+            {
+              id: 2,
+              value: "大专",
+              name_id: "acaJunior"
+            },
+            {
+              id: 3,
+              value: "本科",
+              name_id: "acaCollege"
+            },
+            {
+              id: 4,
+              value: "硕士",
+              name_id: "acaMaster"
+            },
+            {
+              id: 5,
+              value: "博士",
+              name_id: "acaDoctor"
+            }
+          ]
+        },
+       
+         {
+          id: 3,
+          value: "融资阶段",
+          box: [
+            {
+              id: 0,
+              value: "不限",
+              name_id: "stageNone"
+            },
+            {
+              id: 1,
+              value: "未融资",
+              name_id: "stageNo"
+            },
+            {
+              id: 2,
+              value: "天使轮",
+              name_id: "stageAngel"
+            },
+            {
+              id: 3,
+              value: "A轮",
+              name_id: "stageA"
+            },
+            {
+              id: 4,
+              value: "B轮",
+              name_id: "stageB"
+            },
+            {
+              id: 5,
+              value: "C轮",
+              name_id: "stageC"
+            },
+            {
+              id: 6,
+              value: "D轮及以上",
+              name_id: "stageD"
+            },
+            {
+              id: 7,
+              value: "已上市",
+              name_id: "stageOn"
+            },
+            {
+              id: 8,
+              value: "不需要融资",
+              name_id: "stageNoNeed"
+            }
+
+          ]
+        },
+         {
+          id: 4,
+          value: "公司规模",
+          box: [
+            {
+              id: 0,
+              value: "不限",
+              name_id: "scaleNone"
+            },
+            {
+              id: 1,
+              value: "0-20人",
+              name_id: "scale20"
+            },
+            {
+              id: 2,
+              value: "20-99人",
+              name_id: "scale99"
+            },
+            {
+              id: 3,
+              value: "100-499人",
+              name_id: "scale499"
+            },
+            {
+              id: 4,
+              value: "500-999人",
+              name_id: "scale999"
+            },
+            {
+              id: 5,
+              value: "1000-9999人",
+              name_id: "scale9999"
+            },
+            {
+              id: 6,
+              value: "10000人",
+              name_id: "scale10000"
+            }
+          ]
+        },
+      ],
+
+      active_id: ["placeAll", "workNone", "acaNone","stageNone","scaleNone"],
 
 
       flag: false,
@@ -462,22 +572,31 @@ export default {
         }, 200);
       } else {
         this.options = [];
-      }    
+      }
     },
-     handleSizeChange(size){
+    handleSizeChange(size) {
       this.pageSize = size;
-            console.log(size+"****");
+      console.log(size + "****");
     },
     handleCurrentChange(currentPage) {
       //点击页面项 的函数响应
       this.currentPage = currentPage;
-      console.log(this.currentPage)
+      console.log(this.currentPage);
+    },
+
+    stylechange(a, b) {     
+      this.active_id.splice(a,1,b)
+      console.log(a,this.active_id);
     }
   }
 };
 </script>
 
 <style>
+.addClass {
+  background-color: red;
+  color:white !important;
+}
 .job-session {
   position: relative;
 }
@@ -486,21 +605,36 @@ export default {
   padding: 10px 10px 10px 20px;
 }
 .job-info ul li {
+  position: relative;
   margin: 20px 14px;
+  overflow: hidden;
 }
-.job-palce {
-  position: absolute;
+.job-info .info-title{
+  float: left;
+  color: #555;
+  font-weight: 600;
+  margin: 2px 7px;
+  padding: 2px;
+}
+/* .job-info div {
+  display: inline-block; 
+} */
+.job-info .info-select{
+  width: 940px;
 }
 .job-info span {
-  margin: 0 7px;
+  float: left;
+  margin: 1px 7px;
+  padding: 2px;
 }
+
 /* 下拉地区 */
 .more p {
   margin: 7px;
 }
 .more p span {
   margin: 0 7px;
-  font-size: 16px;
+  font-size: 14px;
   color: #333;
 }
 /* 搜索栏 */
@@ -522,6 +656,7 @@ export default {
   height: 820px;
   overflow: hidden;
   padding-bottom: 20px;
+  margin-top: 10px;
   display: inline-block;
   background-color: #fafafa9f;
 }

@@ -48,7 +48,6 @@ export default {
 /* 左侧栏 */
 .posting-aside {
   margin: 20px 10px 10px 30px;
-  background-color: rgb(214, 211, 211);
 }
 .posting-button {
   margin: 50px 35px 30px;
