@@ -4,31 +4,15 @@
       <!-- 搜索栏 -->
       <el-header height="70px">
         <div class="search">
-          <form action>
-            <el-select
-              v-model="value"
-              multiple
-              filterable
-              remote
-              reserve-keyword
-              placeholder="请输入关键词"
-              :remote-method="remoteMethod"
-              :loading="loading"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+          <el-input placeholder="请输入内容" v-model="keyword" class="input-with-select">
             <el-button
               type="info"
               icon="el-icon-search"
               size="medium"
-              style="background-color:black"
+              slot="append"
+              @click="jobSearch"
             >搜索</el-button>
-          </form>
+          </el-input>
         </div>
       </el-header>
       <el-main>
@@ -38,14 +22,14 @@
             <li v-for="a in info" :key="a.id">
               <div class="info-title">{{a.value}}：</div>
               <div class="info-select">
-              <div v-for="b in a.box" :key="b.id">
-                <span
-                  @click="stylechange(a.id, b.name_id)"
-                  :class="[active_id[a.id]==b.name_id ? 'addClass':'']"
-                >
-                  <a>{{b.value}}</a>
-                </span>
-                <!-- <span v-if="(!a.id&&b.id==9)">
+                <div v-for="b in a.box" :key="b.id">
+                  <span
+                    @click="stylechange(a.id, b.name_id)"
+                    :class="[active_id[a.id]==b.name_id ? 'addClass':'']"
+                  >
+                    <a>{{b.value}}</a>
+                  </span>
+                  <!-- <span v-if="(!a.id&&b.id==9)">
                   <el-popover placement="bottom" width="550" trigger="hover">
                     <div class="more">
                       <p>ABCDEF</p>
@@ -219,46 +203,54 @@
                       <a href="javascript:;" class="triangle" @click="flag=ture"></a>
                     </span>
                   </el-popover>
-                </span> -->
-              </div>
+                  </span>-->
+                </div>
               </div>
             </li>
-            </ul>
+          </ul>
         </div>
         <!-- 应聘者列表 -->
         <el-card shadow="hover" class="candidates-card">
-          <div v-for="(w,index) in candidatesBox" :key="w.id" >
+          <div v-if="showcard">没有搜索到匹配结果</div>
+          <div v-for="(w,index) in showCanBox" :key="w.id">
             <router-link :to="{name:'/candidateslist',query:{id:index}}">
-            <div class="cand-card ">
-              <a href="javascript:;">
-                <img :src="w.headimg" class="cand-logo" alt="头像" />
-                <div class="cand-x">
-                  <p class="cand-x-one">
+              <div class="cand-card">
+                <a href="javascript:;">
+                  <img :src="w.headimg" class="cand-logo" alt="头像" />
+                  <div class="cand-x">
+                    <p class="cand-x-one">
                       <span>{{w.name}}</span>
                       <span class="c-x-o-j">{{w.desiredjob}}</span>
                     </p>
-                  <p class="cand-x-two">
+                    <p class="cand-x-two">
                       <span>{{w.sex}}</span>
-                    <span>|</span>
-                    <span>{{w.experience}}</span>
-                    <span>|</span>
-                    <span>{{w.academic}}</span>
-                    <span>|</span>
-                    <span>{{w.salary}}</span>
-                  </p>
-                </div>
-              </a>
-            </div>
+                      <span>|</span>
+                      <span>{{w.experience}}</span>
+                      <span>|</span>
+                      <span>{{w.academic}}</span>
+                      <span>|</span>
+                      <span>{{w.salary}}</span>
+                    </p>
+                  </div>
+                </a>
+              </div>
             </router-link>
           </div>
         </el-card>
-     
 
-    <!-- 分页栏 -->
-      <el-footer class="page">        
-        <el-pagination background  :page-size="20" layout="prev, pager, next" :total="1000"></el-pagination>
-      </el-footer>
-       </el-main>
+        <!-- 分页栏 -->
+        <el-footer class="page">
+          <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-size.sync="pageSize"
+            layout="prev, pager, next"
+            :total="showCanBox.length"
+          ></el-pagination>
+        </el-footer>
+      </el-main>
     </el-container>
   </div>
 </template>
@@ -267,23 +259,17 @@
 export default {
   data() {
     return {
-      options: [],
-      value: [],
+      showcard: false,
+      keyword: "",
       list: [],
       loading: false,
-      states: [
-        "Alabama",
-        "Alaska",
-        "Arizona",
-        "Arkansas",
-        "California",
-        "Colorado",
-        "Connecticut",
-        "Delaware"
-      ],
-      candidatesBox:[],
+      candidatesBox: [],
+      showCanBox: [],
+      pageSize: 6, //每页的数据
+      currentPage: 1, //初始页
+      pageNo: 1, //当前页数
 
-       info: [
+      info: [
         {
           id: 0,
           value: "期望职位",
@@ -358,8 +344,6 @@ export default {
               name_id: "electron",
               value: "电子/半导体"
             }
-
-
           ]
         },
         {
@@ -438,45 +422,80 @@ export default {
               name_id: "acaDoctor"
             }
           ]
-        },
+        }
       ],
 
-      active_id: ["jobNone", "workNone", "acaNone"],
-
-     
+      active_id: ["jobNone", "workNone", "acaNone"]
     };
   },
   created() {
-    this.$axios.get('./static/data/candidates.json')
-    .then( res => {
-      this.candidatesBox = res.data.message
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  },
-  mounted() {
-    this.list = this.states.map(item => {
-      return { value: `value:${item}`, label: `label:${item}` };
-    });
+    this.$axios
+      .get("./static/data/candidates.json")
+      .then(res => {
+        this.candidatesBox = res.data.message;
+        this.showCanBox = this.candidatesBox;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {
-    remoteMethod(query) {
-      if (query !== "") {
-        this.loading = true;
-        setTimeout(() => {
-          this.loading = false;
-          this.options = this.list.filter(item => {
-            return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
-          });
-        }, 200);
-      } else {
-        this.options = [];
-      }
+    handleSizeChange(size) {
+      this.pageSize = size;
+      console.log(size + "****");
     },
-    stylechange(a, b) {     
-      this.active_id.splice(a,1,b)
-      console.log(a,this.active_id);
+    handleCurrentChange(currentPage) {
+      //点击页面项 的函数响应
+      this.currentPage = currentPage;
+      console.log(this.currentPage);
+    },
+    stylechange(a, b) {
+      this.active_id.splice(a, 1, b);
+      console.log(a, this.active_id);
+    },
+    jobSearch() {
+      if (this.keyword == "") {
+        this.$message.warning("请输入搜索内容");
+        this.showCanBox = this.candidatesBox;
+        return;
+      } else{
+        this.$axios.get('/candidates/search/?keyword='+this.keyword)
+        .then(res => {
+          if(res.status === 200){
+            for(var i in res.dta){
+              this.showCanBox.push(res.data[i])
+            }
+            if(this.showCanBox.length == 0){
+              this.showcard = true
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
+      /*else {
+        this.showCanBox = [];
+        this.showcard = false; 
+        for (var item in this.candidatesBox) {
+          if (
+            String(this.candidatesBox[item].desiredjob)
+              .toLowerCase()
+              .indexOf(this.keyword.toLowerCase()) != -1 ||
+            String(this.candidatesBox[item].experience)
+              .toLowerCase()
+              .indexOf(this.keyword.toLowerCase()) != -1 ||
+            String(this.candidatesBox[item].academic)
+              .toLowerCase()
+              .indexOf(this.keyword.toLowerCase()) != -1
+          ) {
+            this.showCanBox.push(this.candidatesBox[item]);
+          }
+        }
+        if (this.showCanBox.length == 0) {
+          this.showcard = true;
+        }
+      }*/
     }
   }
 };
@@ -485,7 +504,7 @@ export default {
 <style>
 .addClass {
   background-color: red;
-  color:white !important;
+  color: white !important;
 }
 .candidates-session {
   position: relative;
@@ -499,7 +518,7 @@ export default {
   margin: 20px 14px;
   overflow: hidden;
 }
-.candidates-info .info-title{
+.candidates-info .info-title {
   float: left;
   color: #555;
   font-weight: 600;
@@ -509,7 +528,7 @@ export default {
 .candidates-info div {
   display: inline-block;
 }
-.candidates-info .info-select{
+.candidates-info .info-select {
   width: 940px;
 }
 .candidates-info span {
@@ -528,19 +547,22 @@ export default {
   margin: 5px auto;
   line-height: 60px;
 }
-.el-select {
-  width: 700px;
+.search .el-button {
+  background-color: black;
+  color: #fff !important;
 }
-
+.search .el-button:hover {
+  background-color: rgb(121, 120, 120);
+}
 /* 卡片栏 */
 .candidates-card {
-    position: relative; 
+  position: relative;
   padding: 1px 1px 20px 1px;
   margin: 20px 0;
   overflow: hidden;
   height: 490px;
 }
-.cand-card { 
+.cand-card {
   border: 1px dotted #c9c6c6ef;
   box-sizing: border-box;
   width: 360px;
@@ -551,7 +573,7 @@ export default {
   box-shadow: 2px 2px 2px #d8d5d5;
   overflow: hidden;
 }
-.cand-logo {  
+.cand-logo {
   left: 20px;
   width: 70px;
   height: 70px;
@@ -559,47 +581,46 @@ export default {
   float: left;
 }
 .cand-x {
-    position: relative;
-    margin: 5px 6px;
-    width: 230px;
-    height: 90px;
-    float: left;
+  position: relative;
+  margin: 5px 6px;
+  width: 230px;
+  height: 90px;
+  float: left;
 }
 .cand-x-one {
-    position: absolute;
-    height: 50px;
-    width: 220px;    
-    line-height: 50px;
-    text-align: center;
-    float: left;
-    top: 5px;
-    left: 0;
-    margin: 2px 5px;
-     
+  position: absolute;
+  height: 50px;
+  width: 220px;
+  line-height: 50px;
+  text-align: center;
+  float: left;
+  top: 5px;
+  left: 0;
+  margin: 2px 5px;
 }
 .cand-x-one span {
-    line-height: 50px;
-    float: left;
-   font-size: 20px;
-   color: #0f0f0f; 
+  line-height: 50px;
+  float: left;
+  font-size: 20px;
+  color: #0f0f0f;
 }
 .cand-x-one .c-x-o-j {
-    margin-left: 13px;
-    font-size: 16px;
-    font-weight: 600;
+  margin-left: 13px;
+  font-size: 16px;
+  font-weight: 600;
 }
 .cand-x-two {
-    position: absolute;
-    width: 210px;
-    height: 40px;
-    bottom: 5px;
-    right: 10px;
-    display: inline-block;
+  position: absolute;
+  width: 210px;
+  height: 40px;
+  bottom: 5px;
+  right: 10px;
+  display: inline-block;
 }
 .cand-x-two span {
-    margin: 0 2px;
-    line-height: 40px;
-    float: left;
-    font-size: 14px;
+  margin: 0 2px;
+  line-height: 40px;
+  float: left;
+  font-size: 14px;
 }
 </style>

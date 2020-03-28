@@ -38,6 +38,8 @@
           <p>
             <span>公司主页：</span>
             <span>
+
+              数据双向绑定 虚拟DOM 
               <a href="companyData.url">{{companyData.url}}</a>
             </span>
           </p>
@@ -49,7 +51,7 @@
               <el-form-item label="公司全称" label-width="90px"  required>
                 <el-input v-model="companyData.company" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="所在城市" label-width="90px" prop="place" required>
+              <el-form-item label="所 在城市" label-width="90px" prop="place" required>
                 <el-input v-model="companyData.place" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="公司领域" label-width="90px" prop="kind" required>

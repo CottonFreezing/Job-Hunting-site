@@ -2,6 +2,7 @@
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store/index'
 
 import Home from '../pages/Home/home.vue'
 import Job from '../pages/Job/job.vue'
@@ -11,13 +12,11 @@ import Resumes from '../pages/Resumes/resumes.vue'
 import Login from '../pages/Login/login.vue'
 import Regist from '../pages/Regist/regist.vue'
 import Joblist from '../pages/Job/joblist.vue'
+import Companylist from '../pages/Company/companylist.vue'
 
 //PersonalCenter子路由
 import Mybase from '../components/PersonalCenterList/Mybase.vue'
 import Changepassword from '../components/PersonalCenterList/Changepassword.vue'
-//RegistLoginTab子路由
-import RegLogTab1 from '../components/RegistLoginTab/RegLogTab1.vue'
-import RegLogTab2 from '../components/RegistLoginTab/RegLogTab2'
 //Boss路由
 import BossCenter from '../pages/Boss/bosscenter.vue'
 import Candidates from '../pages/Boss/candidates.vue'
@@ -36,14 +35,16 @@ import Unprocessed from '../components/BossCenter/Unprocessed.vue' //待定简�
 import NotifyInterview from '../components/BossCenter/NotifyInterview.vue' //已通知面试简历
 import Inappropriate from '../components/BossCenter/InappropriateResume.vue' //不合适简历
 
-// admin路由及子路由
+// 注册填写信息路由
+import CandReg from '../pages/Regist/candreg.vue'
+import BossReg from '../pages/Regist/bossreg.vue'
 
 
 
 //申明使用插件
 Vue.use(VueRouter)
 
-export default new VueRouter({
+const router = new VueRouter({
     mode: 'history',
     //所有路由
     routes: [
@@ -88,6 +89,15 @@ export default new VueRouter({
             }
         },
         {
+            path: '/companylist',
+            name: '/companylist',
+            component: Companylist,
+            meta: {
+                showHeaderGuide: true,
+                showFooter: true,
+            }
+        },
+        {
             path: '/personalcenter',
             name: '/personalcenter',
             component: PersonalCenter,
@@ -98,9 +108,9 @@ export default new VueRouter({
             children: [
                 {
                     path: '/',
-                    redirect: 'mybase'  ,
+                    redirect: 'mybase',
                     meta: {
-                        keepAlive:true,
+                        keepAlive: true,
                         showHeaderGuide: true,
                         showFooter: true,
                         parentPath: '/personalcenter',
@@ -111,7 +121,7 @@ export default new VueRouter({
                     name: 'mybase',
                     component: Mybase,
                     meta: {
-                        keepAlive:true,
+                        keepAlive: true,
                         showHeaderGuide: true,
                         showFooter: true,
                         parentPath: '/personalcenter',
@@ -122,7 +132,7 @@ export default new VueRouter({
                     name: 'changepass',
                     component: Changepassword,
                     meta: {
-                        keepAlive:true,
+                        keepAlive: true,
                         showHeaderGuide: true,
                         showFooter: true,
                         parentPath: '/personalcenter',
@@ -137,46 +147,35 @@ export default new VueRouter({
             meta: {
                 showHeaderGuide: true,
                 showFooter: true,
+                // requireAuth: true,//表示进入这个路由需要登录
             }
         },
         {
             path: '/login',
             name: '/login',
             component: Login,
-            children: [
-                {
-                    path: '/',
-                    redirect: 'reglogtab1'
-                },
-                {
-                    path: 'reglogtab1',
-                    component: RegLogTab1,
-                },
-                {
-                    path: 'reglogtab2',
-                    component: RegLogTab2,
-                },
-            ],
-        
+
         },
         {
             path: '/regist',
             name: '/regist',
             component: Regist,
-            children: [
-                {
-                    path: '/',
-                    redirect: 'reglogtab1'
-                },
-                {
-                    path: 'reglogtab1',
-                    component: RegLogTab1,
-                },
-                {
-                    path: 'reglogtab2',
-                    component: RegLogTab2,
-                },
-            ],
+        },
+        {
+            path: '/candreg',
+            name: '/candreg',
+            component:CandReg,
+            meta: {
+                
+            }
+        },
+        {
+            path: '/bossreg',
+            name: '/bossreg',
+            component: BossReg,
+            meta: {
+                
+            }
         },
         {
             path: '/bosscenter',
@@ -185,6 +184,7 @@ export default new VueRouter({
             meta: {
                 showBossHeader: true,
                 showFooter: true,
+                // requireAuth: true,
             },
             children: [
                 {
@@ -196,58 +196,58 @@ export default new VueRouter({
                     name: 'bossbase',
                     component: BossBase,
                     meta: {
-                        keepAlive:true,
+                        keepAlive: true,
                         showBossHeader: true,
                         showFooter: true,
                         parentPath: '/bosscenter',
-                    }, 
+                    },
                 },
                 {
                     path: 'bosschangepass',
                     name: 'bosschangepass',
                     component: BossChangePass,
                     meta: {
-                        keepAlive:true,
+                        keepAlive: true,
                         showBossHeader: true,
                         showFooter: true,
                         parentPath: '/bosscenter',
-                    }, 
+                    },
                 },
                 {
                     path: 'unprocessed',
                     name: 'unprocessed',
                     component: Unprocessed,
                     meta: {
-                        keepAlive:true,
+                        keepAlive: true,
                         showBossHeader: true,
                         showFooter: true,
                         parentPath: '/bosscenter',
-                    }, 
+                    },
                 },
                 {
                     path: 'notifyinterview',
                     name: 'notifyinterview',
                     component: NotifyInterview,
                     meta: {
-                        keepAlive:true,
+                        keepAlive: true,
                         showBossHeader: true,
                         showFooter: true,
                         parentPath: '/bosscenter',
-                    }, 
+                    },
                 },
                 {
                     path: 'inappropriate',
                     name: 'inappropriate',
                     component: Inappropriate,
                     meta: {
-                        keepAlive:true,
+                        keepAlive: true,
                         showBossHeader: true,
                         showFooter: true,
                         parentPath: '/bosscenter',
-                    }, 
+                    },
                 },
-                
-                
+
+
             ],
         },
         {
@@ -257,6 +257,7 @@ export default new VueRouter({
             meta: {
                 showBossHeader: true,
                 showFooter: true,
+                // requireAuth: true,
             },
         },
         {
@@ -266,6 +267,7 @@ export default new VueRouter({
             meta: {
                 showBossHeader: true,
                 showFooter: true,
+                // requireAuth: true,
             },
         },
         {
@@ -273,16 +275,17 @@ export default new VueRouter({
             name: '/posting',
             component: Posting,
             meta: {
-                showBossHeader:true,
+                showBossHeader: true,
                 showFooter: true,
+                // requireAuth: true,
             },
-            children:[
+            children: [
                 {
                     path: '/',
                     redirect: 'postjob',
                     meta: {
-                        keepAlive:true,
-                        showBossHeader:true,
+                        keepAlive: true,
+                        showBossHeader: true,
                         showFooter: true,
                         parentPath: '/posting',
                     },
@@ -292,8 +295,8 @@ export default new VueRouter({
                     name: 'postjob',
                     component: PostJob,
                     meta: {
-                        keepAlive:true,
-                        showBossHeader:true,
+                        keepAlive: true,
+                        showBossHeader: true,
                         showFooter: true,
                         parentPath: '/posting',
                     },
@@ -303,8 +306,8 @@ export default new VueRouter({
                     name: 'effectivejob',
                     component: EffectiveJob,
                     meta: {
-                        keepAlive:true,
-                        showBossHeader:true,
+                        keepAlive: true,
+                        showBossHeader: true,
                         showFooter: true,
                         parentPath: '/posting',
                     },
@@ -314,15 +317,36 @@ export default new VueRouter({
                     name: 'offlinejob',
                     component: OfflineJob,
                     meta: {
-                        keepAlive:true,
-                        showBossHeader:true,
+                        keepAlive: true,
+                        showBossHeader: true,
                         showFooter: true,
                         parentPath: '/posting',
                     },
                 },
             ],
         },
-       
+
     ]
 }
 )
+
+//全局钩子用来拦截导航
+router.beforeEach((to, from, next) => {
+    const token = store.state.token
+    if (to.meta.requireAuth) { //判断是否需要登录权限
+        if (token) { //通过vuex state获取当前的token是否存在
+            next()
+        } else {
+            var c = confirm('即将跳转登录页面')
+            if (c) {
+                next({
+                    path: '/login'
+                    // query: {redirect: to.fullPath} // 将跳转的路由path作为参数，登录成功后跳转到该路由
+                })
+            }
+        }
+    } else {
+        next()
+    }
+})
+export default router

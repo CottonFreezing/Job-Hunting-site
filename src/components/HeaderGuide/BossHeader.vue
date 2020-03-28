@@ -26,7 +26,7 @@
                 </li>
               </ul>
             </div>
-            <div class="header-social text-white float-right">
+            <div class="header-social text-white float-right" v-if="!this.$store.state.token">
               <router-link to="/login" id="denglu">
                 <i class="ion-social-vimeo-outline">登录</i>
               </router-link>
@@ -35,6 +35,9 @@
               <router-link to="/regist">
                 <i class="ion-social-dribbble-outline">注册</i>
               </router-link>
+            </div>
+            <div class="header-social text-white float-right" v-else>              
+                <a><i class="ion-social-vimeo-outline">{{this.$store.state.user}}</i> </a>       
             </div>
           </div>
           <!--Mobile Menu-->

@@ -4,31 +4,15 @@
       <!-- 搜索栏 -->
       <el-header height="70px">
         <div class="search">
-          <form action>
-            <el-select
-              v-model="value"
-              multiple
-              filterable
-              remote
-              reserve-keyword
-              placeholder="请输入关键词"
-              :remote-method="remoteMethod"
-              :loading="loading"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+          <el-input placeholder="请输入内容" v-model="keyword" class="input-with-select">
             <el-button
               type="info"
               icon="el-icon-search"
               size="medium"
-              style="background-color:black"
+              slot="append"
+              @click="jobSearch"
             >搜索</el-button>
-          </form>
+          </el-input>
         </div>
       </el-header>
       <el-main>
@@ -38,27 +22,27 @@
             <li v-for="a in info" :key="a.id">
               <div class="info-title">{{a.value}}：</div>
               <div class="into-select">
-              <div v-for="b in a.box" :key="b.id">
-                <span
-                  @click="stylechange(a.id, b.name_id)"
-                  :class="[active_id[a.id]==b.name_id ? 'addClass':'']"
-                >
-                  <a>{{b.value}}</a>
-                </span>
+                <div v-for="b in a.box" :key="b.id">
+                  <span
+                    @click="stylechange(a.id, b.name_id),addCondition(b.value)"
+                    :class="[active_id[a.id]==b.name_id ? 'addClass':'']"
+                  >
+                    <a>{{b.value}}</a>
+                  </span>
                 </div>
                 <div v-if="(!a.id)">
                   <el-popover placement="bottom" width="550" trigger="hover">
                     <div class="more">
                       <p>ABCDEF</p>
-                      <p>
+                      <p >
                         <span>
-                          <a href="javascript:;">北京</a>
+                          <a @click="addCondition('北京')">北京</a>
                         </span>
                         <span>
-                          <a href="javascript:;">长春</a>
+                          <a @click="addCondition('长春')">长春</a>
                         </span>
                         <span>
-                          <a href="javascript:;">成都</a>
+                          <a @click="addCondition('成都')">成都</a>
                         </span>
                         <span>
                           <a href="javascript:;">重庆</a>
@@ -214,22 +198,26 @@
                         </span>
                       </p>
                     </div>
-                    
-                    <div slot="reference"  @click="flag=ture">
-                      <a href="javascript:;">其他<i class="el-icon-caret-bottom"></i></a>
+
+                    <div slot="reference" @click="flag=ture">
+                      <a href="javascript:;">
+                        其他
+                        <i class="el-icon-caret-bottom"></i>
+                      </a>
                     </div>
                   </el-popover>
                 </div>
               </div>
-              
             </li>
-            </ul>
+          </ul>
         </div>
         <!-- 工作列表 -->
+
         <el-card class="job-card" shadow="always">
-          <div v-for="(j,index) in jobBox" :key="j.id">
+          <div v-if="showcard">没有搜索到匹配结果</div>
+          <div v-else v-for="j in showJobBox" :key="j.id" @click="jobJum(j.id)">
             <div class="j-card">
-              <router-link :to="{name:'/joblist', query:{id:index}}">
+              <!-- <router-link :to="{name:'/joblist', query:{id:index}}"> -->
                 <div class="j-one">
                   <p class="j-f">
                     <span class="j-jobname">{{j.jobname}}</span>
@@ -261,7 +249,7 @@
                     <span class="j-time">发布于：{{j.time}}</span>
                   </p>
                 </div>
-              </router-link>
+              <!-- </router-link> -->
             </div>
           </div>
         </el-card>
@@ -275,8 +263,8 @@
           :current-page="currentPage"
           :page-size.sync="pageSize"
           layout="prev, pager, next"
-          :total="jobBox.length"
-          v-model="jobBox"
+          :total="showJobBox.length"
+          v-model="showJobBox"
         ></el-pagination>
       </el-footer>
     </el-container>
@@ -287,12 +275,16 @@
 export default {
   data() {
     return {
+      showcard: false,
+      keyword: "",
       value: false,
       companyBox: [],
       pageSize: 6, //每页的数据
       currentPage: 1, //初始页
       pageNo: 1, //当前页数
-
+      position:'',
+      job:'',
+      
       info: [
         {
           id: 0,
@@ -427,8 +419,8 @@ export default {
             }
           ]
         },
-       
-         {
+
+        {
           id: 3,
           value: "融资阶段",
           box: [
@@ -477,10 +469,9 @@ export default {
               value: "不需要融资",
               name_id: "stageNoNeed"
             }
-
           ]
         },
-         {
+        {
           id: 4,
           value: "公司规模",
           box: [
@@ -520,11 +511,10 @@ export default {
               name_id: "scale10000"
             }
           ]
-        },
+        }
       ],
 
-      active_id: ["placeAll", "workNone", "acaNone","stageNone","scaleNone"],
-
+      active_id: ["placeAll", "workNone", "acaNone", "stageNone", "scaleNone"],
 
       flag: false,
       options: [],
@@ -541,39 +531,23 @@ export default {
         "Connecticut",
         "Delaware"
       ],
-      jobBox: []
+      jobBox: [],
+      showJobBox: []
     };
   },
   created() {
     this.$axios
       .get("./static/data/job.json")
       .then(res => {
-        this.jobBox = res.data.message;
+        this.jobBox = res.data.message
+        this.showJobBox = this.jobBox
       })
       .catch(err => {
         console.log(err);
       });
   },
 
-  mounted() {
-    this.list = this.states.map(item => {
-      return { value: `value:${item}`, label: `label:${item}` };
-    });
-  },
   methods: {
-    remoteMethod(query) {
-      if (query !== "") {
-        this.loading = true;
-        setTimeout(() => {
-          this.loading = false;
-          this.options = this.list.filter(item => {
-            return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
-          });
-        }, 200);
-      } else {
-        this.options = [];
-      }
-    },
     handleSizeChange(size) {
       this.pageSize = size;
       console.log(size + "****");
@@ -584,10 +558,70 @@ export default {
       console.log(this.currentPage);
     },
 
-    stylechange(a, b) {     
-      this.active_id.splice(a,1,b)
-      console.log(a,this.active_id);
-    }
+    stylechange(a, b) {
+      this.active_id.splice(a, 1, b);
+      console.log(a, this.active_id);
+    },
+     jobSearch() {
+      if (this.keyword == "") {
+        this.$message.warning("请输入搜索内容");
+        this.showJobBox = this.jobBox
+        return;
+      }else{
+        this.$axios.get('/job/search/?keyword='+this.keyword)
+        .then(res => {
+          if(res.status === 200){
+            for(var i in res.data){
+              this.showJobBox.push(res.data[i])
+            }
+            if(this.showJobBox.length == 0){
+              this.showcard = true
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
+      /*else {
+        this.showJobBox = []
+        this.showcard = false
+       for(var item in this.jobBox) {
+          if (
+            String(this.jobBox[item].jobname).toLowerCase().indexOf(this.keyword.toLowerCase()) != -1 ||
+            String(this.jobBox[item].palce).toLowerCase().indexOf(this.keyword.toLowerCase()) != -1 ||
+            String(this.jobBox[item].experience).toLowerCase().indexOf(this.keyword.toLowerCase()) != -1 ||
+            String(this.jobBox[item].academic).toLowerCase().indexOf(this.keyword.toLowerCase()) != -1 ||
+            String(this.jobBox[item].company).toLowerCase().indexOf(this.keyword.toLowerCase()) != -1 ||
+            String(this.jobBox[item].stage).toLowerCase().indexOf(this.keyword.toLowerCase()) != -1 ||
+            String(this.jobBox[item].kind).toLowerCase().indexOf(this.keyword.toLowerCase()) != -1
+          ) {
+            this.showJobBox.push(this.jobBox[item]);
+          }
+        }
+        if (this.showJobBox.length == 0) {
+          this.showcard = true
+        }
+      }*/
+    },
+    addCondition(label){
+      this.keyword.concat(label+",")
+      console.log(this.keyword)
+      this.$axios.get('/job/labelsearch', {query:{}})//???
+    },
+    jobJum(id){
+    //     this.$axios.get('/job/?id='+id)
+    //   .then(res => {
+    //     if(res.status === 200){
+          this.$router.push({name:"/joblist", query: {id:id}})
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log(err)
+    //   })
+    },
+  },
+  computed: {
   }
 };
 </script>
@@ -595,7 +629,7 @@ export default {
 <style>
 .addClass {
   background-color: red;
-  color:white !important;
+  color: white !important;
 }
 .job-session {
   position: relative;
@@ -609,7 +643,7 @@ export default {
   margin: 20px 14px;
   overflow: hidden;
 }
-.job-info .info-title{
+.job-info .info-title {
   float: left;
   color: #555;
   font-weight: 600;
@@ -619,7 +653,7 @@ export default {
 /* .job-info div {
   display: inline-block; 
 } */
-.job-info .info-select{
+.job-info .info-select {
   width: 940px;
 }
 .job-info span {
@@ -648,17 +682,22 @@ export default {
   margin: 5px auto;
   line-height: 60px;
 }
-.el-select {
-  width: 700px;
+.search .el-button {
+  background-color: black;
+  color: #fff !important;
+}
+.search .el-button:hover {
+  background-color: rgb(121, 120, 120);
 }
 .job-card {
   position: relative;
-  height: 820px;
+  /* height: 820px; */
   overflow: hidden;
   padding-bottom: 20px;
   margin-top: 10px;
   display: inline-block;
   background-color: #fafafa9f;
+  cursor: pointer;
 }
 .j-card {
   width: 1100px;

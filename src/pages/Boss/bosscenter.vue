@@ -39,6 +39,13 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
+      if(key === '4'){
+          var c = confirm('确认退出登录？')
+          if(c){
+            this.$store.commit('LOGOUT')
+            this.$router.push('/candidates')
+          }
+        }
       console.log(key, keyPath);
     }
   }

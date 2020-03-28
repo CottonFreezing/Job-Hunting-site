@@ -72,7 +72,13 @@ export default {
       submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+         this.$axios.post('/bosschangepss',{user:this.$store.state.user,companyid:this.$store.state.companyid})
+         .then(res => {
+           alert("修改成功")
+         })
+         .catch( err => {
+           console.log(err)
+         })
         } else {
           console.log("error submit!!");
           return false;

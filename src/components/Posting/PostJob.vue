@@ -15,18 +15,18 @@
       <el-form-item label="职位类别：" prop="jobkind">
         <el-select v-model="postingForm.jobkind" placeholder="请选择职位类别">
           <el-option label="后端开发" selected value="jobkind1"></el-option>
-            <el-option label="前端开发" selected value="jobkind2"></el-option>
-            <el-option label="测试" value="jobkind3"></el-option>
-            <el-option label="运维/技术支持" value="jobkind4"></el-option>
-            <el-option label="数据" value="jobkind5"></el-option>
-            <el-option label="项目管理" value="jobkind6"></el-option>
-            <el-option label="硬件开发" value="jobkind7"></el-option>
-            <el-option label="移动开发" value="jobkind8"></el-option>
-            <el-option label="通信" value="jobkind9"></el-option>
-            <el-option label="电子/半导体" value="jobkind10"></el-option>
-            <el-option label="高端技术职位" value="jobkind11"></el-option>
-            <el-option label="人工智能" value="jobkind12"></el-option>
-            <el-option label="销售技术支持" value="jobkind13 "></el-option>
+          <el-option label="前端开发" selected value="jobkind2"></el-option>
+          <el-option label="测试" value="jobkind3"></el-option>
+          <el-option label="运维/技术支持" value="jobkind4"></el-option>
+          <el-option label="数据" value="jobkind5"></el-option>
+          <el-option label="项目管理" value="jobkind6"></el-option>
+          <el-option label="硬件开发" value="jobkind7"></el-option>
+          <el-option label="移动开发" value="jobkind8"></el-option>
+          <el-option label="通信" value="jobkind9"></el-option>
+          <el-option label="电子/半导体" value="jobkind10"></el-option>
+          <el-option label="高端技术职位" value="jobkind11"></el-option>
+          <el-option label="人工智能" value="jobkind12"></el-option>
+          <el-option label="销售技术支持" value="jobkind13 "></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="职位名称：" prop="jobname">
@@ -64,18 +64,15 @@
           </el-select>
         </el-col>
       </el-form-item>
-      <el-form-item prop="academic " label="学历要求" required>
-        <el-col :span="11">
-          <el-select v-model="postingForm.academic">
-            <el-option label="不限"  value="an1"></el-option>
-            <el-option label="高中及以下"  value="an2"></el-option>
-            <el-option label="大专" value="an3"></el-option>
-            <el-option label="本科" value="an4"></el-option>
-            <el-option label="硕士" value="an5"></el-option>
-            <el-option label="博士" value="an6"></el-option>
-            <el-option label="10年以上" value="an7"></el-option>
-          </el-select>
-        </el-col>
+      <el-form-item label="学 历：" prop="academic">
+        <el-select v-model="postingForm.academic" placeholder="请选择学历">
+          <el-option label="不限" value="None"></el-option>
+          <el-option label="高中及以下" value="middle"></el-option>
+          <el-option label="大 专" value="junior"></el-option>
+          <el-option label="本 科" value="college"></el-option>
+          <el-option label="硕 士" value="master"></el-option>
+          <el-option label="博 士" value="doctor"></el-option>
+        </el-select>
       </el-form-item>
       <el-divider></el-divider>
       <el-form-item label="工作地址：" prop="address" placeholder="请输入详细的工作地址">
@@ -103,8 +100,8 @@
         </el-col>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('postingForm')">立即发布</el-button>
-        <el-button @click="resetForm('postingForm')">重置</el-button>
+        <el-button type="primary" @click="submitForm(postingForm)">立即发布</el-button>
+        <el-button @click="resetForm(postingForm)">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -132,7 +129,7 @@ export default {
         jobkind: [
           { required: true, message: "请选择职位类别", trigger: "blur" }
         ],
-        salary: [ 
+        salary: [
           { required: true, message: "请输入工资范围", trigger: "blur" }
         ],
         workcity: [
@@ -149,7 +146,7 @@ export default {
         ],
         remail: [
           { required: true, message: "请输入接收简历邮箱", trigger: "blur" },
-           {
+          {
             type: "email",
             message: "请输入正确的邮箱地址",
             trigger: ["blur", "change"]
@@ -166,29 +163,42 @@ export default {
   },
   methods: {
     submitForm(postingForm) {
-        this.$refs[postingForm].validate((valid) => {
-          if (valid) {
-            console.log('submit!');
-            this.$axios.post('./static/data/candidates.json',postingForm)
-          .then(res => {
-            if(res.code == 200){
-              alert("创建成功")
-               that.$router.go(-1)
-            }
-          })
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
-      resetForm(postingForm) {
-        this.$refs[postingForm].resetFields();
-      }
+      this.$refs.postingForm.validate(valid => {
+        console.log(postingForm);
+        if (valid) {
+          this.$axios
+            .post("/postjob", {
+              jobname: this.resetForm.jobname,
+              department: this.resetForm.department,
+              salary:this.resetForm.salary,
+              workcity: this.resetForm.workcity,
+              experience: this.resetForm.experience,
+              academic: this.resetForm.academic,
+              address: this.resetForm.address,
+              jobdescription: this.resetForm.jobdescription,
+              jobneed: this.resetForm.jobneed,
+              remail: this.resetForm.remail
+            })
+            .then(res => {
+              if (res.status == 200) { 
+                alert("创建成功");
+                this.$refs.postingForm.resetFields();
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    resetForm(postingForm) {
+      this.$refs.postingForm.resetFields();
     }
   }
-
-
+};
 </script>
 
 <style scoped>

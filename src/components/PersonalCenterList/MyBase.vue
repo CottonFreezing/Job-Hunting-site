@@ -213,9 +213,6 @@ export default {
       clearTimeout(this.timer);
     },
     
-    test(){
-      alert("11")
-    },
   
     del(index) {
       event.stopPropagation()

@@ -4,135 +4,709 @@
       <!-- 搜索栏 -->
       <el-header height="80px">
         <div class="search">
-          <form action>
-            <el-select
-              v-model="value"
-              multiple
-              filterable
-              remote
-              reserve-keyword
-              placeholder="请输入关键词"
-              :remote-method="remoteMethod"
-              :loading="loading"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
+        
+          <el-input placeholder="请输入内容" v-model="input" class="input-with-select">
+            <el-select v-model="select" slot="prepend" placeholder="请选择" >
+              <el-option label="职位" value="1"></el-option>
+              <el-option label="公司" value="2"></el-option>
             </el-select>
             <el-button
               type="info"
               icon="el-icon-search"
-              size="medium"
-              style="background-color:black"
+              size="medium"             
+              slot="append"
+              @click="jobSearch"
             >搜索</el-button>
-          </form>
+          </el-input>
         </div>
       </el-header>
       <el-container>
-        <!-- 侧边栏 用popover弹出框嵌套信息 -->                   
-        <el-aside class="home-aside" width="380px" height="340px">                                                                                            
+        <!-- 侧边栏 用popover弹出框嵌套信息 -->
+        <el-aside class="home-aside" width="380px" height="340px">
           <div class="h-a-l">
-            <el-popover placement="right-start" width="600" trigger="hover" visible-arrow="false" effect="light">
-              <div class="menu-aside"> 
-                <p><span><a href="javascript:;">后端开发</a></span><span><a href="javascript:;">Java</a></span><span><a href="javascript:;">C++</a></span><span><a href="javascript:;">数据挖掘</a></span><span><a href="javascript:;">Python</a></span><span><a href="javascript:;">.NET</a></span><span><a href="javascript:;">C</a></span></p>
-                <p><span><a href="javascript:;">Hadoop</a></span><span><a href="javascript:;">Delphi</a></span><span><a href="javascript:;">VB</a></span><span><a href="javascript:;">Perl</a></span><span><a href="javascript:;">Ruby</a></span><span><a href="javascript:;">Node.js</a></span><span><a href="javascript:;">PHP</a></span></p>      
-                <p><span><a href="javascript:;">搜索算法</a></span><span><a href="javascript:;">Golang</a></span><span><a href="javascript:;">推荐算法</a></span><span><a href="javascript:;">Erlang</a></span><span><a href="javascript:;">算法工程师</a></span><span><a href="javascript:;"> C# </a></span></p>
-                <p><span><a href="javascript:;">语音/视频/图形开发</a></span><span><a href="javascript:;">数据采集</a></span></p>  
+            <el-popover
+              placement="right-start"
+              width="600"
+              trigger="hover"
+              visible-arrow="false"
+              effect="light"
+            >
+              <div class="menu-aside">
+                <p>
+                  <span>
+                    <a href="javascript:;">后端开发</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">Java</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">C++</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">数据挖掘</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">Python</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">.NET</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">C</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">Hadoop</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">Delphi</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">VB</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">Perl</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">Ruby</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">Node.js</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">PHP</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">搜索算法</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">Golang</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">推荐算法</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">Erlang</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">算法工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">C#</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">语音/视频/图形开发</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">数据采集</a>
+                  </span>
+                </p>
               </div>
-              <p class="menu-title" slot="reference"><span class="title-first">后端开发</span><span><a href="javascript:;">Java</a></span><span><a href="javascript:;">Python</a></span><span><a href="javascript:;">C#</a></span><span><a href="javascript:;">PHP</a></span><i class="el-icon-arrow-right"></i></p>
-            </el-popover> 
-            <el-popover placement="right-start" width="600" trigger="hover" visible-arrow="false" effect="light">
-              <div class="menu-aside">                                                     
-                <p><span><a href="javascript:;">移动开发</a></span><span><a href="javascript:;">HTML5</a></span><span><a href="javascript:;">iOS</a></span><span><a href="javascript:;">WP</a></span><span><a href="javascript:;">移动web前端</a></span><span><a href="javascript:;"> Flash开发</a></span></p>
-                <p><span><a href="javascript:;">JavaScript</a></span><span><a href="javascript:;">U3D</a></span><span><a href="javascript:;">COCOS2DX</a></span></p>        
+              <p class="menu-title" slot="reference">
+                <span class="title-first">后端开发</span>
+                <span>
+                  <a href="javascript:;">Java</a>
+                </span>
+                <span>
+                  <a href="javascript:;">Python</a>
+                </span>
+                <span>
+                  <a href="javascript:;">C#</a>
+                </span>
+                <span>
+                  <a href="javascript:;">PHP</a>
+                </span>
+                <i class="el-icon-arrow-right"></i>
+              </p>
+            </el-popover>
+            <el-popover
+              placement="right-start"
+              width="600"
+              trigger="hover"
+              visible-arrow="false"
+              effect="light"
+            >
+              <div class="menu-aside">
+                <p>
+                  <span>
+                    <a href="javascript:;">移动开发</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">HTML5</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">iOS</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">WP</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">移动web前端</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">Flash开发</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">JavaScript</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">U3D</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">COCOS2DX</a>
+                  </span>
+                </p>
               </div>
-              <p class="menu-title" slot="reference"><span class="title-first">移动开发</span><span><a href="javascript:;">HTML5</a></span><span><a href="javascript:;">Android</a></span><i class="el-icon-arrow-right"></i></p>
+              <p class="menu-title" slot="reference">
+                <span class="title-first">移动开发</span>
+                <span>
+                  <a href="javascript:;">HTML5</a>
+                </span>
+                <span>
+                  <a href="javascript:;">Android</a>
+                </span>
+                <i class="el-icon-arrow-right"></i>
+              </p>
             </el-popover>
-            <el-popover placement="right-start" width="600" trigger="hover" visible-arrow="false" effect="light">
-              <div class="menu-aside">                                                   
-                <p><span><a href="javascript:;">测试工程师</a></span><span><a href="javascript:;">自动化测试</a></span><span><a href="javascript:;">功能测试</a></span><span><a href="javascript:;">性能测试</a></span><span><a href="javascript:;">测试开发</a></span></p>
-                <p><span><a href="javascript:;">游戏测试</a></span><span><a href="javascript:;">硬件测试</a></span><span><a href="javascript:;">软件测试</a></span><span><a href="javascript:;">移动端测试</a></span><span><a href="javascript:;"> Flash开发</a></span></p>        
+            <el-popover
+              placement="right-start"
+              width="600"
+              trigger="hover"
+              visible-arrow="false"
+              effect="light"
+            >
+              <div class="menu-aside">
+                <p>
+                  <span>
+                    <a href="javascript:;">测试工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">自动化测试</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">功能测试</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">性能测试</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">测试开发</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">游戏测试</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">硬件测试</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">软件测试</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">移动端测试</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">Flash开发</a>
+                  </span>
+                </p>
               </div>
-              <p class="menu-title" slot="reference"><span class="title-first">测 试</span><span><a href="javascript:;">测试工程师</a></span><span><a href="javascript:;">功能测试</a></span><i class="el-icon-arrow-right"></i></p>
+              <p class="menu-title" slot="reference">
+                <span class="title-first">测 试</span>
+                <span>
+                  <a href="javascript:;">测试工程师</a>
+                </span>
+                <span>
+                  <a href="javascript:;">功能测试</a>
+                </span>
+                <i class="el-icon-arrow-right"></i>
+              </p>
             </el-popover>
-             <el-popover placement="right-start" width="600" trigger="hover" visible-arrow="false" effect="light">
-              <div class="menu-aside">                                                   
-                <p><span><a href="javascript:;">运维工程师</a></span><span><a href="javascript:;">运维开发工程师</a></span><span><a href="javascript:;">网络工程师</a></span><span><a href="javascript:;">系统工程师</a></span></p>
-                <p><span><a href="javascript:;">系统安全 DBA</a></span><span><a href="javascript:;">系统管理员</a></span><span><a href="javascript:;">IT技术支持</a></span><span><a href="javascript:;"> 网络安全</a></span></p>        
-              </div>      
-              <p class="menu-title" slot="reference"><span class="title-first">运维/技术支持</span><span><a href="javascript:;">网络工程师</a></span><span><a href="javascript:;">运维工程师</a></span><i class="el-icon-arrow-right"></i></p>
+            <el-popover
+              placement="right-start"
+              width="600"
+              trigger="hover"
+              visible-arrow="false"
+              effect="light"
+            >
+              <div class="menu-aside">
+                <p>
+                  <span>
+                    <a href="javascript:;">运维工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">运维开发工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">网络工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">系统工程师</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">系统安全 DBA</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">系统管理员</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">IT技术支持</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">网络安全</a>
+                  </span>
+                </p>
+              </div>
+              <p class="menu-title" slot="reference">
+                <span class="title-first">运维/技术支持</span>
+                <span>
+                  <a href="javascript:;">网络工程师</a>
+                </span>
+                <span>
+                  <a href="javascript:;">运维工程师</a>
+                </span>
+                <i class="el-icon-arrow-right"></i>
+              </p>
             </el-popover>
-             <el-popover placement="right-start" width="600" trigger="hover" visible-arrow="false" effect="light">
-              <div class="menu-aside">                                                   
-                <p><span><a href="javascript:;">数据</a></span><span><a href="javascript:;">ETL工程师</a></span><span><a href="javascript:;">数据仓库</a></span><span><a href="javascript:;">数据开发</a></span><span><a href="javascript:;">数据挖掘</a></span><span><a href="javascript:;"> 数据分析师</a></span></p>
-                <p><span><a href="javascript:;">数据架构师</a></span><span><a href="javascript:;">算法研究员</a></span></p>        
-              </div>        
-              <p class="menu-title" slot="reference"><span class="title-first">数 据</span><span><a href="javascript:;">ETL工程师</a></span><span><a href="javascript:;">数据架构师</a></span><i class="el-icon-arrow-right"></i></p>
+            <el-popover
+              placement="right-start"
+              width="600"
+              trigger="hover"
+              visible-arrow="false"
+              effect="light"
+            >
+              <div class="menu-aside">
+                <p>
+                  <span>
+                    <a href="javascript:;">数据</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">ETL工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">数据仓库</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">数据开发</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">数据挖掘</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">数据分析师</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">数据架构师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">算法研究员</a>
+                  </span>
+                </p>
+              </div>
+              <p class="menu-title" slot="reference">
+                <span class="title-first">数 据</span>
+                <span>
+                  <a href="javascript:;">ETL工程师</a>
+                </span>
+                <span>
+                  <a href="javascript:;">数据架构师</a>
+                </span>
+                <i class="el-icon-arrow-right"></i>
+              </p>
             </el-popover>
-             <el-popover placement="right-start" width="600" trigger="hover" visible-arrow="false" effect="light">
-              <div class="menu-aside">                                                   
-                <p><span><a href="javascript:;">项目经理</a></span><span><a href="javascript:;">项目主管</a></span><span><a href="javascript:;">项目助理</a></span><span><a href="javascript:;">项目专员</a></span><span><a href="javascript:;">实施顾问</a></span></p>
-                <p><span><a href="javascript:;">需求分析工程师</a></span><span><a href="javascript:;"> 实施工程师</a></span></p>        
-              </div>        
-              <p class="menu-title" slot="reference"><span class="title-first">项目管理</span><span><a href="javascript:;">项目经理</a></span><span><a href="javascript:;">需求分析工程师</a></span><i class="el-icon-arrow-right"></i></p>
+            <el-popover
+              placement="right-start"
+              width="600"
+              trigger="hover"
+              visible-arrow="false"
+              effect="light"
+            >
+              <div class="menu-aside">
+                <p>
+                  <span>
+                    <a href="javascript:;">项目经理</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">项目主管</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">项目助理</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">项目专员</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">实施顾问</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">需求分析工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">实施工程师</a>
+                  </span>
+                </p>
+              </div>
+              <p class="menu-title" slot="reference">
+                <span class="title-first">项目管理</span>
+                <span>
+                  <a href="javascript:;">项目经理</a>
+                </span>
+                <span>
+                  <a href="javascript:;">需求分析工程师</a>
+                </span>
+                <i class="el-icon-arrow-right"></i>
+              </p>
             </el-popover>
-             <el-popover placement="right-start" width="600" trigger="hover" visible-arrow="false" effect="light">
-              <div class="menu-aside">                                                   
-                <p><span><a href="javascript:;">硬件</a></span><span><a href="javascript:;">嵌入式</a></span><span><a href="javascript:;">自动化</a></span><span><a href="javascript:;">单片机</a></span><span><a href="javascript:;">电路设计</a></span><span><a href="javascript:;">FPGA开发</a></span></p>
-                <p><span><a href="javascript:;">DSP开发</a></span><span><a href="javascript:;"> ARM开发</a></span><span><a href="javascript:;">PCB工艺</a></span><span><a href="javascript:;">射频工程师</a></span></p>        
-              </div>        
-              <p class="menu-title" slot="reference"><span class="title-first">硬件开发</span><span><a href="javascript:;">硬件</a></span><span><a href="javascript:;">嵌入式</a></span><i class="el-icon-arrow-right"></i></p>
+            <el-popover
+              placement="right-start"
+              width="600"
+              trigger="hover"
+              visible-arrow="false"
+              effect="light"
+            >
+              <div class="menu-aside">
+                <p>
+                  <span>
+                    <a href="javascript:;">硬件</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">嵌入式</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">自动化</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">单片机</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">电路设计</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">FPGA开发</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">DSP开发</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">ARM开发</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">PCB工艺</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">射频工程师</a>
+                  </span>
+                </p>
+              </div>
+              <p class="menu-title" slot="reference">
+                <span class="title-first">硬件开发</span>
+                <span>
+                  <a href="javascript:;">硬件</a>
+                </span>
+                <span>
+                  <a href="javascript:;">嵌入式</a>
+                </span>
+                <i class="el-icon-arrow-right"></i>
+              </p>
             </el-popover>
-             <el-popover placement="right-start" width="600" trigger="hover" visible-arrow="false" effect="light">
-              <div class="menu-aside">                                                   
-                <p><span><a href="javascript:;">前端开发</a></span><span><a href="javascript:;">web前端</a></span><span><a href="javascript:;">JavaScript</a></span><span><a href="javascript:;">Flash开发</a></span><span><a href="javascript:;">HTML5</a></span></p>
-                  
-              </div>        
-              <p class="menu-title" slot="reference"><span class="title-first">前端开发</span><span><a href="javascript:;">web前端</a></span><span><a href="javascript:;">JavaScript</a></span><i class="el-icon-arrow-right"></i></p>
+            <el-popover
+              placement="right-start"
+              width="600"
+              trigger="hover"
+              visible-arrow="false"
+              effect="light"
+            >
+              <div class="menu-aside">
+                <p>
+                  <span>
+                    <a href="javascript:;">前端开发</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">web前端</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">JavaScript</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">Flash开发</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">HTML5</a>
+                  </span>
+                </p>
+              </div>
+              <p class="menu-title" slot="reference">
+                <span class="title-first">前端开发</span>
+                <span>
+                  <a href="javascript:;">web前端</a>
+                </span>
+                <span>
+                  <a href="javascript:;">JavaScript</a>
+                </span>
+                <i class="el-icon-arrow-right"></i>
+              </p>
             </el-popover>
-             <el-popover placement="right-start" width="600" trigger="hover" visible-arrow="false" effect="light">
-              <div class="menu-aside">                                                   
-                <p><span><a href="javascript:;">通信技术工程师</a></span><span><a href="javascript:;">通信研发工程师</a></span><span><a href="javascript:;">数据通信工程师</a></span></p>
-                <p><span><a href="javascript:;">电信交换工程师</a></span><span><a href="javascript:;"> 有线传输工程师</a></span><span><a href="javascript:;">无线射频工程师</a></span></p> 
-                <p><span><a href="javascript:;">通信项目专员</a></span><span><a href="javascript:;"> 通信项目经理</a></span><span><a href="javascript:;">核心网工程师</a></span><span><a href="javascript:;">通信测试工程师</a></span></p>
-                <p><span><a href="javascript:;">光通信工程师</a></span><span><a href="javascript:;"> 光传输工程师</a></span><span><a href="javascript:;">光网络工程师</a></span></p>   
-                <p><span><a href="javascript:;">移动通信工程师</a></span><span><a href="javascript:;">电信网络工程师</a></span><span><a href="javascript:;">通信电源工程师</a></span></p>    
-                <p><span><a href="javascript:;">通信标准化工程师</a></span></p>
-              </div>        
-              <p class="menu-title" slot="reference"><span class="title-first">通 信</span><span><a href="javascript:;">光传输工程师</a></span><span><a href="javascript:;">核心网工程师</a></span><i class="el-icon-arrow-right"></i></p>
+            <el-popover
+              placement="right-start"
+              width="600"
+              trigger="hover"
+              visible-arrow="false"
+              effect="light"
+            >
+              <div class="menu-aside">
+                <p>
+                  <span>
+                    <a href="javascript:;">通信技术工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">通信研发工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">数据通信工程师</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">电信交换工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">有线传输工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">无线射频工程师</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">通信项目专员</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">通信项目经理</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">核心网工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">通信测试工程师</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">光通信工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">光传输工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">光网络工程师</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">移动通信工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">电信网络工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">通信电源工程师</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">通信标准化工程师</a>
+                  </span>
+                </p>
+              </div>
+              <p class="menu-title" slot="reference">
+                <span class="title-first">通 信</span>
+                <span>
+                  <a href="javascript:;">光传输工程师</a>
+                </span>
+                <span>
+                  <a href="javascript:;">核心网工程师</a>
+                </span>
+                <i class="el-icon-arrow-right"></i>
+              </p>
             </el-popover>
-             <el-popover placement="right-start" width="600" trigger="hover" visible-arrow="false" effect="light">
-              <div class="menu-aside">                                                   
-                <p><span><a href="javascript:;">电子工程师</a></span><span><a href="javascript:;">电气工程师</a></span><span><a href="javascript:;">FAE</a></span><span><a href="javascript:;">电气设计工程师</a></span></p>
-              
-              </div>        
-              <p class="menu-title" slot="reference"><span class="title-first">电子/半导体</span><span><a href="javascript:;">电气工程师</a></span><span><a href="javascript:;">FAE</a></span><i class="el-icon-arrow-right"></i></p>
+            <el-popover
+              placement="right-start"
+              width="600"
+              trigger="hover"
+              visible-arrow="false"
+              effect="light"
+            >
+              <div class="menu-aside">
+                <p>
+                  <span>
+                    <a href="javascript:;">电子工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">电气工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">FAE</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">电气设计工程师</a>
+                  </span>
+                </p>
+              </div>
+              <p class="menu-title" slot="reference">
+                <span class="title-first">电子/半导体</span>
+                <span>
+                  <a href="javascript:;">电气工程师</a>
+                </span>
+                <span>
+                  <a href="javascript:;">FAE</a>
+                </span>
+                <i class="el-icon-arrow-right"></i>
+              </p>
             </el-popover>
-            <el-popover placement="right-start" width="600" trigger="hover" visible-arrow="false" effect="light">
-              <div class="menu-aside">                                                   
-                <p><span><a href="javascript:;">高端技术职位</a></span><span><a href="javascript:;">技术经理</a></span><span><a href="javascript:;">技术总监</a></span><span><a href="javascript:;">测试经理</a></span><span><a href="javascript:;">架构师</a></span></p>
-                <p><span><a href="javascript:;">CTO</a></span><span><a href="javascript:;">运维总监</a></span><span><a href="javascript:;">技术合伙人</a></span></p>              
-              </div>        
-              <p class="menu-title" slot="reference"><span class="title-first">高端技术职位</span><span><a href="javascript:;">技术经理</a></span><span><a href="javascript:;">测试经理</a></span><i class="el-icon-arrow-right"></i></p>
+            <el-popover
+              placement="right-start"
+              width="600"
+              trigger="hover"
+              visible-arrow="false"
+              effect="light"
+            >
+              <div class="menu-aside">
+                <p>
+                  <span>
+                    <a href="javascript:;">高端技术职位</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">技术经理</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">技术总监</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">测试经理</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">架构师</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">CTO</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">运维总监</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">技术合伙人</a>
+                  </span>
+                </p>
+              </div>
+              <p class="menu-title" slot="reference">
+                <span class="title-first">高端技术职位</span>
+                <span>
+                  <a href="javascript:;">技术经理</a>
+                </span>
+                <span>
+                  <a href="javascript:;">测试经理</a>
+                </span>
+                <i class="el-icon-arrow-right"></i>
+              </p>
             </el-popover>
-            <el-popover placement="right-start" width="600" trigger="hover" visible-arrow="false" effect="light">
-              <div class="menu-aside">                                                   
-                <p><span><a href="javascript:;">智能驾驶系统工程师</a></span><span><a href="javascript:;"> 反欺诈/风控算法 </a></span><span><a href="javascript:;">人工智能</a></span><span><a href="javascript:;">机器学习</a></span></p>
-                <p><span><a href="javascript:;">深度学习</a></span><span><a href="javascript:;">语音识别</a></span><span><a href="javascript:;">图像识别</a></span><span><a href="javascript:;">算法研究员</a></span><span><a href="javascript:;">自然语言处理</a></span></p>          
-              </div>        
-              <p class="menu-title" slot="reference"><span class="title-first">人工智能</span><span><a href="javascript:;">智能驾驶系统工程师</a></span><i class="el-icon-arrow-right"></i></p>
+            <el-popover
+              placement="right-start"
+              width="600"
+              trigger="hover"
+              visible-arrow="false"
+              effect="light"
+            >
+              <div class="menu-aside">
+                <p>
+                  <span>
+                    <a href="javascript:;">智能驾驶系统工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">反欺诈/风控算法</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">人工智能</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">机器学习</a>
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <a href="javascript:;">深度学习</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">语音识别</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">图像识别</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">算法研究员</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">自然语言处理</a>
+                  </span>
+                </p>
+              </div>
+              <p class="menu-title" slot="reference">
+                <span class="title-first">人工智能</span>
+                <span>
+                  <a href="javascript:;">智能驾驶系统工程师</a>
+                </span>
+                <i class="el-icon-arrow-right"></i>
+              </p>
             </el-popover>
-            <el-popover placement="right-start" width="600" trigger="hover" visible-arrow="false" effect="light">
-              <div class="menu-aside">                                                   
-                <p><span><a href="javascript:;">销售技术支持</a></span><span><a href="javascript:;">售前工程师</a> </span><span><a href="javascript:;">售后工程师</a></span></p>           
-              </div>        
-              <p class="menu-title" slot="reference"><span class="title-first">销售技术支持</span><span><a href="javascript:;">售前工程师</a></span><span><a href="javascript:;">售后工程师</a></span><i class="el-icon-arrow-right"></i></p>
+            <el-popover
+              placement="right-start"
+              width="600"
+              trigger="hover"
+              visible-arrow="false"
+              effect="light"
+            >
+              <div class="menu-aside">
+                <p>
+                  <span>
+                    <a href="javascript:;">销售技术支持</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">售前工程师</a>
+                  </span>
+                  <span>
+                    <a href="javascript:;">售后工程师</a>
+                  </span>
+                </p>
+              </div>
+              <p class="menu-title" slot="reference">
+                <span class="title-first">销售技术支持</span>
+                <span>
+                  <a href="javascript:;">售前工程师</a>
+                </span>
+                <span>
+                  <a href="javascript:;">售后工程师</a>
+                </span>
+                <i class="el-icon-arrow-right"></i>
+              </p>
             </el-popover>
           </div>
-        </el-aside>               
+        </el-aside>
         <el-main class="home-main" width="810px">
           <!-- 轮播图 -->
           <el-carousel indicator-position="none">
@@ -143,8 +717,8 @@
 
           <!-- 工作列表 -->
           <el-card shadow="hover" class="home-card">
-            <div v-for="o in newworkbox" :key="o.id">
-              <router-link to="/joblist">
+            <div v-for="o in newworkbox" :key="o.id" @click="showdetail(o.id)">
+              <!-- <router-link to="/joblist"> -->
                 <div class="jobh-card">
                   <p class="c-one">
                     <span class="workname">{{o.jobname}}</span>
@@ -165,7 +739,7 @@
                     <span class="hr">{{o.hr}}</span>
                   </p>
                 </div>
-              </router-link>
+              <!-- </router-link> -->
             </div>
           </el-card>
         </el-main>
@@ -178,8 +752,8 @@
 export default {
   data() {
     return {
-      options: [],
-      value: [],
+      input: "",
+      select:"",
       list: [],
       loading: false,
       states: [
@@ -196,37 +770,37 @@ export default {
         { id: 0, url: require("./images/1.jpg") },
         { id: 1, url: require("./images/2.jpg") }
       ],
-      newworkbox:[],
+      newworkbox: []
     };
   },
-  created(){
-      this.$axios.get('./static/data/job.json')
+  created() {
+    this.$axios
+      .get("./static/data/job.json")
       .then(res => {
-        this.newworkbox = res.data.message
+        this.newworkbox = res.data.message;
       })
-      .catch(err=>{
-        console.log(err)
-      })
-  },
-  mounted() {
-    this.list = this.states.map(item => {
-      return { value: `value:${item}`, label: `label:${item}` };
-    });
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {
-    remoteMethod(query) {
-      if (query !== "") {
-        this.loading = true;
-        setTimeout(() => {
-          this.loading = false;
-          this.options = this.list.filter(item => {
-            return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
-          });
-        }, 200);
-      } else {
-        this.options = [];
+    jobSearch(){
+      if(this.jobSearch == res.data.jobname){
+
       }
+    },
+    showdetail(id){
+      this.$axios.get('/home/?id='+id)
+      .then(res => {
+        if(res.status === 200){
+          this.$router.push({name:"/joblist", query: {id:id}})
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
+
   }
 };
 </script>
@@ -238,7 +812,6 @@ body > .el-container {
 
 .home-session {
   position: relative;
- 
 }
 .search {
   height: 70px;
@@ -250,8 +823,18 @@ body > .el-container {
   margin: 5px auto;
   line-height: 70px;
 }
-.el-select {
-  width: 700px;
+.search .el-select {
+  width: 130px;
+}
+ .search .el-select .el-input {
+    width: 130px;
+  }
+.el-header .search .el-button{
+   background-color:black !important;
+   color:#fff !important;
+}
+.search .el-button:hover {
+  background-color: rgb(121, 120, 120);
 }
 /* menu菜单栏 */
 .h-a-l {
@@ -290,7 +873,6 @@ body > .el-container {
 .menu-aside p span {
   margin: 0 17px;
   font-size: 16px;
-
 }
 /* 侧边栏 */
 .home-aside {
@@ -300,8 +882,7 @@ body > .el-container {
   text-align: center;
   line-height: 200px;
   border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px; 
-  
+  border-bottom-left-radius: 5px;
 }
 /* main主栏 */
 .home-main {
@@ -310,7 +891,7 @@ body > .el-container {
   text-align: center;
   line-height: 160px;
   padding: 10px;
-   border-top-right-radius: 5px;
+  border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
 /* 轮播图 */
@@ -322,8 +903,7 @@ body > .el-container {
 /* 职位表 */
 .home-card {
   padding: -10px;
- background-color: rgb(214, 211, 211);
- 
+  background-color: rgb(214, 211, 211);
 }
 
 .jobh-card {
@@ -334,7 +914,8 @@ body > .el-container {
   box-shadow: 2px 2px 2px #d8d5d5;
   margin: 7px 7px;
   float: left;
-   border-radius: 5px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 .c-one {
   height: 42px;

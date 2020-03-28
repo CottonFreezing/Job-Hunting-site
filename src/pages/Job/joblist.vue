@@ -21,6 +21,7 @@
         <div class="j-h-right">
           <el-button icon="el-icon-star-on" :class="{collection:iscollection}" @click="collection(iscollection)">{{!iscollection? ' 收 藏 ':'取消搜藏'}}</el-button>
           <el-button type="info" @click="deliver">投 简 历</el-button>
+        
         </div>
       </el-header>
       <el-container class="w">
@@ -77,6 +78,8 @@ export default {
       iscollection:false,
       jobBox:[],
       companyBox:[],
+      user:'',
+      token:''
 
       
     };
@@ -101,17 +104,44 @@ export default {
   },
   methods: {
     collection(iscollection){
-      this.iscollection=!iscollection
+      this.$axios.post('/joblist/favor/?id='+ this.$route.query.id)
+      .then( res => {
+        if(res.status === 200){
+          this.iscollection=!iscollection
+        }
+      })
+      
       
     },
     deliver(){
-       this.$notify({
+      if(this.token.length <= 0){
+        let c = confirm("请登录")
+        if(c){
+         this.$router.push('/login')
+        }
+      }else{
+       this.$axios.post('/joblist/?id='+ this.$route.query.id)
+       .then(res => {
+         if(res.status === 200){
+           this.$notify({
           title: '投递成功',
           type: 'success',
           position: 'top-left',
           offset: 100
         });
+         }
+       })
+       .catch(err => {
+         console.log(err)
+       })
+       
+      }
     }
+  },
+  // 页面初始化 vue组件的生命周期
+  mounted:{
+    //this.user = 
+    //this.token =
   }
 };
 </script>

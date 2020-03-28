@@ -11,12 +11,47 @@
             </div>
           </router-link>
           <!-- 左侧列单显示 -->
-          <router-view></router-view>
+         <div class="tab">
+            <ul v-if="flag==='0'">
+              <li>
+                <i class="el-icon-message-solid"></i>
+                <p>任性选</p>
+                <p>各大行业任你选</p>
+              </li>
+              <li>
+                <i class="el-icon-s-flag"></i>
+                <p>突破自我</p>
+                <p>迎接新的挑战</p>
+              </li>
+              <li>
+                <i class="el-icon-s-promotion"></i>
+                <p>抓住机遇</p>
+                <p>实现自我价值</p>
+              </li>
+            </ul>
+            <ul v-else>
+              <li>
+                <i class="el-icon-notebook-2"></i>
+                <p>招聘效果好</p>
+                <p>与职场牛人在线开聊</p>
+              </li>
+              <li>
+                <i class="el-icon-collection"></i>
+                <p>更多在线牛人</p>
+                <p>入职速度快</p>
+              </li>
+              <li>
+                <i class="el-icon-goblet-square-full"></i>
+                <p>人才匹配度高</p>
+                <p>获取更精准的牛人</p>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="regist-right">      
           <el-menu class="el-menu-demo regist-menu" :default-active="activeIndex" mode="horizontal" @select="handleSelect">
-            <router-link to="reglogtab1"><el-menu-item index="1" >求职者注册</el-menu-item></router-link>
-           <router-link to="reglogtab2"> <el-menu-item index="2" >boss注册</el-menu-item></router-link>
+            <el-menu-item index="0" >求职者注册</el-menu-item>
+            <el-menu-item index="1" >boss注册</el-menu-item>
           </el-menu>
 
           <div class="r-r-inner">
@@ -61,7 +96,7 @@ export default {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
+        if (this.registForm.checkPass !== "") {
           this.$refs.registForm.validateField("checkPass");
         }
         callback();
@@ -76,16 +111,28 @@ export default {
         callback();
       }
     };
+    var userCheck = (rule, value, callback) => {
+      var reg = /^[a-z0-9]{3,8}$/i
+      if (value === "") {
+        callback(new Error("请输入账户"));
+      } else {
+        if (!reg.test(value)) {
+						//提示信息
+						callback(new Error("请输入3-8个"));
+					}
+        callback()
+      }
+    };
     return {
-      activeIndex: "1",
-      flag:'1',
+      activeIndex: "0",
+      flag:'0',
       registForm: {
         user: "",
         pass: "",
         checkPass: ""
       },
       rules: {
-        user: [{ required: true, message: "请输入账户", trigger: "blur" },],
+        user: [{ required: true, validator: userCheck, trigger: "blur" },],
         pass: [{ required: true, validator: validatePass, trigger: "blur" }],
         checkPass: [{required: true,validator: validatePass2, trigger: "blur" }]
       }
@@ -96,12 +143,12 @@ export default {
       this.flag = key;
       console.log(key, keyPath);
     },
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+    submitForm(registForm) {
+      this.$refs.registForm.validate(valid => {
         if (valid) {
-          if(this.flag=='1'){
+          if(this.flag=='0'){
           this.$router.replace('/home')
-          }else if(this.flag=='2'){
+          }else if(this.flag=='1'){
             this.$router.replace('/candidates')
           }
         } else {
@@ -237,5 +284,31 @@ export default {
   right: 20px;
   font-size: 14px;
   margin-top: 30px;
+}
+/* 左侧栏 */
+.tab ul {
+  margin: 50px 0 0 40px;
+}
+.tab li {
+  margin-bottom: 50px;
+}
+.tab li i {
+  float: left;
+  width: 25px;
+  height: 42px;
+  color: #8d92a1;
+  background-size: 100% auto;
+}
+.tab li > p:first-of-type {
+  line-height: 22px;
+  color: #8d92a1;
+  font-size: 16px;
+  font-weight: 700;
+}
+.tab li > p:last-of-type {
+  margin-top: 2px;
+  line-height: 18px;
+  color: #b0b4c1;
+  font-size: 13px;
 }
 </style>

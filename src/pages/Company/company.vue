@@ -196,7 +196,7 @@
         </div>
         <!-- 公司信息列表 -->
         <el-card shadow="hover" class="company-card">
-          <div v-for="w in companyBox" :key="w.id" >
+          <div v-for="w in companyBox" :key="w.id" @click="companyJum(w.id)">
             <div class="cm-card ">
               <a href="javascript:;">
                 <img :src="w.logourl" class="cm-logo" alt="logo" />
@@ -485,6 +485,17 @@ export default {
       this.active_id.splice(a,1,b)
      
       console.log(a,this.active_id);
+    },
+    companyJum(id){
+      // this.$axios.get('/company/?id='+id)
+      // .then( res => {
+      //   if(res.status === 200){
+          this.$router.push({name:"/companylist", query: {id:id}})
+      //   }
+      // })
+      // .catch( err => {
+      //   console.log(err)
+      // })
     }
   },
  
