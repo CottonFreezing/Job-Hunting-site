@@ -32,7 +32,7 @@
                 </li>
               </ul>
             </div>
-            <div class="header-social text-white float-right" v-if="!this.$store.state.token">
+            <div class="header-social text-white float-right" v-if="!token">
               <router-link to="/login" id="denglu">
                 <i class="ion-social-vimeo-outline">登录</i>
               </router-link>
@@ -43,7 +43,7 @@
               </router-link>
             </div>
             <div class="header-social text-white float-right" v-else>              
-                <a><i class="ion-social-vimeo-outline">{{this.$store.state.user}}</i> </a>       
+                <a><i class="header-social">{{username}}</i> </a>       
             </div>
           </div>
           <!--Mobile Menu-->
@@ -56,12 +56,23 @@
 
 <script>
 export default {
+  data(){
+    return{
+      username:"",
+      token:"",
+    }
+  },
   methods:{
     isCurrent(path){
       console.log(this.$route.meta.parentPath === path)
       return (this.$route.path === path || this.$route.meta.parentPath === path)
     },
   },
+  mounted() {
+    this.username = this.$cookie.get("username");
+    this.token = this.$cookie.get("token");
+    
+  }
 };
 </script>
 
@@ -74,6 +85,7 @@ export default {
 }
 .header-section {
   position: relative;
+  z-index: -9999;
   
 }
 .header-guide {
@@ -122,7 +134,7 @@ export default {
 .header-social a i {
   display: block;
   font-size: 15px;
-  line-height: 60x;
+  line-height: 60px;
 }
 .header-social a:hover {
   opacity: 0.7;

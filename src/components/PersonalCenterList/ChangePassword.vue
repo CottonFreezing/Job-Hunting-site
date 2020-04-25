@@ -10,13 +10,13 @@
       class="mychangeForm"
       size="medium"
     >
-      <el-form-item label="原密码" prop="pass" required>
+      <el-form-item label="原密码" prop="originalPass">
         <el-input type="password" v-model="changeForm.originalPass" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="新密码" prop="newPass" required>
+      <el-form-item label="新密码" prop="pass">
         <el-input type="password" v-model="changeForm.pass" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="确认新密码" prop="checkNewPass" required>
+      <el-form-item label="确认新密码" prop="checkPass">
         <el-input type="password" v-model="changeForm.checkPass" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
@@ -29,12 +29,26 @@
 <script>
 export default {
   data() {
-    var validatePass = (rule, value, callback) => {
+    var originalPass = (rule, value, callback) => {
+      var reg = /^[a-z0-9]{6,8}$/i;
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (!reg.test(value)) {
+          callback(new Error("密码格式不正确,请输入6-8位字母或数字"));
+        }
+        callback();
+      }
+    };
+    var validatePass = (rule, value, callback) => {
+      var reg = /^[a-z0-9]{6,8}$/i;
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        if (!reg.test(value)) {
+          callback(new Error("密码格式不正确,请输入6-8位字母或数字"));
+        } else {
+          this.$refs.changeForm.validateField("checkPass");
         }
         callback();
       }
@@ -42,22 +56,23 @@ export default {
     var validatePass2 = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
-      } else if (value !== this.ruleForm.pass) {
+      } else if (value !== this.changeForm.pass) {
         callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
       }
     };
     return {
+      token: "",
+      username: "",
       changeForm: {
-        user: "",
         originalPass: "",
         pass: "",
         checkPass: ""
       },
       rules: {
         originalPass: [
-          { required: true, message: "请输入原来密码", trigger: "blur" }
+          { required: true, validator: originalPass, trigger: "blur" }
         ],
         pass: [{ required: true, validator: validatePass, trigger: "blur" }],
         checkPass: [
@@ -67,26 +82,17 @@ export default {
     };
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+    submitForm(changeForm) {
+      this.$refs.changeForm.validate(valid => {
         if (valid) {
           this.$axios
-            .post("/changepass", {
-              user: this.changeForm.user,
-              originalPass: this.changeForm.originalPass,
-              pass: this.changeForm.pass
+            .post("/mybase/changepass", {
+              username: this.username,
+              newpass: this.changeForm.pass,
+              token: this.token
             })
             .then(res => {
-              if (res.status === 200) {
+              if (res.data.status === 200) {
                 alert("提交成功");
               }
             })
@@ -99,6 +105,12 @@ export default {
         }
       });
     }
+  },
+  mounted() {
+    this.username = this.$cookie.get("username");
+    this.token = this.$cookie.get("token");
+    this.userid = this.$cookie.get("userid");
+    this.cid = this.$cookie.get("cid");
   }
 };
 </script>

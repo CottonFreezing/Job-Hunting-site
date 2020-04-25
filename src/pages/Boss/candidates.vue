@@ -24,8 +24,8 @@
               <div class="info-select">
                 <div v-for="b in a.box" :key="b.id">
                   <span
-                    @click="stylechange(a.id, b.name_id)"
-                    :class="[active_id[a.id]==b.name_id ? 'addClass':'']"
+                    @click="stylechange(a.id, b.value),addCondition()"
+                    :class="[active_id[a.id]==b.value ? 'addClass':'']"
                   >
                     <a>{{b.value}}</a>
                   </span>
@@ -212,29 +212,28 @@
         <!-- 应聘者列表 -->
         <el-card shadow="hover" class="candidates-card">
           <div v-if="showcard">没有搜索到匹配结果</div>
-          <div v-for="(w,index) in showCanBox" :key="w.id">
-            <router-link :to="{name:'/candidateslist',query:{id:index}}">
-              <div class="cand-card">
-                <a href="javascript:;">
-                  <img :src="w.headimg" class="cand-logo" alt="头像" />
-                  <div class="cand-x">
-                    <p class="cand-x-one">
-                      <span>{{w.name}}</span>
-                      <span class="c-x-o-j">{{w.desiredjob}}</span>
-                    </p>
-                    <p class="cand-x-two">
-                      <span>{{w.sex}}</span>
-                      <span>|</span>
-                      <span>{{w.experience}}</span>
-                      <span>|</span>
-                      <span>{{w.academic}}</span>
-                      <span>|</span>
-                      <span>{{w.salary}}</span>
-                    </p>
-                  </div>
-                </a>
-              </div>
-            </router-link>
+          <div v-else v-for="w in showCanBox" :key="w.id" @click="candidatesJum(w.cid)">
+            <!-- <router-link :to="{name:'/candidateslist',query:{id:index}}"> -->
+            <div class="cand-card">
+              <a href="javascript:;">
+                <img :src="w.headimg" class="cand-logo" alt="头像" />
+                <div class="cand-x">
+                  <p class="cand-x-one">
+                    <span>{{w.name}}</span>
+                    <span class="c-x-o-j">{{w.desiredjob}}</span>
+                  </p>
+                  <p class="cand-x-two">
+                    <span>{{w.sex}}</span>
+                    <span>|</span>
+                    <span>{{w.experience}}</span>
+                    <span>|</span>
+                    <span>{{w.academic}}</span>
+                    <span>|</span>
+                    <span>{{w.salary}}</span>
+                  </p>
+                </div>
+              </a>
+            </div>
           </div>
         </el-card>
 
@@ -259,6 +258,9 @@
 export default {
   data() {
     return {
+      token:"",
+      username:"",
+      comid:"",
       showcard: false,
       keyword: "",
       list: [],
@@ -276,72 +278,58 @@ export default {
           box: [
             {
               id: 0,
-              name_id: "jobNone",
               value: "不限"
             },
             {
               id: 1,
-              name_id: "back",
               value: "后端开发"
             },
             {
               id: 2,
-              name_id: "mobile",
               value: "移动开发"
             },
             {
               id: 3,
-              name_id: "front",
               value: "前端开发"
             },
             {
               id: 4,
-              name_id: "test",
               value: "测 试"
             },
             {
               id: 5,
-              name_id: "operation",
               value: "运维/技术支持"
             },
             {
               id: 6,
-              name_id: "database",
               value: "数 据"
             },
             {
               id: 7,
-              name_id: "project",
               value: "项目"
             },
             {
               id: 8,
-              name_id: "hardware",
               value: "硬件开发"
             },
             {
               id: 9,
-              name_id: "communication",
               value: "通信"
             },
             {
               id: 10,
-              name_id: "AI",
               value: "人工智能"
             },
             {
               id: 11,
-              name_id: "HETPosition",
               value: "高端技术职位"
             },
             {
               id: 12,
-              name_id: "tel-support",
               value: "销售技术支持"
             },
             {
               id: 13,
-              name_id: "electron",
               value: "电子/半导体"
             }
           ]
@@ -352,37 +340,30 @@ export default {
           box: [
             {
               id: 0,
-              name_id: "workNone",
               value: "不限"
             },
             {
               id: 1,
-              name_id: "workIntern",
               value: "实习生"
             },
             {
               id: 2,
-              name_id: "workFG",
               value: "应届毕业生"
             },
             {
               id: 3,
-              name_id: "workOne",
               value: "3年以下"
             },
             {
               id: 4,
-              name_id: "workThree",
               value: "3-5年"
             },
             {
               id: 5,
-              name_id: "workFive",
               value: "5-10年"
             },
             {
               id: 6,
-              name_id: "workTen",
               value: "10年以上"
             }
           ]
@@ -393,46 +374,52 @@ export default {
           box: [
             {
               id: 0,
-              value: "不限",
-              name_id: "acaNone"
+              value: "不限"
             },
             {
               id: 1,
-              value: "高中及以下",
-              name_id: "acaHeigh"
+              value: "高中及以下"
             },
             {
               id: 2,
-              value: "大专",
-              name_id: "acaJunior"
+              value: "大专"
             },
             {
               id: 3,
-              value: "本科",
-              name_id: "acaCollege"
+              value: "本科"
             },
             {
               id: 4,
-              value: "硕士",
-              name_id: "acaMaster"
+              value: "硕士"
             },
             {
               id: 5,
-              value: "博士",
-              name_id: "acaDoctor"
+              value: "博士"
             }
           ]
         }
       ],
 
-      active_id: ["jobNone", "workNone", "acaNone"]
+      active_id: ["不限", "不限", "不限"]
     };
   },
   created() {
     this.$axios
-      .get("./static/data/candidates.json")
+      .get("/candidates/search", {params:{
+        keyword: this.keyword,
+        desiredjob: this.active_id[0],
+        experience: this.active_id[1],
+        academic: this.active_id[2], 
+        currentPage: this.currentPage,
+        pageSize: this.pageSize,
+        // cid:"",
+        comid: this.$cookie.get("comid"),
+        token: this.$cookie.get("token"),
+        username:this.$cookie.get("username")
+
+      }}) 
       .then(res => {
-        this.candidatesBox = res.data.message;
+        this.candidatesBox = res.data.data;
         this.showCanBox = this.candidatesBox;
       })
       .catch(err => {
@@ -447,32 +434,62 @@ export default {
     handleCurrentChange(currentPage) {
       //点击页面项 的函数响应
       this.currentPage = currentPage;
+      this.$axios
+        .post("/candidates/search", {
+          keyword: this.keyword,
+          desiredjob: this.active_id[0],
+          experience: this.active_id[1],
+          academic: this.active_id[2],
+          currentPage: this.currentPage,
+          pageSize: this.pageSize
+        })
+        .then(res => {});
       console.log(this.currentPage);
     },
     stylechange(a, b) {
       this.active_id.splice(a, 1, b);
       console.log(a, this.active_id);
     },
+    addCondition() {
+      alert(label);
+      this.keyword = this.keyword.concat(label + ",");
+      this.$axios.get("/candidates/search", {params:{
+        keyword: this.keyword,
+        desiredjob: this.active_id[0],
+        experience: this.active_id[1],
+        academic: this.active_id[2],
+        currentPage: this.currentPage,
+        pageSize: this.pageSize
+      }});
+    },
     jobSearch() {
       if (this.keyword == "") {
         this.$message.warning("请输入搜索内容");
         this.showCanBox = this.candidatesBox;
         return;
-      } else{
-        this.$axios.get('/candidates/search/?keyword='+this.keyword)
-        .then(res => {
-          if(res.status === 200){
-            for(var i in res.dta){
-              this.showCanBox.push(res.data[i])
+      } else {
+        this.$axios
+          .get("/candidates/search",{params: {
+            keyword: this.keyword,
+            desiredjob: this.active_id[0],
+            experience: this.active_id[1],
+            academic: this.active_id[2],
+            currentPage: this.currentPage,
+            pageSize: this.pageSize
+          }})
+          .then(res => {
+            if (res.status === 200) {
+              for (var i in res.data.data.rows) {
+                this.showCanBox.push(res.data.data.rows[i]);
+              }
+              if (this.showCanBox.length == 0) {
+                this.showcard = true;
+              }
             }
-            if(this.showCanBox.length == 0){
-              this.showcard = true
-            }
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
       /*else {
         this.showCanBox = [];
@@ -496,7 +513,24 @@ export default {
           this.showcard = true;
         }
       }*/
+    },
+    candidatesJum(id) {
+      this.$axios
+        .get("/candidates/jumcandidateslist/?cid=" + id)
+        .then(res => {
+          if (res.status === 200) {
+            this.$router.push({ name: "/candidateslist", query: { id: id } });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
+  },
+  mounted() {
+    this.username = this.$cookie.get("username");
+    this.token = this.$cookie.get("token");
+    this.comid = this.$cookie.get("comid")
   }
 };
 </script>

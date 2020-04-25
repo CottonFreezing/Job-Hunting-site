@@ -1,63 +1,109 @@
 <template>
   <div class="w resumes-session clearfix">
     <el-container>
-      <el-main class="resumes-main clearfix" v-if="!dialog">    
-          <div class="p-base clearfix">
-            <p class="p-name">
-              <span>{{ruleForm.name}}</span>
-              <i class="el-icon-edit-outline bb-edit" @click="dialog = true"></i></p>
-            <p>
-              <span><i class="el-icon-sunny"></i>{{ruleForm.birth}}</span>
-              <span>|</span>
-              <span><i class="el-icon-collection"></i>{{ruleForm.academic}}</span>
-              <span>|</span>
-              <span><i class="el-icon-suitcase"></i>{{ruleForm.experience}}</span>
-              <span>|</span>
-              <span><i class="el-icon-location-information"></i>{{ruleForm.nationality}}</span>
-              </p>
-              <p>
-                <span><i class="el-icon-phone-outline"></i>{{ruleForm.telephone}}</span>                
-                <span>|</span>
-                <span><i class="el-icon-message"></i>{{ruleForm.email}}</span>
-              </p>
-              <el-divider></el-divider>
-          </div>
-          <div class="p-base ">
-            <p class="p-title"><span></span>自我描述</p>
-            <p>{{ruleForm.assessment}}</p>
-            <el-divider></el-divider>
-          </div>
-          <div class="p-base ">
-            <p class="p-title"><span></span>期望职位</p>
-            <p>
-              <span><i class="el-icon-monitor"></i>{{ruleForm.desiredjob}}</span>
-              <span><i class="el-icon-coin"></i>{{ruleForm.desiredsalary}}</span>
-              <span><i class="el-icon-office-building"></i>{{ruleForm.desiredcity}}</span>
-            </p>
-            <el-divider></el-divider>
-          </div>
-          <div class="p-base ">
-            <p class="p-title"><span></span>教育经验</p>
-            <p>
-              <span>{{ruleForm.school}}</span>
-              <span>|</span>
-              <span>{{ruleForm.date1}}-{{ruleForm.date2}}</span>
-              <span>|</span>
-              <span>{{ruleForm.subject}}</span>
-              <span>|</span>
-              <span>{{ruleForm.academic}}</span>
-              </p>
-              <el-divider></el-divider>
-          </div>
-          <div class="p-base ">
-            <p class="p-title"><span></span>项目经验</p>
-            <p><span>项目名称：{{ruleForm.projectname}}</span></p>
-            <p><span>时间：{{ruleForm.starttime}}-{{ruleForm.endtime}}</span></p>
-            <p><span>担任职务：{{ruleForm.duty}}</span></p>
-            <p><span>项目描述：</span></p>
-            <p><span> </span>{{ruleForm.description}}</p>
-          </div>
-
+      <el-main class="resumes-main clearfix" v-if="!dialog">
+        <div class="p-base clearfix">
+          <p class="p-name">
+            <span>{{ruleForm.name}}</span>
+            <i class="el-icon-edit-outline bb-edit" @click="dialog = true"></i>
+          </p>
+          <p>
+            <span>
+              <i class="el-icon-sunny"></i>
+              {{ruleForm.birth}}
+            </span>
+            <span>|</span>
+            <span>
+              <i class="el-icon-collection"></i>
+              {{ruleForm.academic}}
+            </span>
+            <span>|</span>
+            <span>
+              <i class="el-icon-suitcase"></i>
+              {{ruleForm.experience}}
+            </span>
+            <span>|</span>
+            <span>
+              <i class="el-icon-location-information"></i>
+              {{ruleForm.nationality}}
+            </span>
+          </p>
+          <p>
+            <span>
+              <i class="el-icon-phone-outline"></i>
+              {{ruleForm.telephone}}
+            </span>
+            <span>|</span>
+            <span>
+              <i class="el-icon-message"></i>
+              {{ruleForm.email}}
+            </span>
+          </p>
+          <el-divider></el-divider>
+        </div>
+        <div class="p-base">
+          <p class="p-title">
+            <span></span>自我描述
+          </p>
+          <p>{{ruleForm.assessment}}</p>
+          <el-divider></el-divider>
+        </div>
+        <div class="p-base">
+          <p class="p-title">
+            <span></span>期望职位
+          </p>
+          <p>
+            <span>
+              <i class="el-icon-monitor"></i>
+              {{ruleForm.desiredjob}}
+            </span>
+            <span>
+              <i class="el-icon-coin"></i>
+              {{ruleForm.desiredsalary}}
+            </span>
+            <span>
+              <i class="el-icon-office-building"></i>
+              {{ruleForm.desiredcity}}
+            </span>
+          </p>
+          <el-divider></el-divider>
+        </div>
+        <div class="p-base">
+          <p class="p-title">
+            <span></span>教育经验
+          </p>
+          <p>
+            <span>{{ruleForm.school}}</span>
+            <span>|</span>
+            <span>{{ruleForm.date1}}-{{ruleForm.date2}}</span>
+            <span>|</span>
+            <span>{{ruleForm.subject}}</span>
+            <span>|</span>
+            <span>{{ruleForm.academic}}</span>
+          </p>
+          <el-divider></el-divider>
+        </div>
+        <div class="p-base">
+          <p class="p-title">
+            <span></span>项目经验
+          </p>
+          <p>
+            <span>项目名称：{{ruleForm.projectname}}</span>
+          </p>
+          <p>
+            <span>时间：{{ruleForm.starttime}}-{{ruleForm.endtime}}</span>
+          </p>
+          <p>
+            <span>担任职务：{{ruleForm.duty}}</span>
+          </p>
+          <p>
+            <span>项目描述：</span>
+          </p>
+          <p>
+            <span></span>
+            {{ruleForm.description}}
+          </p>
+        </div>
       </el-main>
       <!-- 编写个人简历 -->
       <el-main class="resumes-main" v-else>
@@ -82,7 +128,7 @@
                 <el-radio label="女"></el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="出生日期：" required>
+            <el-form-item label="出生日期：">
               <el-col :span="11">
                 <el-form-item prop="birth">
                   <el-date-picker
@@ -90,6 +136,7 @@
                     placeholder="选择日期"
                     v-model="ruleForm.birth"
                     style="width: 100%;"
+                    value-format="yyyy-MM-dd"
                   ></el-date-picker>
                 </el-form-item>
               </el-col>
@@ -107,17 +154,17 @@
                 <el-option label="意大利" value="意大利"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item prop="email" label="邮 箱：" required>
+            <el-form-item prop="email" label="邮 箱：">
               <el-col :span="11">
                 <el-input v-model="ruleForm.email"></el-input>
               </el-col>
             </el-form-item>
-            <el-form-item prop="telephone" label="电 话：" required>
+            <el-form-item prop="telephone" label="电 话：">
               <el-col :span="11">
                 <el-input v-model="ruleForm.telephone"></el-input>
               </el-col>
             </el-form-item>
-            <el-form-item prop="experience" label="工作经验" required>
+            <el-form-item prop="experience" label="工作经验">
               <el-col :span="11">
                 <el-select v-model="ruleForm.experience">
                   <el-option label="实习生" selected value="实习生"></el-option>
@@ -134,7 +181,7 @@
           <div class="desired-info">
             <p class="resumes-title">期望职位</p>
 
-            <el-form-item label="期望职位：" prop="desiredjob" required>
+            <el-form-item label="期望职位：" prop="desiredjob">
               <el-col :span="11">
                 <el-select v-model="ruleForm.desiredjob" placeholder="请选择期望职位">
                   <el-option label="后端开发" value="后端开发"></el-option>
@@ -169,7 +216,7 @@
 
           <div class="education-info">
             <p class="resumes-title">教育经验</p>
-            <el-form-item label="时 间：" required>
+            <el-form-item label="时 间：">
               <el-col :span="11">
                 <el-form-item prop="date1">
                   <el-date-picker
@@ -177,22 +224,28 @@
                     placeholder="选择日期"
                     v-model="ruleForm.date1"
                     style="width: 100%;"
+                    value-format="yyyy-MM-dd"
                   ></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align:center">—</el-col>
               <el-col :span="11">
                 <el-form-item prop="date2">
-                  <el-date-picker placeholder="选择日期" v-model="ruleForm.date2" style="width: 100%;"></el-date-picker>
+                  <el-date-picker
+                    placeholder="选择日期"
+                    value-format="yyyy-MM-dd"
+                    v-model="ruleForm.date2"
+                    style="width: 100%;"
+                  ></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
-            <el-form-item label="学 校：" prop="school" required>
+            <el-form-item label="学 校：" prop="school">
               <el-col :span="11">
                 <el-input v-model="ruleForm.school"></el-input>
               </el-col>
             </el-form-item>
-            <el-form-item label="专 业：" prop="subject" required>
+            <el-form-item label="专 业：" prop="subject">
               <el-col :span="11">
                 <el-input v-model="ruleForm.subject"></el-input>
               </el-col>
@@ -223,11 +276,17 @@
                   placeholder="开始日期"
                   v-model="ruleForm.starttime"
                   style="width: 100%;"
+                  value-format="yyyy-MM-dd"
                 ></el-date-picker>
               </el-col>
               <el-col class="line" :span="2" style="text-align:center">—</el-col>
               <el-col :span="11">
-                <el-date-picker placeholder="结束日期" v-model="ruleForm.endtime" style="width: 100%;"></el-date-picker>
+                <el-date-picker
+                  placeholder="结束日期"
+                  v-model="ruleForm.endtime"
+                  value-format="yyyy-MM-dd"
+                  style="width: 100%;"
+                ></el-date-picker>
               </el-col>
             </el-form-item>
             <el-form-item label="项目描述：">
@@ -292,7 +351,11 @@ export default {
       }
     };
     return {
-      dialog:false,
+      token: "",
+      username: "",
+      cid: "",
+      userid: "",
+      dialog: false,
       loading: false,
       labelPosition: "right",
       ruleForm: {
@@ -338,7 +401,7 @@ export default {
         sex: [{ required: true, message: "请选择性别", trigger: "change" }],
         birth: [
           {
-            type: "date",
+            type: "string",
             required: true,
             message: "请选择日期",
             trigger: "change"
@@ -375,7 +438,7 @@ export default {
 
         date1: [
           {
-            type: "date",
+            type: "string",
             required: true,
             message: "请选择日期",
             trigger: "change"
@@ -383,7 +446,7 @@ export default {
         ],
         date2: [
           {
-            type: "date",
+            type: "string",
             required: true,
             message: "请选择时间",
             trigger: "change"
@@ -392,20 +455,52 @@ export default {
       }
     };
   },
+  created() {
+    this.$axios
+      .get("/mybase/base", { params: { token: this.$cookie.get('token') } })
+      .then(res => {
+        if (res.status === 200) {
+          this.ruleForm = res.data.data;
+        }
+      });
+  },
   methods: {
     submitForm(ruleForm) {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.$axios
-            .post("/resumes", {params:{ruleForm:this.ruleForm}})
+            .post("/resumes/edit", {
+              name: this.ruleForm.name,
+              sex: this.ruleForm.sex,
+              birth: this.ruleForm.birth,
+              nationality: this.ruleForm.nationality,
+              email: this.ruleForm.email,
+              telephone: this.ruleForm.telephone,
+              experience: this.ruleForm.experience,
+              desiredjob: this.ruleForm.desiredjob,
+              desiredsalary: this.ruleForm.desiredsalary,
+              desiredcity: this.ruleForm.desiredcity,
+              school: this.ruleForm.school,
+              subject: this.ruleForm.subject,
+              academic: this.ruleForm.academic,
+              date1: this.ruleForm.date1,
+              date2: this.ruleForm.date2,
+              projectname: this.ruleForm.projectname,
+              duty: this.ruleForm,
+              starttime: this.ruleForm.starttime,
+              endtime: this.ruleForm.endtime,
+              assessment: this.ruleForm.assessment,
+              token: this.token,
+              username: this.username
+            })
             .then(res => {
               if (res.status == 200) {
-                alert("创建成功");
+                alert("修改成功");
                 this.dialog = false;
               }
             })
-            .catch( err=> {
-              console.log(err)
+            .catch(err => {
+              console.log(err);
             });
         } else {
           console.log("error submit!!");
@@ -414,9 +509,9 @@ export default {
       });
     },
     resetForm(ruleForm) {
-       this.$nextTick(()=>{
-      this.$refs.ruleForm.resetFields();
-      })
+      this.$nextTick(() => {
+        this.$refs.ruleForm.resetFields();
+      });
       this.dialog = false;
     },
 
@@ -437,23 +532,28 @@ export default {
       return this.$confirm(`确定移除 ${file.name}？`);
     }
   },
-  filters:{
-    formatDate(value) {
-      let date = new Date(value)
-      let y = date.getFullYear
-      let MM = date.getMonth()+1
-      MM = MM < 10 ? ('0' + MM) : MM
-      let d = date.getDate
-      d = d < 10 ? ('0' + d) : d
-      let  h = date.getHours
-      h = h < 10 ? ('0' + h) : h
-      let m = date.getMinutes
-      m = m < 10 ? ('0' + m) : m
-      let s = date.getSeconds()
-      s = s < 10 ? ('0' + s) : s
-      return y + '-' + MM + '-' + d
-
-    }
+  // filters: {
+  //   formatDate(value) {
+  //     let date = new Date(value);
+  //     let y = date.getFullYear;
+  //     let MM = date.getMonth() + 1;
+  //     MM = MM < 10 ? "0" + MM : MM;
+  //     let d = date.getDate;
+  //     d = d < 10 ? "0" + d : d;
+  //     let h = date.getHours;
+  //     h = h < 10 ? "0" + h : h;
+  //     let m = date.getMinutes;
+  //     m = m < 10 ? "0" + m : m;
+  //     let s = date.getSeconds();
+  //     s = s < 10 ? "0" + s : s;
+  //     return y + "-" + MM + "-" + d;
+  //   }
+  // },
+  mounted() {
+    this.username = this.$cookie.get("username");
+    this.token = this.$cookie.get("token");
+    this.userid = this.$cookie.get("userid");
+    this.cid = this.$cookie.get("cid");
   }
 };
 </script>
@@ -527,15 +627,14 @@ body > .el-container {
   font-size: 24px;
   color: #3d3d3d;
   line-height: 50px;
-  
 }
 .p-title span {
   display: inline-block;
   height: 15px;
   width: 3px;
-  border-left: 3px solid rgb(252, 70, 70) ;
+  border-left: 3px solid rgb(252, 70, 70);
 }
-.p-base .p-name{
+.p-base .p-name {
   font-size: 36px;
   font-weight: 600;
   color: #333;
@@ -549,7 +648,7 @@ body > .el-container {
   margin: 0 3px;
 }
 .p-base span i {
-  margin-right: 2px ;
+  margin-right: 2px;
 }
 .bb-edit {
   position: absolute;

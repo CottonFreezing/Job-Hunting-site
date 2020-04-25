@@ -1,5 +1,5 @@
 <template>
-  <div class="regist-body" >
+  <div class="regist-body">
     <el-container>
       <div class="regist">
         <div class="regist-left">
@@ -11,7 +11,7 @@
             </div>
           </router-link>
           <!-- 左侧列单显示 -->
-         <div class="tab">
+          <div class="tab">
             <ul v-if="flag==='0'">
               <li>
                 <i class="el-icon-message-solid"></i>
@@ -48,10 +48,15 @@
             </ul>
           </div>
         </div>
-        <div class="regist-right">      
-          <el-menu class="el-menu-demo regist-menu" :default-active="activeIndex" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="0" >求职者注册</el-menu-item>
-            <el-menu-item index="1" >boss注册</el-menu-item>
+        <div class="regist-right">
+          <el-menu
+            class="el-menu-demo regist-menu"
+            :default-active="activeIndex"
+            mode="horizontal"
+            @select="handleSelect"
+          >
+            <el-menu-item index="0">求职者注册</el-menu-item>
+            <el-menu-item index="1">boss注册</el-menu-item>
           </el-menu>
 
           <div class="r-r-inner">
@@ -61,23 +66,26 @@
               :rules="rules"
               ref="registForm"
               label-width="100px"
-              
             >
-            <div>
-              <el-form-item label="账 号：" prop="user" required>
-                <el-input v-model="registForm.user"></el-input>
-              </el-form-item>
-              <el-form-item label="密码" prop="pass" required>
-                <el-input type="password" v-model="registForm.pass" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="确认密码" prop="checkPass" required>
-                <el-input type="password" v-model="registForm.checkPass" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button width="400px" style="background-color:black;color:white" @click="submitForm('registForm')">登 录</el-button>
-              </el-form-item>
-            </div>
-            </el-form>        
+              <div>
+                <el-form-item label="账 号：" prop="user" >
+                  <el-input v-model="registForm.user" on-blur="checkUsername"></el-input>
+                </el-form-item>
+                <el-form-item label="密码" prop="pass" >
+                  <el-input type="password" v-model="registForm.pass" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="确认密码" prop="checkPass" >
+                  <el-input type="password" v-model="registForm.checkPass" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button
+                    width="400px"
+                    style="background-color:black;color:white"
+                    @click="submitForm('registForm')"
+                  >注 册</el-button>
+                </el-form-item>
+              </div>
+            </el-form>
             <p class="regist-r">
               已有账号
               <router-link to="/login" style="color:red">立即登录</router-link>
@@ -112,29 +120,68 @@ export default {
       }
     };
     var userCheck = (rule, value, callback) => {
-      var reg = /^[a-z0-9]{3,8}$/i
+      var reg = /^[a-z0-9]{3,8}$/i;
       if (value === "") {
         callback(new Error("请输入账户"));
-      } else {
+      } else{
         if (!reg.test(value)) {
-						//提示信息
-						callback(new Error("请输入3-8个"));
-					}
-        callback()
+          //提示信息
+          callback(new Error("请输入3-8个数字或字母"));
+        } else {
+          //将用户名传入后台校验是否重复
+          if (this.flag == "0") {
+            this.$axios
+              .post("/regist/isExist", {
+                user: this.registForm.user,
+                pass: "",
+              })
+              .then(res => {
+                console.log(res.data.msg ,this.registForm.user,res.data.status)
+                if (res.data.status == 500) {
+                  alert(res.data.msg)
+                  callback(new Error(res.data.msg));
+                  this.registForm.user = ""
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          } else {
+            this.$axios
+              .post("/company/isExist", {
+                user: this.registForm.user,
+                pass: "",
+              })
+              .then(res => {
+                console.log(res.data.msg ,this.registForm.user,res.data.status)
+                if (res.data.status === 500) {
+                  alert(new Error(res.data.msg))
+                  callback(new Error(res.data.msg));
+                  this.registForm.user = ""
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }
+        }
+        callback();
       }
     };
     return {
       activeIndex: "0",
-      flag:'0',
+      flag: "0",
       registForm: {
         user: "",
         pass: "",
         checkPass: ""
       },
       rules: {
-        user: [{ required: true, validator: userCheck, trigger: "blur" },],
+        user: [{ required: true, validator: userCheck, trigger: "blur" }],
         pass: [{ required: true, validator: validatePass, trigger: "blur" }],
-        checkPass: [{required: true,validator: validatePass2, trigger: "blur" }]
+        checkPass: [
+          { required: true, validator: validatePass2, trigger: "blur" }
+        ]
       }
     };
   },
@@ -146,10 +193,46 @@ export default {
     submitForm(registForm) {
       this.$refs.registForm.validate(valid => {
         if (valid) {
-          if(this.flag=='0'){
-          this.$router.replace('/home')
-          }else if(this.flag=='1'){
-            this.$router.replace('/candidates')
+          if (this.flag == "0") {
+            this.$axios
+              .post(
+                "/regist",
+               {
+                  user: this.registForm.user,
+                  pass: this.registForm.pass,
+                },
+              )
+              .then(res => {
+                if (res.status === 200) {
+                   this.$cookie.set('userid',res.data.data.userid)
+                  this.$cookie.set('username',res.data.data.username)
+                  this.$cookie.set('token',res.data.data.token)
+                  this.$cookie.set('cid',res.data.data.cid)
+                  // console.log(this.registForm.user,this.registForm.pass)        
+                  this.$router.push("candreg");
+                }
+              })
+              .catch(err => {
+                console(err);
+              });
+          }else if (this.flag == "1") {
+            this.$axios
+              .post("/regist/company", {
+                user: this.registForm.user,
+                pass: this.registForm.pass,
+              })
+              .then(res => {
+                if (res.status === 200) {
+                  //  console.log(this.registForm.user,this.registForm.pass)
+                   this.$cookie.set('username',res.data.data.username)
+                  this.$cookie.set('token',res.data.data.token)
+                  this.$cookie.set('comid',res.data.data.comid)
+                  this.$router.push("/bossreg");
+                }
+              })
+              .catch(err => {
+                console(err);
+              });
           }
         } else {
           console.log("error submit!!");
@@ -163,9 +246,9 @@ export default {
 
 <style scoped>
 .regist-body {
- width: 100%;
+  width: 100%;
   height: 100%;
-  background: url('../../../static/data/images/loginbg.jpg') no-repeat;
+  background: url("../../../static/data/images/loginbg.jpg") no-repeat;
   background-size: cover;
 }
 .regist {
@@ -263,10 +346,10 @@ export default {
   line-height: 60px;
   font-size: 18px;
   box-sizing: inherit;
-  border-bottom: 2px solid red ;
+  border-bottom: 2px solid red;
 }
 .regist-menu .el-menu-item.is-active {
-    color: black;
+  color: black;
 }
 .r-r-inner {
   position: relative;

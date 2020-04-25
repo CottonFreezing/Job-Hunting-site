@@ -1,93 +1,119 @@
 <template>
-     <!-- 修改密码 -->
-        <div class="mychange">
-          <el-form :model="changeForm"
-              status-icon
-              :rules="rules"
-              ref="registForm"
-              label-width="100px"
-              class="mychangeForm"
-              size="medium">
-            <el-form-item label="原密码" prop="pass">
-                <el-input type="password" v-model="changeForm.pass" autocomplete="off"></el-input>
-              </el-form-item>
-            <el-form-item label="新密码" prop="newPass">
-                <el-input type="password" v-model="changeForm.newPass" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="确认新密码" prop="checkNewPass">
-                <el-input type="password" v-model="changeForm.checkNewPass" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="danger" @click="submitForm('changeForm')">修 改</el-button>
-              </el-form-item>
-          </el-form>
-          </div>
+  <!-- 修改密码 -->
+  <div class="mychange">
+    <el-form
+      :model="changeForm"
+      status-icon
+      :rules="rules"
+      ref="changeForm"
+      label-width="100px"
+      class="mychangeForm"
+      size="medium"
+    >
+      <el-form-item label="原密码" prop="originalPass">
+        <el-input type="password" v-model="changeForm.originalPass" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="新密码" prop="pass">
+        <el-input type="password" v-model="changeForm.pass" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="确认新密码" prop="checkPass">
+        <el-input type="password" v-model="changeForm.checkPass" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="info" @click="submitForm('changeForm')">修 改</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <script>
 export default {
-     data() {
-    var validateNewPass = (rule, value, callback) => {
+  data() {
+    var originalPass = (rule, value, callback) => {
+      var reg = /^[a-z0-9]{6,8}$/i;
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkNewPass !== "") {
-          this.$refs.changeForm.validateField("checkNewPass");
+        if (!reg.test(value)) {
+          callback(new Error("密码格式不正确,请输入6-8位字母或数字"));
         }
         callback();
       }
     };
-    var validateNewPass2 = (rule, value, callback) => {
+    var validatePass = (rule, value, callback) => {
+      var reg = /^[a-z0-9]{6,8}$/i;
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        if (!reg.test(value)) {
+          callback(new Error("密码格式不正确,请输入6-8位字母或数字"));
+        } else {
+          this.$refs.changeForm.validateField("checkPass");
+        }
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
-      } else if (value !== this.changeForm.newPass) {
+      } else if (value !== this.changeForm.pass) {
         callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
       }
     };
     return {
-       changeForm: {
+      token: "",
+      username: "",
+      comid:"",
+      changeForm: {
+        originalPass: "",
         pass: "",
-        newPass: "",
         checkPass: ""
       },
       rules: {
-        pass: [{ required: true, message: "请输入原来密码", trigger: "blur" }],
-        newPass: [{required: true, validator: validateNewPass, trigger: "blur" }],
-        checkNewPass: [{required: true, validator: validateNewPass2, trigger: "blur" }]
+        originalPass: [
+          { required: true, validator: originalPass, trigger: "blur" }
+        ],
+        pass: [{ required: true, validator: validatePass, trigger: "blur" }],
+        checkPass: [
+          { required: true, validator: validatePass2, trigger: "blur" }
+        ]
       }
     };
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
-     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    },
-      submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+    submitForm(changeForm) {
+      this.$refs.changeForm.validate(valid => {
         if (valid) {
-         this.$axios.post('/bosschangepss',{user:this.$store.state.user,companyid:this.$store.state.companyid})
-         .then(res => {
-           alert("修改成功")
-         })
-         .catch( err => {
-           console.log(err)
-         })
+          this.$axios
+            .post("/bossbase/changepass", {
+              username: this.username,
+              newpass: this.changeForm.pass,
+              token: this.token,
+              comid:this.comid
+            })
+            .then(res => {
+              if (res.data.status === 200) {
+                alert("提交成功");
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
         } else {
           console.log("error submit!!");
           return false;
         }
       });
     }
+  },
+  mounted() {
+    this.username = this.$cookie.get("username");
+    this.token = this.$cookie.get("token");
+    this.comid = this.$cookie.get("comid");
   }
 };
-
 </script>
 
 <style scoped>
@@ -97,10 +123,9 @@ export default {
 }
 .mychangeForm {
   width: 470px;
-  margin:50px auto;
+  margin: 50px auto;
 }
 .mychangeForm .el-form-item {
   margin: 50px 0;
 }
-
 </style>

@@ -38,8 +38,7 @@
           <p>
             <span>公司主页：</span>
             <span>
-
-              数据双向绑定 虚拟DOM 
+              <!-- 数据双向绑定 虚拟DOM  -->
               <a href="companyData.url">{{companyData.url}}</a>
             </span>
           </p>
@@ -89,7 +88,7 @@
                 type="primary"
                 @click="handleClose"
                 :loading="loading[0].val"
-              >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
+              >{{ loading[0].val ? '提交中 ...' : '确 定' }}</el-button>
             </div>
           </div>
         </div>
@@ -114,7 +113,7 @@
                 type="primary"
                 @click="handleClose"
                 :loading="loading[1].val"
-              >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
+              >{{ loading[1].val ? '提交中 ...' : '确 定' }}</el-button>
             </div>
           </div>
         </div>
@@ -140,7 +139,7 @@
                 type="primary"
                 @click="handleClose"
                 :loading="loading[2].val"
-              >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
+              >{{ loading[2].val ? '提交中 ...' : '确 定' }}</el-button>
             </div>
           </div>
         </div>
@@ -189,6 +188,9 @@
 export default {
   data() {
     return {
+      token: "",
+      username: "",
+      comid: "",
       dialog:[
         {val:false},
         {val:false},
@@ -199,7 +201,6 @@ export default {
         {val:false},
         {val:false},
       ],
-
 
       timer: null,
       companyData: {},
@@ -218,18 +219,28 @@ export default {
     };
   },
   created() {
-    // let id = this.$router.query.id
+ 
     this.$axios
-      .get("./static/data/company.json")
+      .get("/bosebase/company",{params: {
+          token: this.$cookie.get("token"),
+          username: this.$cookie.get('username'),
+          comid: this.$cookie.get('comid')
+        }})
       .then(res => {
-        this.companyData = res.data.message[0];
+        if(res.status === 200){
+        this.companyData = res.data;
+        }
       })
       .catch(err => {
         console.log(err);
       });
 
     this.$axios
-      .get("./static/data/job.json")
+      .get("/postjob/all",{params: {
+          token: this.$cookie.get("token"),
+          username: this.$cookie.get('username'),
+          comid: this.$cookie.get('comid')
+        }})
       .then(res => {
         this.jobBox = res.data.message;
       })
@@ -259,6 +270,13 @@ export default {
       }
       this.$confirm("确定要提交表单吗？")
         .then(_ => {
+          // this.$axios.post('/bossbase/edit',{token: this.token,username:this.username,comid:this.comid })
+          // .then(res=>{
+
+          // })
+          // .catch(err=>{
+          //   console.log(err)
+          // })
           this.$set(this.loading[a],'val',true)
           
           this.timer = setTimeout(() => {
@@ -275,7 +293,7 @@ export default {
     cancelForm:function(a,companyData) {
 
       this.$nextTick(()=>{
-      this.$refs['companyData'].resetFields();
+      this.$refs.companyData.resetFields();
       })
       this.$set(this.loading[a],'val',false)
       this.$set(this.dialog[a],'val',false)
@@ -283,6 +301,11 @@ export default {
       clearTimeout(this.timer);
     }
   },
+  mounted() {
+    this.username = this.$cookie.get("username");
+    this.token = this.$cookie.get("token");
+    this.comid = this.$cookie.get("comid");
+  }
 };
 </script>
 

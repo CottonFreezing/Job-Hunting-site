@@ -10,7 +10,7 @@
           <h3>基本信息</h3>
           <p>
             <span>
-              <i class="project-title">性  别：</i>
+              <i class="project-title">性 别：</i>
               {{candidates.sex}}
             </span>
             <span>
@@ -20,17 +20,17 @@
           </p>
           <p>
             <span>
-              <i class="project-title">邮  箱：</i>
+              <i class="project-title">邮 箱：</i>
               {{candidates.email}}
             </span>
             <span>
-              <i class="project-title">电  话：</i>
+              <i class="project-title">电 话：</i>
               {{candidates.telephone}}
             </span>
           </p>
           <p>
             <span>
-              <i class="project-title">国  籍：</i>
+              <i class="project-title">国 籍：</i>
               {{candidates.nationality}}
             </span>
           </p>
@@ -95,33 +95,50 @@
 export default {
   data() {
     return {
-      candidates:[],
-     
-      
+      candidates: [],
+      token: "",
+      username: "",
+      comid: "",
     };
   },
-  created(){
-    let id = this.$route.query.id
-    this.$axios.get("./static/data/candidates.json")
-    .then( res => {
-      this.candidates = res.data.message[id]
-    })
-    .catch( err => {
-      console.log(err)
-    })
-  },
-  methods:  {
-    invitation(){
-      this.$notify({
-        title: "邀请成功",
-        type: 'success',
-        position: 'top-right',
-        offset: 100
-
+  created() {
+    let id = this.$route.query.id;
+    this.$axios
+      .get("/candidateslist",{params:{ cid: id }})
+      .then(res => {
+        this.candidates = res.data.message[id];
       })
-    }
-  }
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  methods: {
+    invitation() {
+      this.$axios
+        .post("/candidateslist/interview", {
+          token: this.token,
+          username:this.username,
+          comid:this.comid,
+          cid: this.candidates.cid,
 
+        })
+        .then(res => {
+          if (res.status === 200) {
+            this.$notify({
+              title: "邀请成功",
+              type: "success",
+              position: "top-right",
+              offset: 100
+            });
+          }
+        });
+    }
+  },
+  mounted() {
+    this.username = this.$cookie.get("username");
+    this.token = this.$cookie.get("token");
+    this.comid = this.$cookie.get("comid");
+  }
 };
 </script>
 
@@ -196,5 +213,4 @@ export default {
 .invitational {
   margin: 50px;
 }
-
 </style>

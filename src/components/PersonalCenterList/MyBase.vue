@@ -19,7 +19,7 @@
         <div class="p-base clearfix" v-show="!dialog">
           <p>
             <span>账 户：</span>
-            <span>{{myBase.user}}</span>
+            <span>{{username}}</span>
             <i class="el-icon-edit-outline bb-edit" @click="dialog = true"></i>
           </p>
           <p>
@@ -56,17 +56,17 @@
       </div>
 
       <div class="mybasecard">
-        <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
+        <el-tabs type="card" v-model="activeName">
+          <!--@tab-click="handleClick" -->
           <el-tab-pane label="已投公司" name="first">
             <el-card>
-              <div v-for="(u,index) in jobBox" :key="u.id">
+              <div v-for="(u,index) in postJobBox" :key="index" >
                 <div class="box-card">
                   <!-- <el-avatar shape="square" :size="80" :src="u.headimg"></el-avatar> -->
                   <div class="un-info clearfix">
                     <h2>
-                      <router-link to="/candidateslist">
-                        <span class="resumename">{{u.jobname}}</span>
-                      </router-link>
+                      <!-- <router-link to="/candidateslist"> -->
+                      <span class="resumename" @click="jobJum(u.jid)">{{u.jobname}}</span>
                       <span class="un-time">投递时间：{{u.time}}</span>
                     </h2>
                     <p>
@@ -82,7 +82,7 @@
                       <span>{{u.academic}}</span>
                       <span>/</span>
                       <span>{{u.experience}}</span>
-                      <span class="un-result" @click="del(index)">
+                      <span class="un-result" @click="del(1,index,u.jid)">
                         <i class="el-icon-delete">删除</i>
                       </span>
                     </p>
@@ -93,14 +93,14 @@
           </el-tab-pane>
           <el-tab-pane label="面试邀约" name="second">
             <el-card>
-              <div v-for="(u, index) in jobBox" :key="u.id">
+              <div v-for="(u,index) in jobBox" :key="index">
                 <div class="box-card">
                   <!-- <el-avatar shape="square" :size="80" :src="u.headimg"></el-avatar> -->
                   <div class="un-info clearfix">
                     <h2>
-                      <router-link to="/candidateslist">
-                        <span class="resumename">{{u.jobname}}</span>
-                      </router-link>
+                      <!-- <router-link to="/candidateslist"> -->
+                      <span class="resumename"  @click="jobJum(u.jid)">{{u.jobname}}</span>
+                      <!-- </router-link> -->
                       <span class="un-time">投递时间：{{u.time}}</span>
                     </h2>
                     <p>
@@ -115,17 +115,116 @@
                     <p>
                       <span>{{u.academic}}</span>
                       <span>/</span>
-                      <span>{{u.experience}}</span>                    
-                      <span class="un-result" @click="del(index)">
-                        <i class="el-icon-delete" >删除</i>
-                      </span>                      
+                      <span>{{u.experience}}</span>
+                      <span class="un-result" @click="del(2,index,u.jid)">
+                        <i class="el-icon-delete">删除</i>
+                      </span>
                     </p>
                   </div>
                 </div>
               </div>
             </el-card>
           </el-tab-pane>
-          <el-tab-pane label="消息中心" name="third">消息中心</el-tab-pane>
+          <el-tab-pane label="不合适" name="third">
+            <el-card>
+              <div v-for="(u,index) in unfitJobBox" :key="index" >
+                <div class="box-card">
+                  <div class="un-info clearfix">
+                    <h2> 
+                      <!-- <router-link to="/candidateslist"> -->
+                      <span class="resumename" @click="jobJum(u.jid)">{{u.jobname}}</span>
+                      <span class="un-time">投递时间：{{u.time}}</span>
+                    </h2>
+                    <p>
+                      <span>{{u.company}}</span>
+                      <span>/</span>
+                      <span>{{u.place}}</span>
+                      <span>/</span>
+                      <span>{{u.stage}}</span>
+                      <span>/</span>
+                      <span>{{u.kind}}</span>
+                    </p>
+                    <p>
+                      <span>{{u.academic}}</span>
+                      <span>/</span>
+                      <span>{{u.experience}}</span>
+                      <span class="un-result" @click="del(3,index,u.jid)">
+                        <i class="el-icon-delete">删除</i>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </el-card>
+          </el-tab-pane>
+          <el-tab-pane label="收藏职位" name="forth">
+            <el-card>
+              <div v-for="(u,index) in favorJobBox" :key="index">
+                <div class="box-card">
+                  <!-- <el-avatar shape="square" :size="80" :src="u.headimg"></el-avatar> -->
+                  <div class="un-info clearfix">
+                    <h2 >
+                      <!-- <router-link to="/candidateslist"> -->
+                      <span class="resumename"  @click="jobJum(u.jid)">{{u.jobname}}</span>
+                      <!-- </router-link> -->
+                      <span class="un-time">投递时间：{{u.time}}</span>
+                    </h2>
+                    <p>
+                      <span>{{u.company}}</span>
+                      <span>/</span>
+                      <span>{{u.place}}</span>
+                      <span>/</span>
+                      <span>{{u.stage}}</span>
+                      <span>/</span>
+                      <span>{{u.kind}}</span>
+                    </p>
+                    <p>
+                      <span>{{u.academic}}</span>
+                      <span>/</span>
+                      <span>{{u.experience}}</span>
+                      <span class="un-result" @click="del(4,index,u.jid)">
+                        <i class="el-icon-delete">删除</i>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </el-card>
+          </el-tab-pane>
+          <!-- <el-tab-pane label="收藏公司" name="fifth">
+            <el-card>
+              <div v-for="(u, index) in companyBox" :key="u.id" >
+                <div class="box-card">
+  
+                  <div class="un-info clearfix">
+                    <h2>
+                  
+                      <span class="resumename" @click="jobJum(u.id)">{{u.company}}</span>
+                     
+                      <span class="un-time">投递时间：{{u.time}}</span>
+                    </h2>
+                    <p>
+                      <span>{{u.place}}</span>
+                      <span>/</span>
+                      <span>{{u.stage}}</span>
+                      <span>/</span>
+                      <span>{{u.kind}}</span>
+                      <span>/</span>
+                      <span>{{u.scale}}</span>
+                      
+                    </p>
+                    <p>
+  
+                      <span class="un-result" @click="del(index)">
+                        <i class="el-icon-delete">删除</i>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </el-card>
+          </el-tab-pane>-->
+          <el-tab-pane label="消息中心" name="fifth">消息中心</el-tab-pane>
         </el-tabs>
       </div>
     </el-main>
@@ -136,17 +235,21 @@
 export default {
   data() {
     return {
+      token: "",
+      username: "",
       count: 0,
       dialog: false,
       activeName: "first",
       loading: false,
       myBase: {
-        user: "1234",
-        name: "张三",
+        name: "",
         imageUrl: "",
-        sex: "男"
+        sex: ""
       },
       jobBox: [],
+      postJobBox: [],
+      favorJobBox: [],
+      unfitJobBox: [],
       rules: {
         name: [
           { required: true, message: "请输入姓名", trigger: "blur" },
@@ -157,19 +260,64 @@ export default {
     };
   },
   created() {
-    this.$axios
-      .get("./static/data/job.json")
+    // this.$axios
+    //   .get("/mybase/base",{params:{token:this.$cookie.get('token')}})
+    //   .then(res => {
+    //     if (res.status === 200) {
+    //       this.myBase = res.data.data;
+    //       alert(this.mybase.username)
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });//调试时注释的
+    this.$axios //获取已投职位
+      .get("/mybase/post", {
+        params: {
+          token: this.$cookie.get("token"),
+          username: this.$cookie.get("username")
+        }
+      })
       .then(res => {
-        this.jobBox = res.data.message;
+        if (res.status === 200) {
+          this.postJobBox = res.data.data;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    this.$axios //收藏职位
+      .get("/mybase/favor", {
+        params: {
+          token: this.$cookie.get("token"),
+          username: this.$cookie.get("username")
+        }
+      })
+      .then(res => {
+        if (res.status === 200) {
+          this.favorJobBox = res.data.data;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    this.$axios //不合适
+      .get("/mybase/unsuitable", {
+        params: {
+          token: this.$cookie.get("token"),
+          username: this.$cookie.get("username")
+        }
+      })
+      .then(res => {
+        if (res.status === 200) {
+          this.unfitJobBox = res.data.data;
+        }
       })
       .catch(err => {
         console.log(err);
       });
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
@@ -191,37 +339,112 @@ export default {
       }
       this.$confirm("确定要提交表单吗？")
         .then(_ => {
-          this.loading = true;
-          this.timer = setTimeout(() => {
-            // done();
-            this.loading = false;
-            this.dialog = false;
-            // 动画关闭需要一定的时间
-            setTimeout(() => {
-              this.loading = false;
-            }, 400);
-          }, 2000);
+          this.$axios
+            .post("/mybase", {
+              name: this.myBase.name,
+              imageUrl: this.myBase.imageUrl,
+              sex: this.myBase.sex,
+              token: this.token,
+              username: this.username
+            })
+            .then(res => {
+              if (res.status === 200) {
+                this.loading = true;
+                this.timer = setTimeout(() => {
+                  // done();
+                  this.loading = false;
+                  this.dialog = false;
+                  // 动画关闭需要一定的时间
+                  setTimeout(() => {
+                    this.loading = false;
+                  }, 400);
+                }, 2000);
+              }
+            });
         })
         .catch(_ => {});
     },
     cancelForm(myBase) {
-      this.$nextTick(()=>{
-      this.$refs['myBase'].resetFields();
-      })
+      this.$nextTick(() => {
+        this.$refs["myBase"].resetFields();
+      });
       this.loading = false;
       this.dialog = false;
       clearTimeout(this.timer);
     },
-    
-  
-    del(index) {
-      event.stopPropagation()
-      this.jobBox.splice(index, 1)
-              
-     }
+    jobJum(jid) {
+      this.$axios
+        .get("/mybase/joblist/?jid=" + jid)
+        .then(res => {
+          if (res.status === 200) {
+            this.$router.push({ name: "/joblist", query: { jid: jid } });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    // handleClick(tab, event) {
+    //   if(this.activeName === "first"){
+    //      this.$axios //获取已投职位
+    //   .get("/mybase/post", { token: this.token, username: this.username })
+    //   .then(res => {
+    //     if (res.status === 200) {
+    //       this.postJobBox = res.data.data;
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+    //   }
+
+    //   },
+    del(flag, index, id) {
+      switch (flag) {
+        case 1:
+          this.$axios
+            .post("/mybase/delpost", {
+              token: this.token,
+              username: this.username,
+              jid: id
+            })
+            .then(res => {
+              if (res.status === 200) {
+                event.stopPropagation();
+                this.postJobBox.splice(index, 1);
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          break;
+        case 4:
+          this.$axios
+            .post("/mybase/delfavor", {
+              token: this.token,
+              username: this.username,
+              jid: id
+            })
+            .then(res => {
+              if (res.status === 200) {
+                event.stopPropagation();
+                this.favorJobBox.splice(index, 1);
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          break;
+        default:
+          break;
+      }
+    }
   },
-  watch: {
-    
+  mounted() {
+    this.username = this.$cookie.get("username");
+    this.token = this.$cookie.get("token");
+    this.userid = this.$cookie.get("userid");
+    this.cid = this.$cookie.get("cid");
   }
 };
 </script>
@@ -330,6 +553,7 @@ export default {
 .box-card .un-info .resumename {
   font-size: 18px;
   color: #333;
+  cursor: pointer;
 }
 .box-card .un-info .un-time {
   position: absolute;

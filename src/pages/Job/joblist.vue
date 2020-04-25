@@ -19,53 +19,55 @@
           </p>
         </div>
         <div class="j-h-right">
-          <el-button icon="el-icon-star-on" :class="{collection:iscollection}" @click="collection(iscollection)">{{!iscollection? ' 收 藏 ':'取消搜藏'}}</el-button>
+          <el-button
+            icon="el-icon-star-on"
+            :class="{collection:iscollection}"
+            @click="collection(iscollection)"
+          >{{!iscollection? ' 收 藏 ':'取消搜藏'}}</el-button>
           <el-button type="info" @click="deliver">投 简 历</el-button>
-        
         </div>
       </el-header>
       <el-container class="w">
-      <el-main class="joblist-main">
+        <el-main class="joblist-main">
           <div class="jm-h">
-                   <el-avatar :src="jobBox.headimg" :size="60"></el-avatar>
-                  <li class="jm-hr">{{jobBox.hr}}</li>
-           </div>
-        <div>
-          <h3>职位描述</h3>
-          <p>{{jobBox.jobdescription}}</p>
-        </div>
-        
-        <div>
-          <h3>职位要求</h3>
-          <p>{{jobBox.jobneed}}</p>
-        </div>
+            <el-avatar :src="jobBox.headimg" :size="60"></el-avatar>
+            <li class="jm-hr">{{jobBox.hr}}</li>
+          </div>
+          <div>
+            <h3>职位描述</h3>
+            <p>{{jobBox.jobdescription}}</p>
+          </div>
 
-        <div>
-          <h3>公司介绍</h3>
-          <p>{{companyBox.comintroduce}}</p>          
-        </div>
-        <div>
-          <h3>工作地址</h3>
+          <div>
+            <h3>职位要求</h3>
+            <p>{{jobBox.jobneed}}</p>
+          </div>
+
+          <div>
+            <h3>公司介绍</h3>
+            <p>{{companyBox.comintroduce}}</p>
+          </div>
+          <div>
+            <h3>工作地址</h3>
             <p>{{companyBox.address}}</p>
-        </div>
-      </el-main>
-      <!-- 公司基本信息 -->
-      <el-aside class="joblist-aside">
-          <el-card shadow="hover">   
-            <div class="ja-card ">
+          </div>
+        </el-main>
+        <!-- 公司基本信息 -->
+        <el-aside class="joblist-aside">
+          <el-card shadow="hover">
+            <div class="ja-card">
               <a href="https://www.alibabagroup.com">
-                <img :src="companyBox.logourl" alt="logo"/>
+                <img :src="companyBox.logourl" alt="logo" />
                 <div class="ja-x">
                   <p class="ja-x-one">{{companyBox.company}}</p>
-                    <span>{{companyBox.stage}}</span>
-                    <span>{{companyBox.kind}}</span>
-                    <span>{{companyBox.scale}}</span>
+                  <span>{{companyBox.stage}}</span>
+                  <span>{{companyBox.kind}}</span>
+                  <span>{{companyBox.scale}}</span>
                 </div>
               </a>
             </div>
-       
-        </el-card>
-      </el-aside>
+          </el-card>
+        </el-aside>
       </el-container>
     </el-container>
   </div>
@@ -75,73 +77,89 @@
 export default {
   data() {
     return {
-      iscollection:false,
-      jobBox:[],
-      companyBox:[],
-      user:'',
-      token:''
-
-      
+      iscollection: false,
+      jobBox: [],
+      companyBox: [],
+      username: "",
+      token: "",
+      username: ""
     };
   },
-  created(){
-    let id = this.$route.query.id
+  created() {
+    let id = this.$route.query.jid;
+    alert(id);
     this.$axios
-      .get("./static/data/job.json")
+      .get("/joblist/job/?jid=" + id)
       .then(res => {
-        this.jobBox = res.data.message[id];
+        if (res.status === 200) {
+          this.jobBox = res.data.data;
+        }
       })
       .catch(err => {
         console.log(err);
       });
-    this.$axios.get("./static/data/company.json")
-    .then( res => {
-      this.companyBox = res.data.message[id]
-    })
-    .catch(err =>{
-      console.log(err)
-    })
-  },
-  methods: {
-    collection(iscollection){
-      this.$axios.post('/joblist/favor/?id='+ this.$route.query.id)
-      .then( res => {
-        if(res.status === 200){
-          this.iscollection=!iscollection
+    this.$axios
+      .get("/joblist/company/?jid=" + id)
+      .then(res => {
+        if (res.status === 200) {
+          this.companyBox = res.data.data;
         }
       })
-      
-      
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  methods: {
+    collection(iscollection) {
+      this.iscollection = !iscollection;
+      if (this.iscollection) {
+        this.$axios
+          .post("/joblist/favor", {
+            jid: this.$route.query.jid,
+            token: this.token,
+            username: this.username
+          }) //需不需传入iscollection作为取消收藏
+          .then(res => {
+            if (res.status === 200) {
+            }
+          });
+      }
     },
-    deliver(){
-      if(this.token.length <= 0){
-        let c = confirm("请登录")
-        if(c){
-         this.$router.push('/login')
+    deliver() {
+      if (this.token.length <= 0) {
+        let c = confirm("请登录");
+        if (c) {
+          this.$router.push("/login");
         }
-      }else{
-       this.$axios.post('/joblist/?id='+ this.$route.query.id)
-       .then(res => {
-         if(res.status === 200){
-           this.$notify({
-          title: '投递成功',
-          type: 'success',
-          position: 'top-left',
-          offset: 100
-        });
-         }
-       })
-       .catch(err => {
-         console.log(err)
-       })
-       
+      } else {
+        let jid = this.$route.query.jid;
+        this.$axios
+          .post("/joblist/post", {
+            jid: jid,
+            token: this.token,
+            username: this.username
+          })
+          .then(res => {
+            if (res.status === 200) {
+              this.$notify({
+                title: "投递成功",
+                type: "success",
+                position: "top-left",
+                offset: 100
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     }
   },
-  // 页面初始化 vue组件的生命周期
-  mounted:{
-    //this.user = 
-    //this.token =
+  mounted() {
+    this.username = this.$cookie.get("username");
+    this.token = this.$cookie.get("token");
+    this.userid = this.$cookie.get("userid");
+    this.cid = this.$cookie.get("cid");
   }
 };
 </script>
@@ -182,10 +200,9 @@ export default {
 }
 .j-h-left p {
   margin: 20px 10px 10px 60px;
-
 }
 .j-h-left p span {
-      font-size: 16px;
+  font-size: 16px;
 }
 
 .j-h-right {
@@ -202,9 +219,9 @@ export default {
 }
 /* main部分信息 */
 .joblist-main {
-    padding:30px 40px;
-       background-color: #fff;
-       margin-top:10px; 
+  padding: 30px 40px;
+  background-color: #fff;
+  margin-top: 10px;
 }
 .joblist-main h3 {
   font-size: 18px;
@@ -213,33 +230,33 @@ export default {
   margin: 10px;
 }
 .joblist-main div {
-    margin: 30px 0;
-    border-bottom: 1px dotted #9190905b;
-    padding-bottom: 10px; 
+  margin: 30px 0;
+  border-bottom: 1px dotted #9190905b;
+  padding-bottom: 10px;
 }
 .joblist-main p {
-    font-size: 16px;
-    color: #333;
-    margin: 5px 20px;
-    line-height: 30px;
+  font-size: 16px;
+  color: #333;
+  margin: 5px 20px;
+  line-height: 30px;
 }
 .jm-h {
-    position: relative;
-    margin: 20px;
+  position: relative;
+  margin: 20px;
 }
 .jm-hr {
-    position: absolute;
-    font-size: 24px;
-    margin: 10px 20px;
-    display: inline-block;
-    width: 100px;
-    height: 60px;
-    top: 10px;
+  position: absolute;
+  font-size: 24px;
+  margin: 10px 20px;
+  display: inline-block;
+  width: 100px;
+  height: 60px;
+  top: 10px;
 }
 /* aside部分信息 */
 .joblist-aside {
-    margin-left: 5px;
-    padding: 10px;
+  margin-left: 5px;
+  padding: 10px;
 }
 .joblist-aside img {
   left: 20px;
@@ -249,29 +266,26 @@ export default {
   border: 1px dotted #333;
 }
 .ja-x {
-    margin: 0 auto;
-    width: 220px;
-    padding: 5px;
-
+  margin: 0 auto;
+  width: 220px;
+  padding: 5px;
 }
 .ja-x-one {
-    height: 50px;
-    font-size: 20px;
-    line-height: 50px;
-    text-align:center;
-    margin: 0 auto;
-    color: #0f0f0f;
-   
+  height: 50px;
+  font-size: 20px;
+  line-height: 50px;
+  text-align: center;
+  margin: 0 auto;
+  color: #0f0f0f;
 }
 .ja-x span {
-    margin: 5px 3px;
-    line-height: 40px;
-    text-align:center;
-    display: block;
-    font-size: 14px;
+  margin: 5px 3px;
+  line-height: 40px;
+  text-align: center;
+  display: block;
+  font-size: 14px;
 }
 .collection {
   color: red;
 }
-
 </style>

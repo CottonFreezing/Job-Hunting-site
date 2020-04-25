@@ -48,7 +48,7 @@
           <el-divider></el-divider>
           <div class="bossbase-next">
               <h3>正 在 招 聘 职 位</h3>
-            <div v-for="b in jobBox" :key="b.id" @click="jobJum(b.id)">
+            <div v-for="b in jobBox" :key="b.id" @click="jobJum(b.jid)">
               <div class="job-opening clearfix">
                 <div class="j-one">
                   <p class="j-f j-jobname">
@@ -110,69 +110,69 @@ export default {
     };
   },
   created() {
-    let id = this.$route.query.id;
+    let id = this.$route.query.comid;
     this.$axios
-      .get("./static/data/job.json")
+      .get("/companylist/job/?comid="+id)
       .then(res => {
-        this.jobBox = res.data.message;
+        this.jobBox = res.data.data;
       })
       .catch(err => {
         console.log(err);
       });
     this.$axios
-      .get("./static/data/company.json")
+      .get("/companylist/company/?comid="+id)
       .then(res => {
-        this.companyBox = res.data.message[id];
+        this.companyBox = res.data.data;
       })
       .catch(err => {
         console.log(err);
       });
   },
   methods: {
-    collection(iscollection) {
-      this.$axios
-        .post("/companylist/favor/?id=" + this.$route.query.id)
-        .then(res => {
-          if (res.status === 200) {
-            this.iscollection = !iscollection;
-          }
-        });
-    },
+    // collection(iscollection) {
+    //   this.$axios
+    //     .post("/companylist/favor/?id=" + this.$route.query.id)
+    //     .then(res => {
+    //       if (res.status === 200) {
+    //         this.iscollection = !iscollection;
+    //       }
+    //     });
+    // },
     jobJum(id){
-    //     this.$axios.get('/job/?id='+id)
-    //   .then(res => {
-    //     if(res.status === 200){
-          this.$router.push({name:"/joblist", query: {id:id}})
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })
-    },
-    deliver() {
-      if (this.token.length <= 0) {
-        let c = confirm("请登录");
-        if (c) {
-          this.$router.push("/login");
+        this.$axios.get('/companylist/joblist',{params:{comid:this.companyBox.comid,jid:id}})
+      .then(res => {
+        if(res.status === 200){
+          this.$router.push({name:"/joblist", query: {jid:id}})
         }
-      } else {
-        this.$axios
-          .post("/companylist/?id=" + this.$route.query.id)
-          .then(res => {
-            if (res.status === 200) {
-              this.$notify({
-                title: "投递成功",
-                type: "success",
-                position: "top-left",
-                offset: 100
-              });
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
-    }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+    // deliver() {
+    //   if (this.token.length <= 0) {
+    //     let c = confirm("请登录");
+    //     if (c) {
+    //       this.$router.push("/login");
+    //     }
+    //   } else {
+    //     this.$axios
+    //       .post("/companylist/?id=" + this.$route.query.id)
+    //       .then(res => {
+    //         if (res.status === 200) {
+    //           this.$notify({
+    //             title: "投递成功",
+    //             type: "success",
+    //             position: "top-left",
+    //             offset: 100
+    //           });
+    //         }
+    //       })
+    //       .catch(err => {
+    //         console.log(err);
+    //       });
+    //   }
+    // }
   },
 
 };

@@ -70,10 +70,10 @@
               ref="loginForm"
               label-width="100px"
             >
-              <el-form-item label="账 号：" prop="user" required>
+              <el-form-item label="账 号：" prop="user">
                 <el-input v-model="loginForm.user"></el-input>
               </el-form-item>
-              <el-form-item label="密 码：" prop="pass" required>
+              <el-form-item label="密 码：" prop="pass">
                 <el-input type="password" v-model="loginForm.pass" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item>
@@ -106,7 +106,7 @@ export default {
       } else {
         if (!reg.test(value)) {
           //提示信息
-          callback(new Error("用户名格式不正确,请检查"));
+          callback(new Error("用户名格式不正确,请输入3-8位字母或者数字"));
         }
         callback();
       }
@@ -117,7 +117,7 @@ export default {
         callback(new Error("请输入密码"));
       } else {
         if (!reg.test(value)) {
-          callback(new Error("密码格式不正确,请检查"));
+          callback(new Error("密码格式不正确,请输入6-8位字母或数字"));
         }
         callback();
       }
@@ -128,9 +128,8 @@ export default {
       loginForm: {
         user: "",
         pass: "",
-        token:true,
-        companyid:""
       },
+      token : '',
       rules: {
         user: [{ required: true, validator: userCheck, trigger: "blur" }],
         pass: [{ required: true, validator: passCheck, trigger: "blur" }]
@@ -150,23 +149,25 @@ export default {
               .post("/login", {
                 user: this.loginForm.user,
                 pass: this.loginForm.pass,
-                // token:this.loginForm.token
+                token: 'a43c874f'
               })
               .then(res => {
                 console.log(res)
                 if (res.status === 200) {
-                  this.$store.commit("SET_TOKEN", res.data.token);
-                  this.$store.commit("GET_USER", res.data.user);
+                  this.$cookie.set('userid',res.data.data.userid)
+                  this.$cookie.set('username',res.data.data.username)
+                  this.$cookie.set('token',res.data.data.token)
+                  this.$cookie.set('cid',res.data.data.cid)
                   this.$message({
                     message: "登录成功",
                     type: "success"
                   });
                   console.log(res)
-                  console.log(this.$store.state.token)
                   this.$router.push('/home');
                 }
               })
               .catch(err => {
+                alert("用户名或者密码错误")
                 console.log(err);
               });
           } else if (this.flag === "1") {
@@ -174,23 +175,24 @@ export default {
               .post("/login/company", {
                 user: this.loginForm.user,
                 pass: this.loginForm.pass,
-                companyid: this.loginForm.companyid
+                token:'44221cbf'
               })
               .then(res => {
                   if (res.status === 200) {
-                  this.$store.commit("SET_TOKEN", res.data.token);
-                  this.$store.commit("GET_USER", res.data.user);
+                   this.$cookie.set('username',res.data.data.username)
+                  this.$cookie.set('token',res.data.data.token)
+                  this.$cookie.set('comid',res.data.data.comid)
                   this.$message({ 
                     message: "登录成功",
                     type: "success"
                   });
                   console.log(res)
-                  this.$router.replace("/candidates");
+                  this.$router.push("/candidates");
                 }
                 
               })
               .catch(err => {
-                alert("登录失败");
+                alert("用户名或者密码错误");
               });
           }
         } else {
@@ -199,7 +201,7 @@ export default {
         }
       });
     }
-  }
+  },
 };
 </script>
 

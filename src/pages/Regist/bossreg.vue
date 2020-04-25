@@ -1,10 +1,10 @@
 <template>
   <div class="reg-session">
     <el-container class="w" width="1000px">
-      <el-main class="reg-main" >
+      <el-main class="reg-main">
         <el-header>
-          <h1 class = "el-icon-sunny">
-            <span>请填写公司基本信息</span>            
+          <h1 class="el-icon-sunny">
+            <span>请填写公司基本信息</span>
           </h1>
         </el-header>
         <div direction="ltr" class="bb-f-l">
@@ -47,15 +47,11 @@
               <el-form-item label="公司简介" label-width="90px" prop="comintroduce" required>
                 <el-input type="textarea" v-model="companyData.comintroduce" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="公司地址" label-width="90px" prop="address" required="">
-                <el-input                
-                  v-model="companyData.address"
-                  autocomplete="off"
-                  prop="address"
-                ></el-input>
+              <el-form-item label="公司地址" label-width="90px" prop="address" required>
+                <el-input v-model="companyData.address" autocomplete="off" prop="address"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="submitForm(ruleForm)">确认</el-button>
+                <el-button type="primary" @click="submitForm(companyData)">确认</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -69,9 +65,13 @@
 export default {
   data() {
     return {
+      token:"",
+      comid:"",
+      username:"",
       companyData: {
         company: "",
         kind: "",
+        place: "",
         stage: "",
         scale: "",
         url: "",
@@ -97,35 +97,51 @@ export default {
     };
   },
   methods: {
-    submitForm(ruleForm) {
-      this.$refs.ruleForm.validate(valid => {
+    submitForm(companyData) {
+      this.$refs.companyData.validate(valid => {
         if (valid) {
           this.$axios
-            .post("/bossreg", { params: { ruleForm: this.ruleForm } })
+            .post("/bossreg", {
+              company: this.companyData.company,
+              kind: this.companyData.kind,
+              place: this.companyData.place,
+              stage: this.companyData.stage,
+              scale: this.companyData.scale,
+              url: this.companyData.url,
+              comintroduce: this.companyData.comintroduce,
+              address: this.companyData.address,
+              token:this.token,
+              username:this.username,
+              comid:this.comid,
+            })
             .then(res => {
               if (res.status == 200) {
                 alert("创建成功");
-                this.$router.push('/candidates')
-                
+                this.$router.push("/candidates");
               }
             })
             .catch(err => {
               console.log(err);
             });
         } else {
-          alert("请检查后再确认")
+          alert("请检查后再确认");
           return false;
         }
       });
-    },
+    }
+  },
+  mounted() {
+    this.username = this.$cookie.get("username");
+    this.token = this.$cookie.get("token");
+    this.comid = this.$cookie.get("comid")
   }
 };
 </script>
 
 <style scoped>
 .reg-session {
-    width: 100%;
-    background-color: #000;
+  width: 100%;
+  background-color: #000;
 }
 .reg-main {
   position: relative;
@@ -137,8 +153,8 @@ export default {
   overflow: hidden;
 }
 .reg-main .el-header h1 {
-    font-size: 30px;
-    font-weight: 600;
+  font-size: 30px;
+  font-weight: 600;
 }
 .bb-f-l {
   position: relative;
@@ -150,7 +166,7 @@ export default {
   color: #333;
 }
 .bb-f-l .el-button {
-    margin: 0 300px;
+  margin: 0 300px;
 }
 </style>>
 

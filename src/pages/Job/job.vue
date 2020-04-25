@@ -24,8 +24,8 @@
               <div class="into-select">
                 <div v-for="b in a.box" :key="b.id">
                   <span
-                    @click="stylechange(a.id, b.name_id),addCondition(b.value)"
-                    :class="[active_id[a.id]==b.name_id ? 'addClass':'']"
+                    @click="stylechange(a.id, b.value),addCondition(b.value)"
+                    :class="[active_id[a.id]==b.value ? 'addClass':'']"
                   >
                     <a>{{b.value}}</a>
                   </span>
@@ -33,172 +33,20 @@
                 <div v-if="(!a.id)">
                   <el-popover placement="bottom" width="550" trigger="hover">
                     <div class="more">
-                      <p>ABCDEF</p>
-                      <p >
-                        <span>
-                          <a @click="addCondition('北京')">北京</a>
-                        </span>
-                        <span>
-                          <a @click="addCondition('长春')">长春</a>
-                        </span>
-                        <span>
-                          <a @click="addCondition('成都')">成都</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">重庆</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">长沙</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">常州</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">东莞</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">大连</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">佛山</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">福州</a>
-                        </span>
-                      </p>
-
-                      <p>GHIJ</p>
-                      <p>
-                        <span>
-                          <a href="javascript:;">贵阳</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">广州</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">哈尔滨</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">合肥</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">海口</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">杭州</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">惠州</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">金华</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">济南</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">嘉兴</a>
-                        </span>
-                      </p>
-
-                      <p>KLMN</p>
-                      <p>
-                        <span>
-                          <a href="javascript:;">昆明</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">廊坊</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">宁波</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">南昌</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">南京</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">南宁</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">南通</a>
-                        </span>
-                      </p>
-
-                      <p>OPQR</p>
-                      <p>
-                        <span>
-                          <a href="javascript:;">青岛</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">泉州</a>
-                        </span>
-                      </p>
-
-                      <p>STUV</p>
-                      <p>
-                        <span>
-                          <a href="javascript:;">上海</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">石家庄</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">绍兴</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">沈阳</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">深圳</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">苏州</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">天津</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">太原</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">台州</a>
-                        </span>
-                      </p>
-
-                      <p>WXYZ</p>
-                      <p>
-                        <span>
-                          <a href="javascript:;">武汉</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">无锡</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">温州</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">西安</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">厦门</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">烟台</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">珠海</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">中山</a>
-                        </span>
-                        <span>
-                          <a href="javascript:;">郑州</a>
-                        </span>
-                      </p>
+                      <div v-for="pa in placeBox" :key="pa.id">
+                        <p>{{pa.avalue}}</p>
+                        <p>
+                          <span
+                            v-for="n in pa.bvalue"
+                            :key="n.id"
+                            @click="stylechange(a.id,n.value),addCondition(n.value)"
+                            :class="[active_id[a.id]==n.value ? 'addClass':'']"
+                          >
+                            <a>{{n.value}}</a>
+                          </span>
+                        </p>
+                      </div>
                     </div>
-
                     <div slot="reference" @click="flag=ture">
                       <a href="javascript:;">
                         其他
@@ -215,40 +63,40 @@
 
         <el-card class="job-card" shadow="always">
           <div v-if="showcard">没有搜索到匹配结果</div>
-          <div v-else v-for="j in showJobBox" :key="j.id" @click="jobJum(j.id)">
+          <div v-else v-for="j in showJobBox" :key="j.id" @click="jobJum(j.jid)">
             <div class="j-card">
               <!-- <router-link :to="{name:'/joblist', query:{id:index}}"> -->
-                <div class="j-one">
-                  <p class="j-f">
-                    <span class="j-jobname">{{j.jobname}}</span>
-                    <span class="j-salary">{{j.salary}}</span>
-                  </p>
-                  <p class="j-s">
-                    <span>{{j.place}}</span>
-                    <span>|</span>
-                    <span>{{j.experience}}</span>
-                    <span>|</span>
-                    <span>{{j.academic}}</span>
-                  </p>
-                </div>
-                <div class="j-two">
-                  <p class="j-f">
-                    <span>{{j.company}}</span>
-                  </p>
-                  <p class="j-s">
-                    <span>{{j.stage}}</span>
-                    <span>|</span>
-                    <span>{{j.kind}}</span>
-                  </p>
-                </div>
-                <div class="j-three">
-                  <p class="j-f">
-                    <span class="j-hr">{{j.hr}}</span>
-                  </p>
-                  <p class="j-s">
-                    <span class="j-time">发布于：{{j.time}}</span>
-                  </p>
-                </div>
+              <div class="j-one">
+                <p class="j-f">
+                  <span class="j-jobname">{{j.jobname}}</span>
+                  <span class="j-salary">{{j.salary}}</span>
+                </p>
+                <p class="j-s">
+                  <span>{{j.place}}</span>
+                  <span>|</span>
+                  <span>{{j.experience}}</span>
+                  <span>|</span>
+                  <span>{{j.academic}}</span>
+                </p>
+              </div>
+              <div class="j-two">
+                <p class="j-f">
+                  <span>{{j.company}}</span>
+                </p>
+                <p class="j-s">
+                  <span>{{j.stage}}</span>
+                  <span>|</span>
+                  <span>{{j.kind}}</span>
+                </p>
+              </div>
+              <div class="j-three">
+                <p class="j-f">
+                  <span class="j-hr">{{j.hr}}</span>
+                </p>
+                <p class="j-s">
+                  <span class="j-time">发布于：{{j.time}}</span>
+                </p>
+              </div>
               <!-- </router-link> -->
             </div>
           </div>
@@ -275,16 +123,103 @@
 export default {
   data() {
     return {
+      token: "",
       showcard: false,
       keyword: "",
+      keyword2: "",
       value: false,
       companyBox: [],
-      pageSize: 6, //每页的数据
+      pageSize: 10, //每页的数据
       currentPage: 1, //初始页
       pageNo: 1, //当前页数
-      position:'',
-      job:'',
-      
+      position: "",
+      job: "",
+      placeBox: [
+        {
+          id: 0,
+          avalue: "ABCDEF",
+          bvalue: [
+            { id: 0, value: "北京" },
+            { id: 1, value: "长春" },
+            { id: 2, value: "成都" },
+            { id: 3, value: "重庆" },
+            { id: 4, value: "长沙" },
+            { id: 5, value: "常州" },
+            { id: 6, value: "东莞" },
+            { id: 7, value: "大连" },
+            { id: 8, value: "佛山" },
+            { id: 9, value: "福州" }
+          ]
+        },
+        {
+          id: 1,
+          avalue: "GHIJ",
+          bvalue: [
+            { id: 0, value: "贵阳" },
+            { id: 1, value: "广州" },
+            { id: 2, value: "哈尔滨" },
+            { id: 3, value: "合肥" },
+            { id: 4, value: "海口" },
+            { id: 5, value: "杭州" },
+            { id: 6, value: "惠州" },
+            { id: 7, value: "金华" },
+            { id: 8, value: "济南" },
+            { id: 9, value: "嘉兴" }
+          ]
+        },
+        {
+          id: 2,
+          avalue: "KLMN",
+          bvalue: [
+            { id: 0, value: "昆明" },
+            { id: 1, value: "廊坊" },
+            { id: 2, value: "宁波" },
+            { id: 3, value: "南昌" },
+            { id: 4, value: "南京" },
+            { id: 5, value: "南宁" },
+            { id: 6, value: "南通" }
+          ]
+        },
+        {
+          id: 3,
+          avalue: "OPQR",
+          bvalue: [
+            { id: 0, value: "青岛" },
+            { id: 1, value: "泉州" }
+          ]
+        },
+        {
+          id: 4,
+          avalue: "STUV",
+          bvalue: [
+            { id: 0, value: "上海" },
+            { id: 1, value: "石家庄" },
+            { id: 2, value: "绍兴" },
+            { id: 3, value: "沈阳" },
+            { id: 4, value: "深圳" },
+            { id: 5, value: "苏州" },
+            { id: 6, value: "天津" },
+            { id: 7, value: "太原" },
+            { id: 8, value: "台州" }
+          ]
+        },
+        {
+          id: 5,
+          avalue: "WXYZ",
+          bvalue: [
+            { id: 0, value: "武汉" },
+            { id: 1, value: "无锡" },
+            { id: 2, value: "温州" },
+            { id: 3, value: "西安" },
+            { id: 4, value: "厦门" },
+            { id: 5, value: "烟台" },
+            { id: 6, value: "珠海" },
+            { id: 7, value: "中山" },
+            { id: 8, value: "郑州" }
+          ]
+        }
+      ],
+
       info: [
         {
           id: 0,
@@ -292,52 +227,43 @@ export default {
           box: [
             {
               id: 0,
-              name_id: "placeAll",
               value: "全国"
             },
             {
               id: 1,
-              name_id: "beijing",
               value: "北京"
             },
             {
               id: 2,
-              name_id: "shanghai",
               value: "上海"
             },
             {
               id: 3,
-              name_id: "hangzhou",
               value: "杭州"
             },
             {
               id: 4,
-              name_id: "guangdong",
+              value: "guangdong",
               value: "广东"
             },
             {
               id: 5,
-              name_id: "shenzheng",
               value: "深圳"
             },
             {
               id: 6,
-              name_id: "nanjing",
               value: "南京"
             },
             {
               id: 7,
-              name_id: "tianjing",
               value: "天津"
             },
             {
               id: 8,
-              name_id: "chongqing",
               value: "重庆"
             },
             {
               id: 9,
-              name_id: "changsha",
               value: "长沙"
             }
           ]
@@ -348,37 +274,30 @@ export default {
           box: [
             {
               id: 0,
-              name_id: "workNone",
               value: "不限"
             },
             {
               id: 1,
-              name_id: "workIntern",
               value: "实习生"
             },
             {
               id: 2,
-              name_id: "workFG",
               value: "应届毕业生"
             },
             {
               id: 3,
-              name_id: "workOne",
               value: "3年以下"
             },
             {
               id: 4,
-              name_id: "workThree",
               value: "3-5年"
             },
             {
               id: 5,
-              name_id: "workFive",
               value: "5-10年"
             },
             {
               id: 6,
-              name_id: "workTen",
               value: "10年以上"
             }
           ]
@@ -389,33 +308,27 @@ export default {
           box: [
             {
               id: 0,
-              value: "不限",
-              name_id: "acaNone"
+              value: "不限"
             },
             {
               id: 1,
-              value: "高中及以下",
-              name_id: "acaHeigh"
+              value: "高中及以下"
             },
             {
               id: 2,
-              value: "大专",
-              name_id: "acaJunior"
+              value: "大专"
             },
             {
               id: 3,
-              value: "本科",
-              name_id: "acaCollege"
+              value: "本科"
             },
             {
               id: 4,
-              value: "硕士",
-              name_id: "acaMaster"
+              value: "硕士"
             },
             {
               id: 5,
-              value: "博士",
-              name_id: "acaDoctor"
+              value: "博士"
             }
           ]
         },
@@ -426,48 +339,39 @@ export default {
           box: [
             {
               id: 0,
-              value: "不限",
-              name_id: "stageNone"
+              value: "不限"
             },
             {
               id: 1,
-              value: "未融资",
-              name_id: "stageNo"
+              value: "未融资"
             },
             {
               id: 2,
-              value: "天使轮",
-              name_id: "stageAngel"
+              value: "天使轮"
             },
             {
               id: 3,
-              value: "A轮",
-              name_id: "stageA"
+              value: "A轮"
             },
             {
               id: 4,
-              value: "B轮",
-              name_id: "stageB"
+              value: "B轮"
             },
             {
               id: 5,
-              value: "C轮",
-              name_id: "stageC"
+              value: "C轮"
             },
             {
               id: 6,
-              value: "D轮及以上",
-              name_id: "stageD"
+              value: "D轮及以上"
             },
             {
               id: 7,
-              value: "已上市",
-              name_id: "stageOn"
+              value: "已上市"
             },
             {
               id: 8,
-              value: "不需要融资",
-              name_id: "stageNoNeed"
+              value: "不需要融资"
             }
           ]
         },
@@ -477,44 +381,37 @@ export default {
           box: [
             {
               id: 0,
-              value: "不限",
-              name_id: "scaleNone"
+              value: "不限"
             },
             {
               id: 1,
-              value: "0-20人",
-              name_id: "scale20"
+              value: "0-20人"
             },
             {
               id: 2,
-              value: "20-99人",
-              name_id: "scale99"
+              value: "20-99人"
             },
             {
               id: 3,
-              value: "100-499人",
-              name_id: "scale499"
+              value: "100-499人"
             },
             {
               id: 4,
-              value: "500-999人",
-              name_id: "scale999"
+              value: "500-999人"
             },
             {
               id: 5,
-              value: "1000-9999人",
-              name_id: "scale9999"
+              value: "1000-9999人"
             },
             {
               id: 6,
-              value: "10000人",
-              name_id: "scale10000"
+              value: "10000人"
             }
           ]
         }
       ],
 
-      active_id: ["placeAll", "workNone", "acaNone", "stageNone", "scaleNone"],
+      active_id: ["全国", "不限", "不限", "不限", "不限"],
 
       flag: false,
       options: [],
@@ -536,11 +433,34 @@ export default {
     };
   },
   created() {
+    let jb = this.$route.query.jb
     this.$axios
-      .get("./static/data/job.json")
+      .get("/job/search", {
+        params: {
+          place: this.active_id[0],
+          experience: this.active_id[1],
+          academic: this.active_id[2],
+          stage: this.active_id[3],
+          scale: this.active_id[4],
+          keyword: this.keyword,
+          currentPage: this.currentPage,
+          pageSize: this.pageSize
+        }
+      })
       .then(res => {
-        this.jobBox = res.data.message
-        this.showJobBox = this.jobBox
+        if (res.status === 200) {          
+          this.jobBox = res.data.data.rows;
+          if(jb.length==0){
+          this.showJobBox = this.jobBox;
+          }else{
+            for(var i in jb){              
+                this.showJobBox.push(this.jb[i])  
+                alert(this.showJobBox)         
+              
+            }
+          
+          }
+        }
       })
       .catch(err => {
         console.log(err);
@@ -555,6 +475,20 @@ export default {
     handleCurrentChange(currentPage) {
       //点击页面项 的函数响应
       this.currentPage = currentPage;
+      this.$axios
+        .get("/job/search", {
+          params: {
+            keyword: this.keyword,
+            place: this.active_id[0],
+            experience: this.active_id[1],
+            academic: this.active_id[2],
+            stage: this.active_id[3],
+            scale: this.active_id[4],
+            currentPage: this.currentPage,
+            pageSize: this.pageSize
+          }
+        })
+        .then(res => {});
       console.log(this.currentPage);
     },
 
@@ -562,26 +496,44 @@ export default {
       this.active_id.splice(a, 1, b);
       console.log(a, this.active_id);
     },
-     jobSearch() {
+    jobSearch() {
       if (this.keyword == "") {
-        this.$message.warning("请输入搜索内容");
-        this.showJobBox = this.jobBox
+        alert("请输入搜索内容");
+        this.showJobBox = this.jobBox;
         return;
-      }else{
-        this.$axios.get('/job/search/?keyword='+this.keyword)
-        .then(res => {
-          if(res.status === 200){
-            for(var i in res.data){
-              this.showJobBox.push(res.data[i])
+      } else {
+        this.showJobBox = [];
+        this.showcard = false;
+        this.$axios
+          .get("/job/search", {
+            params: {
+              keyword: this.keyword,
+              place: this.active_id[0],
+              experience: this.active_id[1],
+              academic: this.active_id[2],
+              stage: this.active_id[3],
+              scale: this.active_id[4],
+              currentPage: this.currentPage,
+              pageSize: this.pageSize
             }
-            if(this.showJobBox.length == 0){
-              this.showcard = true
+          })
+          .then(res => {
+            if (res.status === 200) {
+              for (var i in res.data.data.rows) {
+                this.showJobBox.push(res.data.data.rows[i]);
+                alert(
+                  res.data.data.rows[i].jobname,
+                  this.showJobBox[i].company
+                );
+              }
+              if (this.showJobBox.length == 0) {
+                this.showcard = true;
+              }
             }
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
       /*else {
         this.showJobBox = []
@@ -604,24 +556,48 @@ export default {
         }
       }*/
     },
-    addCondition(label){
-      this.keyword.concat(label+",")
-      console.log(this.keyword)
-      this.$axios.get('/job/labelsearch', {query:{}})//???
+    addCondition(label) {
+      this.showJobBox = [];
+      this.showcard = false;
+      this.$axios
+        .get("/job/search", {
+          params: {
+            place: this.active_id[0],
+            experience: this.active_id[1],
+            academic: this.active_id[2],
+            stage: this.active_id[3],
+            scale: this.active_id[4],
+            keyword: this.keyword,
+            currentPage: this.currentPage,
+            pageSize: this.pageSize
+          }
+        })
+        .then(res => {
+          if (res.status === 200) {
+            for (var i in res.data.data.rows) {
+              this.showJobBox.push(res.data.data.rows[i]);
+            }
+            if (this.showJobBox.length == 0) {
+              this.showcard = true;
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
-    jobJum(id){
-    //     this.$axios.get('/job/?id='+id)
-    //   .then(res => {
-    //     if(res.status === 200){
-          this.$router.push({name:"/joblist", query: {id:id}})
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })
-    },
-  },
-  computed: {
+    jobJum(id) {
+      this.$axios
+        .get("/job/jumjoblist/?jid=" + id) //同companylist
+        .then(res => {
+          if (res.status === 200) {
+            this.$router.push({ name: "/joblist", query: { jid: id } });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 };
 </script>
