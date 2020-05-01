@@ -43,7 +43,7 @@
               </router-link>
             </div>
             <div class="header-social text-white float-right" v-else>              
-                <a><i class="header-social">{{username}}</i> </a>       
+                <a><i class="el-icon-user-solid">{{username}}</i> </a>       
             </div>
           </div>
           <!--Mobile Menu-->

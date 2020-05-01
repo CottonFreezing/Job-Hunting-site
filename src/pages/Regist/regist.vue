@@ -223,10 +223,8 @@ export default {
               })
               .then(res => {
                 if (res.status === 200) {
-                  //  console.log(this.registForm.user,this.registForm.pass)
                    this.$cookie.set('username',res.data.data.username)
-                  this.$cookie.set('token',res.data.data.token)
-                  this.$cookie.set('comid',res.data.data.comid)
+                  this.$cookie.set('token',res.data.data.token)                  
                   this.$router.push("/bossreg");
                 }
               })

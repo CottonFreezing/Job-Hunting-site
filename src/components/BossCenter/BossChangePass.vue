@@ -96,6 +96,8 @@ export default {
             .then(res => {
               if (res.data.status === 200) {
                 alert("提交成功");
+              }else{
+                alert("修改失败")
               }
             })
             .catch(err => {

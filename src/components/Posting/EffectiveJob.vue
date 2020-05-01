@@ -7,13 +7,13 @@
     </div>
 
     <el-table :data="postingForm" style="width: 100%" class="etable">
-      <el-table-column type="index" width="50"></el-table-column>
-      <el-table-column label="发布时间" width="120">
+      <el-table-column type="index" width="30"></el-table-column>
+      <el-table-column label="发布时间" width="110">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.time }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="职 位" width="100">
+      <el-table-column label="职 位" width="120">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
             <p>职 位: {{ scope.row.jobname }}</p>
@@ -25,8 +25,9 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column prop="salary" label="月 薪" width="100"></el-table-column>
-      <el-table-column prop="academic" label="学历需求" width="100"></el-table-column>
+      <el-table-column prop="salary" label="月 薪" width="70"></el-table-column>
+      <el-table-column prop="academic" label="学历" width="70"></el-table-column>
+      <el-table-column prop="hr" label="发布者" width="100"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
@@ -43,7 +44,7 @@
             <el-form
               :model="scope.row"
               :rules="rules"
-              ref="postingForm"
+              ref="posting"
               label-width="100px"
               class="demo-ruleForm"
             >
@@ -129,7 +130,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="dialogFormVisible = false,resetForm(scope.row)">取 消</el-button>
-              <el-button type="primary" @click="dialogFormVisible = false,submitForm(scope.row)">确 定</el-button>
+              <el-button type="primary" @click="dialogFormVisible = false,submitForm(scope.$index, scope.row)">确 定</el-button>
             </div>
           </el-dialog>
         </template>
@@ -144,30 +145,7 @@ export default {
       token: "",
       username: "",
       comid: "",
-      postingForm: [
-        {
-          id: 0,
-          jid: "",
-          jobname: "java工程师",
-          salary: "10K",
-          place: "上海",
-          address: "杭州余杭区阿里巴巴西溪园区",
-          experience: "1-3年",
-          academic: "本科",
-          companyid: "10001",
-          company: "阿里巴巴",
-          stage: "已上市",
-          kind: "互联网",
-          hr: "金先生",
-          headimg: "./static/data/images/3.jpg",
-          time: "2020-1-17",
-          department: "技术部门",
-          remail: "123@qq.com",
-          jobdescription:
-            "1. 承担核心功能代码编写，重点项目开发，确保技术方案能够按计划要求，高质量的完 成；2. 深入理解业务需求，分析和发现系统的优化点，负责推动产品性能和系统优化；3. 解决各类技术难题，系统优化，架构升级，完成平台能力沉淀和组件框架沉淀",
-          jobneed:
-            "1. 技术能力扎实，理解IO、多线程、集合、分布式等基础框架，熟悉Servlet、 Spring、MyBatis、Velocity开发，熟悉Linux操作系统和常用数据库，对于用过的 开源框架，能了解到它的原理和机制，有一定线上故障排查经验；2. 具有良好的业务敏感度和优秀的业务分析技能。能够开发创新而实际的分析方法以解 决复杂的商业问题。"
-        }
+      postingForm: [       
       ],
       dialogFormVisible: false,
       rules: {
@@ -226,6 +204,7 @@ export default {
   methods: {
     handleEdit(index, row) {},
     handleDelete(index, row, m) {
+      alert(m.jid)
       this.$axios
         .post("/postjob/down", {
           jid: m.jid,
@@ -242,23 +221,23 @@ export default {
           console.log(err);
         });
     },
-    submitForm(postingForm) {
-      this.$refs.postingForm.validate(valid => {
-        console.log(postingForm);
+    submitForm(index,posting) {
+      this.$refs.posting.validate(valid => {
+        console.log(posting);
         if (valid) {
           this.$axios
             .post("/postjob/edit", {
-              jid: this.postingForm.jid,
-              jobname: this.postingForm.jobname,
-              department: this.postingForm.department,
-              salary: this.postingForm.salary,
-              place: this.postingForm.place,
-              experience: this.postingForm.experience,
-              academic: this.postingForm.academic,
-              address: this.postingForm.address,
-              jobdescription: this.postingForm.jobdescription,
-              jobneed: this.postingForm.jobneed,
-              remail: this.postingForm.remail,
+              jid: posting.jid,
+              jobname: posting.jobname,
+              department: posting.department,
+              salary: posting.salary,
+              place: posting.place,
+              experience: posting.experience,
+              academic: posting.academic,
+              address: posting.address,
+              jobdescription: posting.jobdescription,
+              jobneed: posting.jobneed,
+              remail: posting.remail,
               token: this.token,
               username: this.username,
               comid: this.comid
@@ -266,7 +245,7 @@ export default {
             .then(res => {
               if (res.data.status === 200) {
                 alert("修改成功");
-                this.$refs.postingForm.resetFields();
+                // this.$refs.postingForm.resetFields();
               }
             })
             .catch(err => {
@@ -278,8 +257,8 @@ export default {
         }
       });
     },
-    resetForm(postingForm) {
-      this.$refs.postingForm.resetFields();
+    resetForm(posting) {
+      this.$refs.posting.resetFields();
     }
   },
   mounted() {

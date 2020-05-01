@@ -4,17 +4,17 @@
       <h2 class="un-title">待 处 理 简 历</h2>
       <el-divider></el-divider>
       <el-card>
-        <div v-for="(u,index) in resumeBox" :key="u.id" @click="candidatesJum(u.cid)">
+        <div v-for="(u,index) in resumeBox" :key="index">
           <div class="box-card">
             <el-avatar shape="square" :size="80" :src="u.headimg"></el-avatar>
             <div class="un-info clearfix">
               <h2>
-                <span class="resumename">{{u.resumename}}</span>
+                <span class="resumename"  @click="candidatesJum(u.cid)">{{u.name}}</span>
                 <span class="un-time">投递时间：{{u.time}}</span>
               </h2>
               <p>
-                <span>{{u.name}}</span>
-                <span>/</span>
+                <!-- <span>{{u.name}}</span>
+                <span>/</span> -->
                 <span>{{u.sex}}</span>
                 <span>/</span>
                 <span>{{u.academic}}</span>
@@ -84,12 +84,12 @@ export default {
       .get("/bossbase/unprocessed", {
         params: {
           token: this.$cookie.get("token"),
-          username: this.$cookie.get('username'),
-          comid: this.$cookie.get('comid')
+          username: this.$cookie.get("username"),
+          comid: this.$cookie.get("comid")
         }
       })
       .then(res => {
-        this.resumeBox = res.data.message;
+        this.resumeBox = res.data.data;
       })
       .catch(err => {
         console.log(err);
@@ -105,7 +105,7 @@ export default {
           comid: this.comid
         })
         .then(res => {
-          if (res.status === 200) {
+          if (res.data.status === 200) {
             this.resumeBox.splice(index, 1);
             this.$notify({
               title: "邀请成功",
@@ -141,20 +141,21 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    candidatesJum(id) {
+      this.$axios
+        .get("/bossbase/jumcandidates/?cid=" + id)
+        .then(res => {
+          if (res.data.status === 200) {
+            this.$router.push({ name: "/candidateslist", query: { cid: id } });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
-  candidatesJum(id) {
-    this.$axios
-      .get("/bossbase/jumcandidateslist/?cid="+ id)
-      .then(res => {
-        if (res.status === 200) {
-          this.$router.push({ name: "/candidateslist", query: { id: id } });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  },
+
   mounted() {
     this.username = this.$cookie.get("username");
     this.token = this.$cookie.get("token");
@@ -204,6 +205,7 @@ export default {
 .box-card .un-info .resumename {
   font-size: 18px;
   color: #333;
+  cursor: pointer;
 }
 .box-card .un-info .un-time {
   position: absolute;

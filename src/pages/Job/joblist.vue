@@ -111,22 +111,29 @@ export default {
   },
   methods: {
     collection(iscollection) {
-      this.iscollection = !iscollection;
-      if (this.iscollection) {
-        this.$axios
-          .post("/joblist/favor", {
-            jid: this.$route.query.jid,
-            token: this.token,
-            username: this.username
-          }) //需不需传入iscollection作为取消收藏
-          .then(res => {
-            if (res.status === 200) {
-            }
-          });
+      if (this.token ==null) {
+        let c = confirm("请登录");
+        if (c) {
+          this.$router.push("/login");
+        }
+      } else {
+        this.iscollection = !iscollection;
+        if (this.iscollection) {
+          this.$axios
+            .post("/joblist/favor", {
+              jid: this.$route.query.jid,
+              token: this.token,
+              username: this.username
+            }) //需不需传入iscollection作为取消收藏
+            .then(res => {
+              if (res.status === 200) {
+              }
+            });
+        }
       }
     },
     deliver() {
-      if (this.token.length <= 0) {
+      if (this.token ==null) {
         let c = confirm("请登录");
         if (c) {
           this.$router.push("/login");

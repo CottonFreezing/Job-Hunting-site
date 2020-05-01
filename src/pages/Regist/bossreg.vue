@@ -112,12 +112,14 @@ export default {
               address: this.companyData.address,
               token:this.token,
               username:this.username,
-              comid:this.comid,
             })
             .then(res => {
               if (res.status == 200) {
+                this.$cookie.set('comid',res.data.data.comid)
                 alert("创建成功");
                 this.$router.push("/candidates");
+              }else{
+                console.log(err)
               }
             })
             .catch(err => {

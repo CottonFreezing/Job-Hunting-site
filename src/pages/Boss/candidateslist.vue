@@ -102,11 +102,11 @@ export default {
     };
   },
   created() {
-    let id = this.$route.query.id;
+    let id = this.$route.query.cid;
     this.$axios
       .get("/candidateslist",{params:{ cid: id }})
       .then(res => {
-        this.candidates = res.data.message[id];
+        this.candidates = res.data.data
       })
       .catch(err => {
         console.log(err);

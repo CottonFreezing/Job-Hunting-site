@@ -149,7 +149,6 @@ export default {
               .post("/login", {
                 user: this.loginForm.user,
                 pass: this.loginForm.pass,
-                token: 'a43c874f'
               })
               .then(res => {
                 console.log(res)
@@ -175,7 +174,6 @@ export default {
               .post("/login/company", {
                 user: this.loginForm.user,
                 pass: this.loginForm.pass,
-                token:'44221cbf'
               })
               .then(res => {
                   if (res.status === 200) {

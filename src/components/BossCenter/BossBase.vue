@@ -4,10 +4,10 @@
       <div class="bossbase-first clearfix">
         <el-upload
           class="avatar-uploader"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
+          action="D:\www\IT-Web\static\data\images"
+          :show-file-list="false"          
           :before-upload="beforeAvatarUpload"
+          :on-success="handleAvatarSuccess"
         >
           <img v-if="imageUrl" :src="imageUrl" class="avatar" />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -38,7 +38,6 @@
           <p>
             <span>公司主页：</span>
             <span>
-              <!-- 数据双向绑定 虚拟DOM  -->
               <a href="companyData.url">{{companyData.url}}</a>
             </span>
           </p>
@@ -47,10 +46,10 @@
         <div direction="ltr" class="bb-f-l" v-show="dialog[0].val">
           <div class="demo-drawer__content">
             <el-form :model="companyData" :rules="rules" ref="companyData" required>
-              <el-form-item label="公司全称" label-width="90px"  required>
+              <el-form-item label="公司全称" label-width="90px" required>
                 <el-input v-model="companyData.company" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="所 在城市" label-width="90px" prop="place" required>
+              <el-form-item label="所在城市" label-width="90px" prop="place" required>
                 <el-input v-model="companyData.place" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="公司领域" label-width="90px" prop="kind" required>
@@ -84,11 +83,7 @@
             </el-form>
             <div class="demo-drawer__footer">
               <el-button @click="cancelForm(0,companyData)">取 消</el-button>
-              <el-button
-                type="primary"
-                @click="handleClose"
-                :loading="loading[0].val"
-              >{{ loading[0].val ? '提交中 ...' : '确 定' }}</el-button>
+              <el-button type="primary" @click="handleClose">确 定</el-button>
             </div>
           </div>
         </div>
@@ -105,15 +100,16 @@
         <div direction="ltr" v-show="dialog[1].val">
           <div class="demo-drawer__content">
             <el-form :model="companyData" ref="companyData" :rules="rules">
-              <el-input type="textarea" v-model="companyData.comintroduce" autocomplete="off" prop="comintroduce"></el-input>
+              <el-input
+                type="textarea"
+                v-model="companyData.comintroduce"
+                autocomplete="off"
+                prop="comintroduce"
+              ></el-input>
             </el-form>
             <div class="demo-drawer__footer">
               <el-button @click="cancelForm(1,companyData)">取 消</el-button>
-              <el-button
-                type="primary"
-                @click="handleClose"
-                :loading="loading[1].val"
-              >{{ loading[1].val ? '提交中 ...' : '确 定' }}</el-button>
+              <el-button type="primary" @click="handleClose">确 定</el-button>
             </div>
           </div>
         </div>
@@ -126,20 +122,21 @@
           <span class="h2-title">公 司 地 址</span>
           <i class="el-icon-edit-outline bb-edit" @click="dialog[2].val = true"></i>
         </p>
-        <p v-if="!dialog[2].val">&nbsp;{{companyData.address}}</p>
+        <p v-show="!dialog[2].val">&nbsp;{{companyData.address}}</p>
         <!-- 公司地址修改 -->
-        <div direction="ltr" v-else>
+        <div direction="ltr" v-show="dialog[2].val">
           <div class="demo-drawer__content">
             <el-form :model="companyData" ref="companyData" :rules="rules">
-              <el-input type="textarea" v-model="companyData.address" autocomplete="off" prop="address"></el-input>
+              <el-input
+                type="textarea"
+                v-model="companyData.address"
+                autocomplete="off"
+                prop="address"
+              ></el-input>
             </el-form>
             <div class="demo-drawer__footer">
               <el-button @click="cancelForm(2,companyData)">取 消</el-button>
-              <el-button
-                type="primary"
-                @click="handleClose"
-                :loading="loading[2].val"
-              >{{ loading[2].val ? '提交中 ...' : '确 定' }}</el-button>
+              <el-button type="primary" @click="handleClose">确 定</el-button>
             </div>
           </div>
         </div>
@@ -191,44 +188,42 @@ export default {
       token: "",
       username: "",
       comid: "",
-      dialog:[
-        {val:false},
-        {val:false},
-        {val:false},
-      ],
-      loading:[
-        {val:false},
-        {val:false},
-        {val:false},
-      ],
+      dialog: [{ val: false }, { val: false }, { val: false }],
 
       timer: null,
       companyData: {},
       rules: {
         company: [{ required: true, message: "请输入公司名", trigger: "blur" }],
-        place: [{ required: true, message: "请输入公司所在城市", trigger: "blur" }],
+        place: [
+          { required: true, message: "请输入公司所在城市", trigger: "blur" }
+        ],
         kind: [{ required: true, message: "请输入公司领域", trigger: "blur" }],
         stage: [{ required: true, message: "请选择融资", trigger: "change" }],
         scale: [{ required: true, message: "请选择规模", trigger: "change" }],
         url: [{ required: true, message: "请输入公司网址", trigger: "blur" }],
-        comintroduce: [{ required: true, message: "请输入公司描述", trigger: "blur"}],
-        address: [{ required: true, message: "请输入公司具体地址", trigger: "blur" }],
+        comintroduce: [
+          { required: true, message: "请输入公司描述", trigger: "blur" }
+        ],
+        address: [
+          { required: true, message: "请输入公司具体地址", trigger: "blur" }
+        ]
       },
       jobBox: [],
       imageUrl: ""
     };
   },
   created() {
- 
     this.$axios
-      .get("/bosebase/company",{params: {
+      .get("/bosebase/company", {
+        params: {
           token: this.$cookie.get("token"),
-          username: this.$cookie.get('username'),
-          comid: this.$cookie.get('comid')
-        }})
+          username: this.$cookie.get("username"),
+          comid: this.$cookie.get("comid")
+        }
+      })
       .then(res => {
-        if(res.status === 200){
-        this.companyData = res.data;
+        if (res.status === 200) {
+          this.companyData = res.data.data;
         }
       })
       .catch(err => {
@@ -236,13 +231,15 @@ export default {
       });
 
     this.$axios
-      .get("/postjob/all",{params: {
+      .get("/postjob/all", {
+        params: {
           token: this.$cookie.get("token"),
-          username: this.$cookie.get('username'),
-          comid: this.$cookie.get('comid')
-        }})
+          username: this.$cookie.get("username"),
+          comid: this.$cookie.get("comid")
+        }
+      })
       .then(res => {
-        this.jobBox = res.data.message;
+        this.jobBox = res.data.data;
       })
       .catch(err => {
         console.log(err);
@@ -250,7 +247,30 @@ export default {
   },
   methods: {
     handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
+      this.$axios.post("/bosebase/edit", {
+        token: this.token,
+        username: this.username,
+        comid: this.comid,
+        company: this.companyData.company,
+        place: this.companyData.place,
+        kind: this.companyData.kind,
+        stage: this.companyData.stage,
+        scale: this.companyData.scale,
+        url: this.companyData.url,
+        comintroduce: this.companyData.comintroduce,
+        address: this.companyData.address,
+        logourl: this.companyData.logourl
+      })
+      .then(res => {
+        if(res.data.status === 200){
+          this.companyData.logourl = URL.createObjectURL(file.raw);
+          alert(this.companyData.url)
+
+        }else{
+          alert('上传失败')
+        }
+      })
+      
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg";
@@ -265,38 +285,49 @@ export default {
       return isJPG && isLt2M;
     },
     handleClose(a) {
-      if (this.loading[a].val) {
-        return;
-      }
       this.$confirm("确定要提交表单吗？")
         .then(_ => {
-          // this.$axios.post('/bossbase/edit',{token: this.token,username:this.username,comid:this.comid })
-          // .then(res=>{
+          this.$axios
+            .post("/bosebase/edit", {
+              token: this.token,
+              username: this.username,
+              comid: this.comid,
+              company: this.companyData.company,
+              place: this.companyData.place,
+              kind: this.companyData.kind,
+              stage: this.companyData.stage,
+              scale: this.companyData.scale,
+              url: this.companyData.url,
+              comintroduce: this.companyData.comintroduce,
+              address: this.companyData.address
+            })
+            .then(res => {
+              if (res.data.status === 200) {
+               this.dialog.forEach(item =>{
+                 if(item.val === true){
+                   item.val = false
+                 }
+               })
+              } else {
+                alert("修改失败");
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
 
-          // })
-          // .catch(err=>{
-          //   console.log(err)
-          // })
-          this.$set(this.loading[a],'val',true)
-          
-          this.timer = setTimeout(() => {
-             this.$set(this.loading[a],'val',false)
-             this.$set(this.dialog[a],'val',false)
-            // 动画关闭需要一定的时间
-            setTimeout(() => {
-              this.loading[a] = false;
-            }, 400);
-          }, 2000);
+          // this.timer = setTimeout(() => {
+          this.dialog[a].val = false;
+          //  this.$set(this.dialog[a], "val", false);
+          // }, 2000);
         })
         .catch(_ => {});
     },
-    cancelForm:function(a,companyData) {
-
-      this.$nextTick(()=>{
-      this.$refs.companyData.resetFields();
-      })
-      this.$set(this.loading[a],'val',false)
-      this.$set(this.dialog[a],'val',false)
+    cancelForm: function(a, companyData) {
+      this.$nextTick(() => {
+        this.$refs.companyData.resetFields();
+      });
+      this.$set(this.dialog[a], "val", false);
       // console.log(this.dialog[a].val);
       clearTimeout(this.timer);
     }

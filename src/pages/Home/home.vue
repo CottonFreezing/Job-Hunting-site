@@ -748,4 +748,8 @@ body > .el-container {
   color: #8d92a1;
   margin-left: 10px;
 }
+.el-card__body {
+    padding: 20px;
+    overflow: auto;
+}
 </style>

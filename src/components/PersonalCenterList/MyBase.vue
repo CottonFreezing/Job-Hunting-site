@@ -265,7 +265,6 @@ export default {
     //   .then(res => {
     //     if (res.status === 200) {
     //       this.myBase = res.data.data;
-    //       alert(this.mybase.username)
     //     }
     //   })
     //   .catch(err => {
@@ -384,21 +383,7 @@ export default {
           console.log(err);
         });
     },
-    // handleClick(tab, event) {
-    //   if(this.activeName === "first"){
-    //      this.$axios //获取已投职位
-    //   .get("/mybase/post", { token: this.token, username: this.username })
-    //   .then(res => {
-    //     if (res.status === 200) {
-    //       this.postJobBox = res.data.data;
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-    //   }
-
-    //   },
+  
     del(flag, index, id) {
       switch (flag) {
         case 1:
